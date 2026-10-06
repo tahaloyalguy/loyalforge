@@ -2848,3 +2848,90 @@ label {
     transition: none;
   }
 }
+
+ /* =========================================
+    LOYALFORGE — SCROLL REVEAL
+    ========================================= */
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity .7s cubic-bezier(.22, 1, .36, 1),
+    transform .7s cubic-bezier(.22, 1, .36, 1);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* کمی متفاوت برای Grid */
+.reveal-grid {
+  opacity: 0;
+  transform: translateY(25px);
+  transition:
+    opacity .7s ease,
+    transform .7s cubic-bezier(.22, 1, .36, 1);
+}
+
+.reveal-grid.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* کارت‌های داخل Grid با تأخیر کوتاه */
+.reveal-grid .asset-card,
+.reveal-grid .category-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity .55s cubic-bezier(.22, 1, .36, 1),
+    transform .55s cubic-bezier(.22, 1, .36, 1);
+}
+
+.reveal-grid.is-visible .asset-card,
+.reveal-grid.is-visible .category-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-grid.is-visible .asset-card:nth-child(2),
+.reveal-grid.is-visible .category-card:nth-child(2) {
+  transition-delay: .06s;
+}
+
+.reveal-grid.is-visible .asset-card:nth-child(3),
+.reveal-grid.is-visible .category-card:nth-child(3) {
+  transition-delay: .12s;
+}
+
+.reveal-grid.is-visible .asset-card:nth-child(4),
+.reveal-grid.is-visible .category-card:nth-child(4) {
+  transition-delay: .18s;
+}
+
+.reveal-grid.is-visible .asset-card:nth-child(5),
+.reveal-grid.is-visible .category-card:nth-child(5) {
+  transition-delay: .24s;
+}
+
+.reveal-grid.is-visible .asset-card:nth-child(6),
+.reveal-grid.is-visible .category-card:nth-child(6) {
+  transition-delay: .30s;
+}
+
+
+/* کاهش حرکت برای کسانی که در سیستم فعال کرده‌اند */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll,
+  .reveal-grid,
+  .reveal-grid .asset-card,
+  .reveal-grid .category-card {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
