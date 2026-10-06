@@ -673,6 +673,128 @@
     id="toast"
   ></div>
 
+<!-- AUTH MODAL -->
+<div class="auth-modal" id="authModal" aria-hidden="true">
+  <div class="auth-backdrop" data-auth-close></div>
+
+  <div class="auth-box" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+
+    <button class="auth-close" type="button" data-auth-close aria-label="Close">
+      ×
+    </button>
+
+    <div class="auth-header">
+      <div class="auth-logo">L</div>
+
+      <span class="section-label">WELCOME TO LOYALFORGE</span>
+
+      <h2 id="authTitle">Welcome back.</h2>
+
+      <p id="authSubtitle">
+        Sign in to continue to LoyalForge.
+      </p>
+    </div>
+
+    <!-- LOGIN -->
+    <form class="auth-form" id="loginForm">
+
+      <div class="auth-field">
+        <label for="loginEmail">Email</label>
+
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="auth-field">
+        <div class="field-top">
+          <label for="loginPassword">Password</label>
+          <button type="button" class="forgot-btn" id="forgotPassword">
+            Forgot password?
+          </button>
+        </div>
+
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <button class="btn btn-primary auth-submit" type="submit">
+        Sign in
+        <span>↗</span>
+      </button>
+
+      <p class="auth-message" id="loginMessage"></p>
+    </form>
+
+    <!-- REGISTER -->
+    <form class="auth-form" id="registerForm" style="display:none;">
+
+      <div class="auth-field">
+        <label for="registerUsername">Username</label>
+
+        <input
+          id="registerUsername"
+          type="text"
+          placeholder="yourname"
+          minlength="3"
+          maxlength="24"
+          autocomplete="username"
+          required
+        >
+      </div>
+
+      <div class="auth-field">
+        <label for="registerEmail">Email</label>
+
+        <input
+          id="registerEmail"
+          type="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="auth-field">
+        <label for="registerPassword">Password</label>
+
+        <input
+          id="registerPassword"
+          type="password"
+          placeholder="At least 6 characters"
+          minlength="6"
+          autocomplete="new-password"
+          required
+        >
+      </div>
+
+      <button class="btn btn-primary auth-submit" type="submit">
+        Create account
+        <span>↗</span>
+      </button>
+
+      <p class="auth-message" id="registerMessage"></p>
+    </form>
+
+    <div class="auth-switch">
+      <span id="authSwitchText">Don't have an account?</span>
+
+      <button type="button" id="authSwitch">
+        Create one
+      </button>
+    </div>
+
+  </div>
+</div>
 
   <script
     type="module"
