@@ -2487,3 +2487,156 @@ label {
 .brand > span:last-child {
   font-family: "Space Grotesk", "Inter", sans-serif;
 }
+
+/* =========================================
+   LOYALFORGE — HERO ANIMATIONS
+   ========================================= */
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.hero .eyebrow {
+  animation: heroFadeUp .7s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.hero h1 {
+  animation: heroFadeUp .8s .08s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.hero-description {
+  animation: heroFadeUp .8s .16s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.hero-actions {
+  animation: heroFadeUp .8s .24s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.hero-stats {
+  animation: heroFadeUp .8s .32s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.hero-visual {
+  animation: heroFadeRight 1s .12s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+
+/* -----------------------------------------
+   HERO BUTTONS
+   ----------------------------------------- */
+
+.hero-actions .btn {
+  position: relative;
+  overflow: hidden;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    background-color .25s ease;
+}
+
+.hero-actions .btn::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: -120%;
+
+  width: 70%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.16),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+
+  transition: left .55s ease;
+}
+
+.hero-actions .btn:hover::after {
+  left: 140%;
+}
+
+.hero-actions .btn:hover {
+  transform: translateY(-3px);
+}
+
+.hero-actions .btn:active {
+  transform: translateY(0) scale(.97);
+}
+
+
+/* -----------------------------------------
+   HERO VISUAL
+   ----------------------------------------- */
+
+.hero-visual {
+  transition:
+    transform .45s cubic-bezier(.22, 1, .36, 1);
+}
+
+.hero-visual:hover {
+  transform: translateY(-6px);
+}
+
+
+/* -----------------------------------------
+   FLOATING CARDS
+   ----------------------------------------- */
+
+.hero-visual .float-card {
+  transition:
+    transform .35s cubic-bezier(.22, 1, .36, 1),
+    box-shadow .35s ease;
+}
+
+.hero-visual .float-card:hover {
+  transform: translateY(-7px) scale(1.025);
+  box-shadow: 0 18px 45px rgba(0,0,0,.22);
+}
+
+
+/* -----------------------------------------
+   ACCESSIBILITY
+   ----------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero .eyebrow,
+  .hero h1,
+  .hero-description,
+  .hero-actions,
+  .hero-stats,
+  .hero-visual {
+    animation: none;
+  }
+
+  .hero-actions .btn,
+  .hero-visual,
+  .hero-visual .float-card {
+    transition: none;
+  }
+}
