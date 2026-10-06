@@ -487,14 +487,11 @@ document
   .querySelectorAll("[data-upload]")
   .forEach(button => {
 
-    button.addEventListener(
-      "click",
-      () => {
+    button.addEventListener("click", () => {
 
-        window.location.href = "upload.html";
+      window.location.href = "upload.html";
 
-      }
-    );
+    });
 
   });
 
