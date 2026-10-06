@@ -1012,5 +1012,30 @@
   src="app.js"
 ></script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const revealElements = document.querySelectorAll(
+    ".scroll-reveal, .section, .scroll-grid"
+  );
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add("is-visible");
+        obs.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -60px 0px"
+    }
+  );
+
+  revealElements.forEach(el => observer.observe(el));
+});
+</script>
+
 </body>
 </html>
