@@ -1559,18 +1559,16 @@
       );
 
 
-    /* DOWNLOAD */
+/* DOWNLOAD */
 
 downloadButton.addEventListener(
   "click",
   () => {
 
     if (!asset.file_name) {
-
       alert(
         "This asset doesn't have a downloadable file yet."
       );
-
       return;
     }
 
@@ -1585,11 +1583,9 @@ downloadButton.addEventListener(
       );
 
     if (!data || !data.publicUrl) {
-
       alert(
         "Download link could not be created."
       );
-
       return;
     }
 
