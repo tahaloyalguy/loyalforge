@@ -1,22 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root {
-  --bg: #060606;
-  --bg-2: #0a0a0a;
-  --surface: #0e0e0e;
-  --surface-2: #121212;
-  --surface-3: #171717;
+  --bg: #05070a;
+  --bg-2: #080b10;
+  --surface: #0c1016;
+  --surface-2: #10151d;
+  --surface-3: #151c25;
 
-  --line: rgba(255, 255, 255, 0.08);
-  --line-soft: rgba(255, 255, 255, 0.05);
+  --line: rgba(180, 220, 255, 0.09);
+  --line-soft: rgba(180, 220, 255, 0.055);
 
-  --text: #f5f5f5;
-  --muted: #858585;
-  --muted-2: #5e5e5e;
+  --text: #f2f7fb;
+  --muted: #8795a3;
+  --muted-2: #5d6a77;
 
-  --orange: #ff6a00;
-  --orange-light: #ff984f;
-  --orange-dark: #9b3b00;
+  --orange: #8fd3ff;
+  --orange-light: #b9e5ff;
+  --orange-dark: #327aa8;
 
   --max: 1220px;
   --radius: 18px;
