@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Upload Asset — LoyalForge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+
+      color: #eef6ff;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(100,150,255,.12),
+          transparent 40%
+        ),
+        #070b13;
+
+      font-family: Inter, sans-serif;
+    }
+
+    .upload-page {
+      width: min(900px, calc(100% - 30px));
+      margin: auto;
+      padding: 90px 0;
+    }
+
+    .top {
+      margin-bottom: 30px;
+    }
+
+    .back {
+      color: #91a4bb;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .back:hover {
+      color: #8ed8ff;
+    }
+
+    h1 {
+      margin: 25px 0 8px;
+
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(34px, 6vw, 55px);
+      letter-spacing: -.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #7f93aa;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .upload-card {
+      padding: 30px;
+
+      border: 1px solid rgba(180,215,255,.10);
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(17,28,47,.92),
+          rgba(8,14,25,.96)
+        );
+
+      box-shadow: 0 30px 90px rgba(0,0,0,.25);
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+
+      color: #c9d7e6;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+
+      padding: 14px;
+
+      color: #eef6ff;
+
+      border: 1px solid rgba(180,215,255,.09);
+      border-radius: 12px;
+
+      outline: none;
+
+      background: rgba(255,255,255,.025);
+
+      font-family: inherit;
+      font-size: 12px;
+
+      transition: .2s ease;
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(142,216,255,.35);
+      background: rgba(142,216,255,.025);
+    }
+
+    select option {
+      background: #0b1321;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .file-box {
+      position: relative;
+
+      padding: 24px;
+
+      border: 1px dashed rgba(142,216,255,.20);
+      border-radius: 16px;
+
+      text-align: center;
+
+      background: rgba(142,216,255,.025);
+    }
+
+    .file-box input {
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .file-hint {
+      margin-top: 8px;
+      color: #657991;
+      font-size: 10px;
+    }
+
+    .preview-box {
+      display: none;
+
+      margin-top: 12px;
+
+      overflow: hidden;
+
+      border-radius: 14px;
+      border: 1px solid rgba(180,215,255,.08);
+    }
+
+    .preview-box img {
+      display: block;
+
+      width: 100%;
+      max-height: 320px;
+
+      object-fit: contain;
+
+      background: #060b13;
+    }
+
+    .selected-file {
+      display: none;
+
+      margin-top: 9px;
+
+      color: #8ed8ff;
+
+      font-size: 10px;
+    }
+
+    .publish-btn {
+      width: 100%;
+      min-height: 52px;
+
+      margin-top: 5px;
+
+      border: 0;
+      border-radius: 13px;
+
+      color: #06101a;
+      background: #8ed8ff;
+
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition: .2s ease;
+    }
+
+    .publish-btn:hover {
+      background: #b8eaff;
+      transform: translateY(-2px);
+    }
+
+    .publish-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status {
+      display: none;
+
+      margin-top: 18px;
+      padding: 13px;
+
+      border-radius: 11px;
+
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .status.success {
+      display: block;
+
+      color: #9ff0c2;
+      border: 1px solid rgba(80,220,140,.15);
+      background: rgba(80,220,140,.05);
+    }
+
+    .status.error {
+      display: block;
+
+      color: #ffaaa9;
+      border: 1px solid rgba(255,90,90,.15);
+      background: rgba(255,90,90,.05);
+    }
+
+    .progress {
+      display: none;
+
+      height: 4px;
+
+      margin-top: 14px;
+
+      overflow: hidden;
+
+      border-radius: 20px;
+
+      background: rgba(255,255,255,.06);
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+
+      background: #8ed8ff;
+
+      transition: width .2s ease;
+    }
+
+    @media (max-width: 650px) {
+      .upload-page {
+        padding: 55px 0;
+      }
+
+      .upload-card {
+        padding: 20px;
+      }
+
+      .two-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<main class="upload-page">
+
+  <div class="top">
+
+    <a href="index.html" class="back">
+      ← Back to LoyalForge
+    </a>
+
+    <h1>Upload Asset</h1>
+
+    <p class="subtitle">
+      Share your Minecraft and 3D assets with the LoyalForge community.
+    </p>
+
+  </div>
+
+
+  <form id="uploadForm" class="upload-card">
+
+    <div class="field">
+
+      <label for="title">
+        Asset Title
+      </label>
+
+      <input
+        id="title"
+        type="text"
+        placeholder="e.g. Ocean Creature Rig"
+        maxlength="100"
+        required
+      >
+
+    </div>
+
+
+    <div class="two-columns">
+
+      <div class="field">
+
+        <label for="category">
+          Category
+        </label>
+
+        <select id="category" required>
+
+          <option value="">
+            Select category
+          </option>
+
+          <option value="Rig">
+            Rig
+          </option>
+
+          <option value="Model">
+            Model
+          </option>
+
+          <option value="Texture">
+            Texture
+          </option>
+
+          <option value="VFX">
+            VFX
+          </option>
+
+          <option value="Thumbnail">
+            Thumbnail
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="format">
+          File Format
+        </label>
+
+        <input
+          id="format"
+          type="text"
+          placeholder="GLB, OBJ, ZIP..."
+          maxlength="20"
+          required
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="field">
+
+      <label for="description">
+        Description
+      </label>
+
+      <textarea
+        id="description"
+        placeholder="Describe your asset..."
+        maxlength="3000"
+      ></textarea>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Preview Image
+      </label>
+
+      <div class="file-box">
+
+        <input
+          id="previewFile"
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          required
+        >
+
+        <div class="file-hint">
+          PNG, JPG or WEBP
+        </div>
+
+      </div>
+
+      <div id="previewBox" class="preview-box">
+        <img id="previewImage" alt="Preview">
+      </div>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Asset File
+      </label>
+
+      <div class="file-box">
+
+        <input
+          id="assetFile"
+          type="file"
+          required
+        >
+
+        <div class="file-hint">
+          Select the actual asset file
+        </div>
+
+        <div
+          id="selectedFile"
+          class="selected-file"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="progress"
+      class="progress"
+    >
+      <div
+        id="progressBar"
+        class="progress-bar"
+      ></div>
+    </div>
+
+
+    <button
+      id="publishButton"
+      class="publish-btn"
+      type="submit"
+    >
+      Publish Asset
+    </button>
+
+
+    <div
+      id="status"
+      class="status"
+    ></div>
+
+  </form>
+
+</main>
+
+
+<script type="module">
+
+import {
+  createClient
+} from "https://esm.sh/@supabase/supabase-js@2";
+
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+  "https://ywrbojtzkkygahxqeueg.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
+
+const supabase =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const form =
+  document.getElementById("uploadForm");
+
+const titleInput =
+  document.getElementById("title");
+
+const categoryInput =
+  document.getElementById("category");
+
+const formatInput =
+  document.getElementById("format");
+
+const descriptionInput =
+  document.getElementById("description");
+
+const previewFileInput =
+  document.getElementById("previewFile");
+
+const assetFileInput =
+  document.getElementById("assetFile");
+
+const previewBox =
+  document.getElementById("previewBox");
+
+const previewImage =
+  document.getElementById("previewImage");
+
+const selectedFile =
+  document.getElementById("selectedFile");
+
+const publishButton =
+  document.getElementById("publishButton");
+
+const statusBox =
+  document.getElementById("status");
+
+const progress =
+  document.getElementById("progress");
+
+const progressBar =
+  document.getElementById("progressBar");
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function slugify(text) {
+
+  return text
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+}
+
+
+function showStatus(
+  message,
+  type
+) {
+
+  statusBox.textContent =
+    message;
+
+  statusBox.className =
+    `status ${type}`;
+
+}
+
+
+function randomName() {
+
+  return (
+    Date.now() +
+    "-" +
+    Math.random()
+      .toString(36)
+      .slice(2, 10)
+  );
+
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+previewFileInput.addEventListener(
+  "change",
+  () => {
+
+    const file =
+      previewFileInput.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader =
+      new FileReader();
+
+    reader.onload =
+      event => {
+
+        previewImage.src =
+          event.target.result;
+
+        previewBox.style.display =
+          "block";
+
+      };
+
+    reader.readAsDataURL(file);
+
+  }
+);
+
+
+/* =========================================================
+   ASSET FILE
+========================================================= */
+
+assetFileInput.addEventListener(
+  "change",
+  () => {
+
+    const file =
+      assetFileInput.files[0];
+
+    if (!file) {
+      selectedFile.style.display =
+        "none";
+
+      return;
+    }
+
+    selectedFile.textContent =
+      `${file.name} — ${formatSize(file.size)}`;
+
+    selectedFile.style.display =
+      "block";
+
+  }
+);
+
+
+function formatSize(bytes) {
+
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${(
+      bytes / 1024
+    ).toFixed(1)} KB`;
+  }
+
+  if (bytes < 1024 * 1024 * 1024) {
+    return `${(
+      bytes /
+      (1024 * 1024)
+    ).toFixed(1)} MB`;
+  }
+
+  return `${(
+    bytes /
+    (1024 * 1024 * 1024)
+  ).toFixed(1)} GB`;
+
+}
+
+
+/* =========================================================
+   UPLOAD
+========================================================= */
+
+form.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+
+    const title =
+      titleInput.value.trim();
+
+    const category =
+      categoryInput.value;
+
+    const format =
+      formatInput.value.trim();
+
+    const description =
+      descriptionInput.value.trim();
+
+    const previewFile =
+      previewFileInput.files[0];
+
+    const assetFile =
+      assetFileInput.files[0];
+
+
+    if (
+      !title ||
+      !category ||
+      !format ||
+      !previewFile ||
+      !assetFile
+    ) {
+
+      showStatus(
+        "Please complete all required fields.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    try {
+
+      publishButton.disabled =
+        true;
+
+      publishButton.textContent =
+        "Publishing...";
+
+      progress.style.display =
+        "block";
+
+      progressBar.style.width =
+        "10%";
+
+
+      /* =====================================================
+         CREATE UNIQUE FILE NAMES
+      ===================================================== */
+
+      const unique =
+        randomName();
+
+      const safeTitle =
+        slugify(title) ||
+        "asset";
+
+
+      const previewPath =
+        `previews/${safeTitle}-${unique}.${getExtension(previewFile.name)}`;
+
+      const assetPath =
+        `files/${safeTitle}-${unique}.${getExtension(assetFile.name)}`;
+
+
+      /* =====================================================
+         UPLOAD PREVIEW
+      ===================================================== */
+
+      const {
+        error: previewError
+      } =
+        await supabase
+          .storage
+          .from("assets")
+          .upload(
+            previewPath,
+            previewFile,
+            {
+              contentType:
+                previewFile.type,
+
+              cacheControl:
+                "3600",
+
+              upsert:
+                false
+            }
+          );
+
+
+      if (previewError) {
+        throw previewError;
+      }
+
+
+      progressBar.style.width =
+        "45%";
+
+
+      /* =====================================================
+         GET PREVIEW URL
+      ===================================================== */
+
+      const {
+        data: previewData
+      } =
+        supabase
+          .storage
+          .from("assets")
+          .getPublicUrl(
+            previewPath
+          );
+
+
+      const previewUrl =
+        previewData.publicUrl;
+
+
+      /* =====================================================
+         UPLOAD ASSET FILE
+      ===================================================== */
+
+      const {
+        error: assetError
+      } =
+        await supabase
+          .storage
+          .from("assets")
+          .upload(
+            assetPath,
+            assetFile,
+            {
+              contentType:
+                assetFile.type ||
+                "application/octet-stream",
+
+              cacheControl:
+                "3600",
+
+              upsert:
+                false
+            }
+          );
+
+
+      if (assetError) {
+        throw assetError;
+      }
+
+
+      progressBar.style.width =
+        "75%";
+
+
+      /* =====================================================
+         SLUG
+      ===================================================== */
+
+      const slug =
+        `${safeTitle}-${unique}`;
+
+
+      /* =====================================================
+         DATABASE
+      ===================================================== */
+
+      const {
+        error: databaseError
+      } =
+        await supabase
+          .from("assets")
+          .insert({
+            title: title,
+
+            slug: slug,
+
+            description:
+              description,
+
+            category:
+              category,
+
+            preview_url:
+              previewUrl,
+
+            file_name:
+              assetPath,
+
+            file_size:
+              assetFile.size,
+
+            file_format:
+              format,
+
+            downloads:
+              0,
+
+            likes:
+              0,
+
+            status:
+              "published"
+          });
+
+
+      if (databaseError) {
+        throw databaseError;
+      }
+
+
+      progressBar.style.width =
+        "100%";
+
+
+      showStatus(
+        "Asset published successfully! Redirecting...",
+        "success"
+      );
+
+
+      setTimeout(
+        () => {
+
+          window.location.href =
+            `asset.html?slug=${encodeURIComponent(slug)}`;
+
+        },
+        1200
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "UPLOAD ERROR:",
+        error
+      );
+
+
+      showStatus(
+        error.message ||
+        "Upload failed.",
+        "error"
+      );
+
+
+      publishButton.disabled =
+        false;
+
+      publishButton.textContent =
+        "Publish Asset";
+
+      progress.style.display =
+        "none";
+
+      progressBar.style.width =
+        "0%";
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   EXTENSION
+========================================================= */
+
+function getExtension(filename) {
+
+  const parts =
+    filename.split(".");
+
+  if (parts.length < 2) {
+    return "bin";
+  }
+
+  return parts
+    .pop()
+    .toLowerCase();
+
+}
+
+</script>
+
+</body>
+</html>
