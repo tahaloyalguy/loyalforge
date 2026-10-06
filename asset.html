@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Asset — LoyalForge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+
+    body {
+      background: #070b13;
+    }
+
+    .asset-page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 130px 0 80px;
+    }
+
+    .asset-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      margin-bottom: 28px;
+
+      color: #8fa5bf;
+      text-decoration: none;
+
+      font-size: 13px;
+
+      transition: .25s ease;
+    }
+
+    .asset-back:hover {
+      color: #8ed8ff;
+      transform: translateX(-4px);
+    }
+
+    .asset-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .asset-preview-large {
+      position: relative;
+
+      min-height: 560px;
+
+      display: grid;
+      place-items: center;
+
+      overflow: hidden;
+
+      border: 1px solid rgba(190,220,255,.10);
+      border-radius: 24px;
+
+      background:
+        radial-gradient(
+          circle at 50% 40%,
+          rgba(142,216,255,.11),
+          transparent 38%
+        ),
+        #0a1120;
+
+      box-shadow:
+        0 35px 100px rgba(0,0,0,.35);
+    }
+
+    .asset-preview-large img {
+      width: 100%;
+      height: 100%;
+
+      min-height: 560px;
+
+      object-fit: contain;
+
+      padding: 35px;
+
+      transition: transform .6s cubic-bezier(.22,1,.36,1);
+    }
+
+    .asset-preview-large:hover img {
+      transform: scale(1.025);
+    }
+
+    .asset-info {
+      padding: 30px;
+
+      border: 1px solid rgba(190,220,255,.09);
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(18,28,47,.96),
+          rgba(9,15,27,.98)
+        );
+
+      box-shadow:
+        0 25px 70px rgba(0,0,0,.22);
+    }
+
+    .asset-badge {
+      display: inline-flex;
+
+      padding: 7px 10px;
+
+      color: #8ed8ff;
+
+      background: rgba(142,216,255,.07);
+
+      border: 1px solid rgba(142,216,255,.14);
+
+      border-radius: 8px;
+
+      font-size: 9px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .asset-info h1 {
+      margin: 18px 0 10px;
+
+      color: #edf5ff;
+
+      font-family:
+        "Space Grotesk",
+        Inter,
+        sans-serif;
+
+      font-size: clamp(30px, 4vw, 48px);
+
+      line-height: 1.05;
+    }
+
+    .asset-description {
+      color: #8fa5bf;
+
+      font-size: 13px;
+
+      line-height: 1.9;
+    }
+
+    .creator-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      margin-top: 26px;
+      padding-top: 20px;
+
+      border-top:
+        1px solid rgba(190,220,255,.07);
+    }
+
+    .creator-avatar {
+      width: 42px;
+      height: 42px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 50%;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(142,216,255,.18),
+          rgba(184,167,255,.16)
+        );
+
+      border: 1px solid rgba(190,220,255,.12);
+
+      color: #8ed8ff;
+      font-weight: 700;
+    }
+
+    .creator-name {
+      color: #edf5ff;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .creator-role {
+      margin-top: 3px;
+
+      color: #60738c;
+
+      font-size: 10px;
+    }
+
+    .asset-stats-large {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+
+      gap: 8px;
+
+      margin-top: 25px;
+    }
+
+    .stat-box {
+      padding: 13px;
+
+      background: rgba(255,255,255,.018);
+
+      border: 1px solid rgba(190,220,255,.06);
+
+      border-radius: 12px;
+
+      text-align: center;
+    }
+
+    .stat-box strong {
+      display: block;
+
+      color: #edf5ff;
+
+      font-family:
+        "Space Grotesk",
+        sans-serif;
+
+      font-size: 15px;
+    }
+
+    .stat-box span {
+      display: block;
+
+      margin-top: 4px;
+
+      color: #60738c;
+
+      font-size: 9px;
+    }
+
+    .download-btn {
+      width: 100%;
+
+      margin-top: 22px;
+      padding: 14px 18px;
+
+      border: 0;
+      border-radius: 12px;
+
+      color: #06101a;
+
+      background: #8ed8ff;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        background .3s ease;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-3px);
+
+      background: #b5e8ff;
+
+      box-shadow:
+        0 15px 35px rgba(142,216,255,.16);
+    }
+
+    .asset-meta {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 8px;
+
+      margin-top: 18px;
+    }
+
+    .meta-item {
+      padding: 12px;
+
+      background: rgba(255,255,255,.014);
+
+      border: 1px solid rgba(190,220,255,.055);
+
+      border-radius: 10px;
+    }
+
+    .meta-item span {
+      display: block;
+
+      color: #60738c;
+
+      font-size: 9px;
+    }
+
+    .meta-item strong {
+      display: block;
+
+      margin-top: 5px;
+
+      color: #b7c7d9;
+
+      font-size: 11px;
+    }
+
+    .not-found {
+      min-height: 60vh;
+
+      display: grid;
+      place-items: center;
+
+      text-align: center;
+
+      color: #8fa5bf;
+    }
+
+    @media (max-width: 850px) {
+
+      .asset-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .asset-preview-large {
+        min-height: 420px;
+      }
+
+      .asset-preview-large img {
+        min-height: 420px;
+      }
+
+    }
+
+    @media (max-width: 500px) {
+
+      .asset-page {
+        width: min(100% - 20px, 1180px);
+        padding-top: 105px;
+      }
+
+      .asset-info {
+        padding: 22px;
+      }
+
+      .asset-stats-large {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<main class="asset-page">
+
+  <a href="index.html" class="asset-back">
+    ← Back to Explore
+  </a>
+
+  <div id="assetContainer"></div>
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://YOUR-PROJECT.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "YOUR-ANON-KEY";
+
+
+const params =
+  new URLSearchParams(window.location.search);
+
+const slug =
+  params.get("slug");
+
+const id =
+  params.get("id");
+
+
+async function loadAsset() {
+
+  const container =
+    document.getElementById("assetContainer");
+
+
+  if (!slug && !id) {
+
+    container.innerHTML = `
+      <div class="not-found">
+        <div>
+          <h2>Asset not found</h2>
+          <p>Missing asset identifier.</p>
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  try {
+
+    let query =
+      `${SUPABASE_URL}/rest/v1/assets?select=*`;
+
+    if (slug) {
+
+      query +=
+        `&slug=eq.${encodeURIComponent(slug)}`;
+
+    } else {
+
+      query +=
+        `&id=eq.${encodeURIComponent(id)}`;
+
+    }
+
+
+    const response =
+      await fetch(query, {
+
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization":
+            `Bearer ${SUPABASE_ANON_KEY}`
+        }
+
+      });
+
+
+    if (!response.ok)
+      throw new Error("Request failed");
+
+
+    const assets =
+      await response.json();
+
+
+    if (!assets.length) {
+
+      container.innerHTML = `
+        <div class="not-found">
+          <div>
+            <h2>Asset not found</h2>
+            <p>This asset doesn't exist or was removed.</p>
+          </div>
+        </div>
+      `;
+
+      return;
+    }
+
+
+    const asset =
+      assets[0];
+
+
+    document.title =
+      `${asset.title || "Asset"} — LoyalForge`;
+
+
+    container.innerHTML = `
+
+      <section class="asset-layout">
+
+        <div class="asset-preview-large">
+
+          <img
+            src="${asset.preview || ""}"
+            alt="${asset.title || "Asset"}"
+          >
+
+        </div>
+
+
+        <aside class="asset-info">
+
+          <span class="asset-badge">
+            ${asset.category || "Asset"}
+          </span>
+
+
+          <h1>
+            ${asset.title || "Untitled Asset"}
+          </h1>
+
+
+          <p class="asset-description">
+            ${asset.description || "No description available."}
+          </p>
+
+
+          <div class="creator-box">
+
+            <div class="creator-avatar">
+              ${(asset.creator || "L").charAt(0).toUpperCase()}
+            </div>
+
+            <div>
+
+              <div class="creator-name">
+                ${asset.creator || "LoyalForge Creator"}
+              </div>
+
+              <div class="creator-role">
+                Asset Creator
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="asset-stats-large">
+
+            <div class="stat-box">
+              <strong>
+                ${asset.likes || 0}
+              </strong>
+              <span>Likes</span>
+            </div>
+
+            <div class="stat-box">
+              <strong>
+                ${asset.downloads || 0}
+              </strong>
+              <span>Downloads</span>
+            </div>
+
+            <div class="stat-box">
+              <strong>
+                ${asset.views || 0}
+              </strong>
+              <span>Views</span>
+            </div>
+
+          </div>
+
+
+          <div class="asset-meta">
+
+            <div class="meta-item">
+              <span>Format</span>
+              <strong>
+                ${asset.format || "Unknown"}
+              </strong>
+            </div>
+
+            <div class="meta-item">
+              <span>Version</span>
+              <strong>
+                ${asset.version || "—"}
+              </strong>
+            </div>
+
+          </div>
+
+
+          <button
+            class="download-btn"
+            id="downloadBtn"
+          >
+            Download Asset
+          </button>
+
+        </aside>
+
+      </section>
+
+    `;
+
+
+    document
+      .getElementById("downloadBtn")
+      .addEventListener("click", () => {
+
+        if (!asset.download_url) {
+
+          alert(
+            "Download link is not available yet."
+          );
+
+          return;
+        }
+
+
+        window.open(
+          asset.download_url,
+          "_blank"
+        );
+
+      });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+      <div class="not-found">
+        <div>
+          <h2>Something went wrong</h2>
+          <p>Could not load this asset.</p>
+        </div>
+      </div>
+    `;
+
+  }
+
+}
+
+
+loadAsset();
+
+</script>
+
+</body>
+</html>
