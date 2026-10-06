@@ -503,6 +503,51 @@ console.log(
   "color:#ff6a00;font-size:20px;font-weight:bold"
 );
 
+ /* =========================================
+    LOYALFORGE — SCROLL REVEAL
+    ========================================= */
+
+const scrollRevealElements = document.querySelectorAll(
+  ".section, .creator-cta, .footer"
+);
+
+scrollRevealElements.forEach((element) => {
+  element.classList.add("reveal-on-scroll");
+});
+
+
+const scrollRevealGrids = document.querySelectorAll(
+  ".asset-grid, .categories-grid"
+);
+
+scrollRevealGrids.forEach((grid) => {
+  grid.classList.add("reveal-grid");
+});
+
+
+const revealObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+
+      entry.target.classList.add("is-visible");
+
+      observer.unobserve(entry.target);
+    });
+  },
+  {
+    threshold: 0.12,
+    rootMargin: "0px 0px -60px 0px"
+  }
+);
+
+
+document
+  .querySelectorAll(".reveal-on-scroll, .reveal-grid")
+  .forEach((element) => {
+    revealObserver.observe(element);
+  });
+
 console.log(
   "Connected to Supabase."
 );
