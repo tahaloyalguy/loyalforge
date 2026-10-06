@@ -1561,60 +1561,70 @@
 
     /* DOWNLOAD */
 
-    downloadButton.addEventListener(
-      "click",
-      async () => {
+downloadButton.addEventListener(
+  "click",
+  () => {
 
-        if (!asset.file_name) {
+    if (!asset.file_name) {
 
-          alert(
-            "This asset doesn't have a downloadable file yet."
-          );
+      alert(
+        "This asset doesn't have a downloadable file yet."
+      );
 
-          return;
+      return;
+    }
+
+    const { data } = supabase
+      .storage
+      .from("assets")
+      .getPublicUrl(
+        asset.file_name,
+        {
+          download: true
         }
+      );
 
+    if (!data || !data.publicUrl) {
 
-        /*
-          Storage download will be connected
-          after we confirm the actual bucket.
-        */
+      alert(
+        "Download link could not be created."
+      );
 
-        alert(
-          "Download system will be connected next."
-        );
+      return;
+    }
 
-      }
-    );
-
-
-    /* LIKE */
-
-    likeButton.addEventListener(
-      "click",
-      () => {
-
-        likeButton.classList.toggle(
-          "liked"
-        );
-
-
-        const liked =
-          likeButton.classList.contains(
-            "liked"
-          );
-
-
-        likeButton.textContent =
-          liked
-            ? "♥"
-            : "♡";
-
-      }
-    );
+    window.location.href = data.publicUrl;
 
   }
+);
 
+
+/* LIKE */
+
+likeButton.addEventListener(
+  "click",
+  () => {
+
+    likeButton.classList.toggle(
+      "liked"
+    );
+
+
+    const liked =
+      likeButton.classList.contains(
+        "liked"
+      );
+
+
+    likeButton.textContent =
+      liked
+        ? "♥"
+        : "♡";
+
+  }
+);
+
+}
 
   /* =========================================================
      START
