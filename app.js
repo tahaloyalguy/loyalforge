@@ -503,51 +503,46 @@ console.log(
   "color:#ff6a00;font-size:20px;font-weight:bold"
 );
 
- /* =========================================
-    LOYALFORGE — SCROLL REVEAL
-    ========================================= */
+/* =========================================
+   LOYALFORGE — PREMIUM SCROLL MOTION
+   ========================================= */
 
-const scrollRevealElements = document.querySelectorAll(
+const scrollSections = document.querySelectorAll(
   ".section, .creator-cta, .footer"
 );
 
-scrollRevealElements.forEach((element) => {
-  element.classList.add("reveal-on-scroll");
-});
-
-
-const scrollRevealGrids = document.querySelectorAll(
-  ".asset-grid, .categories-grid"
+const scrollGrids = document.querySelectorAll(
+  ".categories-grid, .asset-grid"
 );
 
-scrollRevealGrids.forEach((grid) => {
-  grid.classList.add("reveal-grid");
+scrollSections.forEach((section) => {
+  section.classList.add("scroll-reveal");
+});
+
+scrollGrids.forEach((grid) => {
+  grid.classList.add("scroll-grid");
 });
 
 
-const revealObserver = new IntersectionObserver(
-  (entries, observer) => {
+const scrollMotionObserver = new IntersectionObserver(
+  (entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-
-      entry.target.classList.add("is-visible");
-
-      observer.unobserve(entry.target);
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+      } else {
+        entry.target.classList.remove("is-visible");
+      }
     });
   },
   {
-    threshold: 0.12,
-    rootMargin: "0px 0px -60px 0px"
+    threshold: 0.15,
+    rootMargin: "0px 0px -80px 0px"
   }
 );
 
 
 document
-  .querySelectorAll(".reveal-on-scroll, .reveal-grid")
+  .querySelectorAll(".scroll-reveal, .scroll-grid")
   .forEach((element) => {
-    revealObserver.observe(element);
+    scrollMotionObserver.observe(element);
   });
-
-console.log(
-  "Connected to Supabase."
-);
