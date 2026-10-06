@@ -600,75 +600,98 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 }
 
 /* =========================================================
-   HERO SHOWCASE
+   HERO SHOWCASE — PREMIUM ASSET DISPLAY
 ========================================================= */
 
 .hero-showcase {
   position: relative;
-
-  min-height: 510px;
-
+  min-height: 530px;
   display: grid;
   place-items: center;
+  perspective: 1200px;
 }
 
+/* ambient glow */
 .showcase-glow {
   position: absolute;
-
-  width: 380px;
-  height: 380px;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
 
   background:
     radial-gradient(
       circle,
-      rgba(142, 216, 255, .12),
-      transparent 67%
+      rgba(142, 216, 255, .18) 0%,
+      rgba(184, 167, 255, .08) 34%,
+      transparent 70%
     );
 
   filter: blur(35px);
+  opacity: .9;
+
+  animation: showcaseGlow 6s ease-in-out infinite;
 }
 
+@keyframes showcaseGlow {
+  0%, 100% {
+    transform: scale(.95);
+    opacity: .7;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+/* main card */
 .showcase-card {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 
-  width: min(100%, 410px);
-
+  width: min(100%, 430px);
   padding: 14px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(19, 29, 48, .96),
-      rgba(12, 18, 31, .97)
+      rgba(22, 33, 55, .96),
+      rgba(8, 14, 27, .98)
     );
 
-  border: 1px solid rgba(190, 220, 255, .13);
-
-  border-radius: 20px;
+  border: 1px solid rgba(190, 220, 255, .16);
+  border-radius: 22px;
 
   box-shadow:
-    0 35px 100px rgba(0, 0, 0, .42),
-    0 0 55px rgba(91, 185, 232, .055),
-    inset 0 1px 0 rgba(255, 255, 255, .035);
+    0 40px 100px rgba(0, 0, 0, .45),
+    0 0 70px rgba(91, 185, 232, .08),
+    inset 0 1px 0 rgba(255, 255, 255, .05);
 
-  transform: rotate(1.2deg);
+  transform:
+    rotateY(-4deg)
+    rotateX(2deg)
+    rotateZ(1deg);
 
   transition:
-    transform .5s var(--ease),
-    border-color .3s ease,
-    box-shadow .4s ease;
+    transform .6s var(--ease),
+    box-shadow .5s ease,
+    border-color .35s ease;
 }
 
 .showcase-card:hover {
-  transform: rotate(0) translateY(-8px);
+  transform:
+    rotateY(0)
+    rotateX(0)
+    rotateZ(0)
+    translateY(-10px)
+    scale(1.015);
 
-  border-color: rgba(142, 216, 255, .28);
+  border-color: rgba(142, 216, 255, .30);
 
   box-shadow:
-    0 45px 120px rgba(0, 0, 0, .48),
-    0 0 70px rgba(91, 185, 232, .10),
-    inset 0 1px 0 rgba(255, 255, 255, .045);
+    0 55px 130px rgba(0, 0, 0, .52),
+    0 0 90px rgba(91, 185, 232, .13),
+    inset 0 1px 0 rgba(255, 255, 255, .07);
 }
 
 .showcase-top {
@@ -676,83 +699,144 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   align-items: center;
   justify-content: space-between;
 
-  padding: 4px 3px 12px;
+  padding: 5px 4px 12px;
 }
 
 .mini-label {
   color: var(--muted-2);
-
   font-size: 9px;
   font-weight: 700;
-
   letter-spacing: .12em;
 }
 
 .mini-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 
   background: var(--mint);
-
   border-radius: 50%;
 
   box-shadow:
-    0 0 10px rgba(141, 229, 193, .55);
+    0 0 8px rgba(141, 229, 193, .7),
+    0 0 18px rgba(141, 229, 193, .25);
+
+  animation: miniDotPulse 2s ease-in-out infinite;
 }
 
+@keyframes miniDotPulse {
+  0%, 100% {
+    transform: scale(.85);
+    opacity: .65;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* preview */
 .showcase-preview {
   position: relative;
 
-  height: 320px;
+  height: 330px;
 
   overflow: hidden;
 
   display: grid;
   place-items: center;
 
-  border-radius: 13px;
+  border-radius: 15px;
 
   background:
     radial-gradient(
       circle at 50% 42%,
-      rgba(142, 216, 255, .09),
-      transparent 34%
+      rgba(142, 216, 255, .13),
+      transparent 30%
     ),
-    #0b1120;
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(184, 167, 255, .08),
+      transparent 38%
+    ),
+    #080f1c;
+
+  isolation: isolate;
 }
 
+/* scan/light effect */
+.showcase-preview::before {
+  content: "";
+
+  position: absolute;
+  inset: -100% 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(142, 216, 255, .08) 50%,
+      transparent 100%
+    );
+
+  animation: previewScan 5s linear infinite;
+
+  pointer-events: none;
+}
+
+@keyframes previewScan {
+  from {
+    transform: translateY(-30%);
+  }
+
+  to {
+    transform: translateY(30%);
+  }
+}
+
+/* grid */
 .preview-grid {
   position: absolute;
   inset: 0;
 
   background-image:
     linear-gradient(
-      rgba(142, 216, 255, .035) 1px,
+      rgba(142, 216, 255, .045) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(142, 216, 255, .035) 1px,
+      rgba(142, 216, 255, .045) 1px,
       transparent 1px
     );
 
   background-size: 34px 34px;
 
   transform:
-    perspective(450px)
+    perspective(500px)
     rotateX(58deg)
-    scale(1.6);
+    scale(1.7);
 
   transform-origin: center bottom;
 
-  opacity: .6;
+  opacity: .7;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent,
+      black 25%,
+      black 75%,
+      transparent
+    );
 }
 
+/* object */
 .preview-object {
   position: relative;
 
-  width: 125px;
-  height: 125px;
+  width: 130px;
+  height: 130px;
 
   transform:
     rotateX(55deg)
@@ -760,73 +844,96 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 
   filter:
     drop-shadow(
-      0 0 25px rgba(142, 216, 255, .17)
+      0 0 28px rgba(142, 216, 255, .22)
     );
+
+  animation: objectFloat 4.5s ease-in-out infinite;
+}
+
+@keyframes objectFloat {
+  0%, 100% {
+    transform:
+      rotateX(55deg)
+      rotateZ(45deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      rotateX(55deg)
+      rotateZ(45deg)
+      translateY(-10px);
+  }
 }
 
 .cube-face {
   position: absolute;
 
-  width: 125px;
-  height: 125px;
+  width: 130px;
+  height: 130px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(142, 216, 255, .13),
-      rgba(184, 167, 255, .055)
+      rgba(142, 216, 255, .18),
+      rgba(184, 167, 255, .07)
     );
 
-  border: 1px solid rgba(190, 230, 255, .30);
+  border: 1px solid rgba(190, 230, 255, .34);
 
   box-shadow:
-    inset 0 0 30px rgba(142, 216, 255, .055);
+    inset 0 0 35px rgba(142, 216, 255, .07);
 }
 
 .cube-face:nth-child(1) {
-  transform: translateZ(62px);
+  transform: translateZ(65px);
 }
 
 .cube-face:nth-child(2) {
   transform:
     rotateY(90deg)
-    translateZ(62px);
+    translateZ(65px);
 }
 
 .cube-face:nth-child(3) {
   transform:
     rotateX(90deg)
-    translateZ(62px);
+    translateZ(65px);
 }
 
+/* little floating label */
 .preview-tag {
   position: absolute;
 
   left: 14px;
   bottom: 14px;
 
-  padding: 6px 9px;
+  padding: 7px 10px;
 
   color: var(--sky-soft);
 
-  background: rgba(9, 15, 26, .78);
+  background:
+    rgba(7, 13, 24, .82);
 
-  border: 1px solid var(--border);
-
-  border-radius: 7px;
+  border: 1px solid var(--border-hover);
+  border-radius: 8px;
 
   font-size: 9px;
   font-weight: 700;
 
-  letter-spacing: .08em;
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, .2);
 }
 
+/* info */
 .showcase-info {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 16px 5px 3px;
+  padding: 17px 5px 3px;
 }
 
 .showcase-category {
@@ -835,28 +942,32 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   font-size: 10px;
   font-weight: 600;
 
-  text-transform: uppercase;
   letter-spacing: .08em;
 }
 
 .showcase-info h3 {
   margin-top: 5px;
 
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Space Grotesk", "Estedad", sans-serif;
 
   font-size: 18px;
 }
 
 .showcase-arrow {
   color: var(--sky);
+  font-size: 21px;
 
-  font-size: 20px;
-
-  transition: transform .25s ease;
+  transition:
+    transform .3s var(--ease),
+    color .3s ease;
 }
 
 .showcase-card:hover .showcase-arrow {
-  transform: translate(3px, -3px);
+  color: var(--sky-soft);
+
+  transform:
+    translate(5px, -5px)
+    scale(1.08);
 }
 
 /* =========================================================
@@ -865,38 +976,55 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 
 .floating-card {
   position: absolute;
-  z-index: 4;
+  z-index: 5;
 
   display: flex;
   align-items: center;
 
   gap: 10px;
 
-  padding: 11px 13px;
+  padding: 12px 14px;
 
-  background: rgba(15, 23, 39, .88);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 31, 51, .90),
+      rgba(10, 17, 30, .88)
+    );
 
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
-  border: 1px solid var(--border);
+  border: 1px solid rgba(190, 220, 255, .13);
 
-  border-radius: 12px;
+  border-radius: 13px;
 
   box-shadow:
-    0 15px 50px rgba(0, 0, 0, .25);
+    0 18px 55px rgba(0, 0, 0, .28);
 
   animation: float 5s ease-in-out infinite;
+
+  transition:
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+
+.floating-card:hover {
+  border-color: rgba(142, 216, 255, .25);
+
+  box-shadow:
+    0 22px 65px rgba(0, 0, 0, .34),
+    0 0 30px rgba(91, 185, 232, .06);
 }
 
 .floating-left {
-  left: -5px;
-  bottom: 75px;
+  left: -12px;
+  bottom: 70px;
 }
 
 .floating-right {
-  right: -15px;
-  top: 80px;
+  right: -20px;
+  top: 72px;
 
   animation-delay: -2.5s;
 }
@@ -907,13 +1035,13 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   }
 
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-10px);
   }
 }
 
 .floating-icon {
-  width: 30px;
-  height: 30px;
+  width: 31px;
+  height: 31px;
 
   display: grid;
   place-items: center;
@@ -923,13 +1051,16 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   background:
     linear-gradient(
       135deg,
-      rgba(142, 216, 255, .10),
-      rgba(184, 167, 255, .06)
+      rgba(142, 216, 255, .12),
+      rgba(184, 167, 255, .07)
     );
 
   border: 1px solid var(--border);
 
   border-radius: 8px;
+
+  box-shadow:
+    0 0 20px rgba(91, 185, 232, .05);
 }
 
 .floating-number {
@@ -952,7 +1083,6 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   margin-top: 3px;
 
   color: var(--muted-2);
-
   font-size: 9px;
 }
 
