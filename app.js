@@ -134,18 +134,37 @@ async function loadAssets() {
     `)
     .eq("status", "published");
 
-  // Category
-  if (currentCategory !== "all") {
-    query = query.eq("category", currentCategory);
-  }
+// Category
+const categoryMap = {
+  rigs: "Rig",
+  models: "Model",
+  vfx: "VFX",
+  textures: "Texture",
+  thumbnails: "Thumbnail",
+  other: "Other"
+};
 
-  // Search
-  if (currentSearch.trim()) {
-    query = query.ilike(
-      "title",
-      `%${currentSearch.trim()}%`
-    );
-  }
+if (currentCategory !== "all") {
+  const databaseCategory =
+    categoryMap[currentCategory] || currentCategory;
+
+  query = query.eq(
+    "category",
+    databaseCategory
+  );
+}
+
+// Search
+if (currentSearch.trim()) {
+
+  const searchTerm =
+    currentSearch.trim();
+
+  query = query.or(
+    `title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,file_format.ilike.%${searchTerm}%`
+  );
+
+}
 
   // Sorting
   if (currentSort === "popular") {
@@ -326,6 +345,41 @@ filterButtons.forEach(button => {
   });
 });
 
+// =========================
+// CATEGORY CARDS
+// =========================
+
+document
+  .querySelectorAll(".category-card")
+  .forEach(card => {
+
+    card.addEventListener("click", () => {
+
+      const category =
+        card.dataset.category || "all";
+
+      currentCategory = category;
+
+      filterButtons.forEach(button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.category === category
+        );
+
+      });
+
+      loadAssets();
+
+      document
+        .getElementById("explore")
+        ?.scrollIntoView({
+          behavior: "smooth"
+        });
+
+    });
+
+  });
 
 // =========================
 // SORT
