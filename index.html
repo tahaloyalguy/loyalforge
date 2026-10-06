@@ -1,282 +1,578 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>LoyalForge — Creator Asset Platform</title>
-  <meta name="description" content="Discover, share and showcase assets made by creators.">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="LoyalForge — A creator-first platform for Minecraft assets, rigs, models, VFX and more."
+  >
+
+  <title>LoyalForge — Forge Your Assets</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
 
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- Background -->
-  <div class="background-grid"></div>
-  <div class="background-glow"></div>
+  <!-- =========================
+       NAVBAR
+  ========================== -->
 
-  <!-- NAVBAR -->
   <header class="navbar">
 
-    <a href="#" class="brand">
-      <span class="brand-mark">L</span>
-      <span class="brand-text">
-        <strong>LOYAL</strong><span>FORGE</span>
-      </span>
-    </a>
+    <div class="nav-inner">
 
-    <nav class="nav-links">
-      <a href="#home" class="active">Home</a>
-      <a href="#explore">Explore</a>
-      <a href="#creators">Creators</a>
-    </nav>
+      <a href="#" class="brand">
+        <span class="brand-symbol">L</span>
+        <span>LOYAL<span class="orange">FORGE</span></span>
+      </a>
 
-    <div class="nav-actions">
-      <button class="nav-search" id="openSearch">
-        <span>⌕</span>
-        <span>Search</span>
-        <kbd>⌘ K</kbd>
-      </button>
+      <nav class="nav-links">
+        <a href="#explore">Explore</a>
+        <a href="#categories">Categories</a>
+        <a href="#creators">Creators</a>
+      </nav>
 
-      <button class="upload-button" id="uploadButton">
-        + Upload
-      </button>
+      <div class="nav-actions">
+
+        <button
+          class="nav-search"
+          data-search-open
+          aria-label="Search"
+        >
+          <span>⌕</span>
+          <span>Search</span>
+          <kbd>⌘ K</kbd>
+        </button>
+
+        <button
+          class="btn btn-primary nav-upload"
+          data-upload
+        >
+          Upload
+        </button>
+
+      </div>
+
     </div>
 
   </header>
 
 
-  <!-- HERO -->
   <main>
 
-    <section class="hero" id="home">
+    <!-- =========================
+         HERO
+    ========================== -->
 
-      <div class="hero-content">
+    <section class="hero">
 
-        <div class="hero-badge">
-          <span class="status-dot"></span>
-          Built for creators
-        </div>
+      <div class="hero-grid">
 
-        <h1>
-          Where creators
-          <span>forge their work.</span>
-        </h1>
+        <div class="hero-content">
 
-        <p>
-          Discover, share and showcase rigs, models, VFX,
-          thumbnails and creative assets made by creators.
-        </p>
-
-        <div class="hero-actions">
-
-          <a href="#explore" class="primary-button">
-            Explore Assets
-            <span>→</span>
-          </a>
-
-          <button class="secondary-button" id="heroUpload">
-            Upload your work
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="hero-visual">
-
-        <div class="floating-card card-one">
-          <div class="mini-preview preview-purple"></div>
-          <div>
-            <strong>Cyber Warrior</strong>
-            <small>Rig · GLB</small>
+          <div class="hero-badge">
+            <span class="pulse"></span>
+            Built for creators
           </div>
-          <span>↗</span>
-        </div>
 
-        <div class="forge-orb">
-          <div class="orb-inner">
-            <span>LF</span>
-          </div>
-        </div>
+          <h1>
+            Forge your work.
+            <span>Share your world.</span>
+          </h1>
 
-        <div class="floating-card card-two">
-          <div class="mini-preview preview-orange"></div>
-          <div>
-            <strong>Thumbnail FX</strong>
-            <small>VFX · PNG</small>
-          </div>
-          <span>↗</span>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- CATEGORIES -->
-    <section class="categories-section">
-
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">EXPLORE</span>
-          <h2>Find your next asset.</h2>
-        </div>
-
-        <a href="#explore">View all →</a>
-      </div>
-
-      <div class="category-grid">
-
-        <button class="category-card" data-category="Rig">
-          <span class="category-icon">◈</span>
-          <strong>Rigs</strong>
-          <small>Character & creature rigs</small>
-        </button>
-
-        <button class="category-card" data-category="Model">
-          <span class="category-icon">◇</span>
-          <strong>Models</strong>
-          <small>3D models & scenes</small>
-        </button>
-
-        <button class="category-card" data-category="VFX">
-          <span class="category-icon">✦</span>
-          <strong>VFX</strong>
-          <small>Effects & particles</small>
-        </button>
-
-        <button class="category-card" data-category="PNG">
-          <span class="category-icon">▧</span>
-          <strong>PNG Assets</strong>
-          <small>Ready-to-use graphics</small>
-        </button>
-
-        <button class="category-card" data-category="Thumbnail">
-          <span class="category-icon">▣</span>
-          <strong>Thumbnails</strong>
-          <small>Creator-made designs</small>
-        </button>
-
-        <button class="category-card" data-category="Minecraft">
-          <span class="category-icon">⬡</span>
-          <strong>Minecraft</strong>
-          <small>Built for Minecraft creators</small>
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- EXPLORE -->
-    <section class="explore-section" id="explore">
-
-      <div class="section-heading explore-heading">
-
-        <div>
-          <span class="eyebrow">DISCOVER</span>
-          <h2>Latest creations.</h2>
-        </div>
-
-        <div class="sort-buttons">
-          <button class="sort-button active" data-sort="latest">
-            Latest
-          </button>
-
-          <button class="sort-button" data-sort="popular">
-            Popular
-          </button>
-
-          <button class="sort-button" data-sort="downloads">
-            Downloads
-          </button>
-        </div>
-
-      </div>
-
-
-      <!-- SEARCH -->
-      <div class="search-container">
-
-        <span>⌕</span>
-
-        <input
-          type="text"
-          id="assetSearch"
-          placeholder="Search rigs, models, VFX, thumbnails..."
-        >
-
-      </div>
-
-
-      <!-- ASSET GRID -->
-      <div class="asset-grid" id="assetGrid">
-
-        <!-- Assets loaded from Supabase -->
-
-      </div>
-
-
-      <!-- EMPTY STATE -->
-      <div class="empty-state" id="emptyState">
-
-        <div class="empty-icon">◇</div>
-
-        <h3>No assets yet</h3>
-
-        <p>
-          Be one of the first creators to publish something on LoyalForge.
-        </p>
-
-        <button class="primary-button" id="emptyUpload">
-          Upload your first asset →
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- CREATORS -->
-    <section class="creators-section" id="creators">
-
-      <div class="section-heading">
-
-        <div>
-          <span class="eyebrow">COMMUNITY</span>
-          <h2>Built by creators.</h2>
-        </div>
-
-        <a href="#">View creators →</a>
-
-      </div>
-
-
-      <div class="creator-placeholder">
-
-        <div class="creator-glow"></div>
-
-        <div class="creator-content">
-
-          <span class="creator-symbol">✦</span>
-
-          <h3>Your work deserves to be seen.</h3>
-
-          <p>
-            Publish your creations, build your profile and let other creators
-            discover what you make.
+          <p class="hero-description">
+            Discover, share and download high-quality assets
+            made by creators. Rigs, models, VFX, textures,
+            thumbnails and everything in between.
           </p>
 
-          <button class="primary-button" id="creatorUpload">
-            Start creating →
+          <div class="hero-actions">
+
+            <a
+              href="#explore"
+              class="btn btn-primary btn-large"
+            >
+              Explore Assets
+              <span>↗</span>
+            </a>
+
+            <button
+              class="btn btn-ghost btn-large"
+              data-upload
+            >
+              Upload your work
+              <span>↑</span>
+            </button>
+
+          </div>
+
+          <div class="hero-stats">
+
+            <div>
+              <strong>∞</strong>
+              <span>Creative freedom</span>
+            </div>
+
+            <div class="stat-divider"></div>
+
+            <div>
+              <strong>FREE</strong>
+              <span>To explore</span>
+            </div>
+
+            <div class="stat-divider"></div>
+
+            <div>
+              <strong>FOR</strong>
+              <span>Creators</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- HERO VISUAL -->
+
+        <div class="hero-showcase">
+
+          <div class="showcase-glow"></div>
+
+          <div class="showcase-card main-showcase">
+
+            <div class="showcase-top">
+              <span class="mini-label">FEATURED ASSET</span>
+
+              <span class="mini-dot"></span>
+            </div>
+
+            <div class="showcase-preview">
+
+              <div class="preview-grid"></div>
+
+              <div class="preview-object">
+                <div class="cube-face"></div>
+                <div class="cube-face"></div>
+                <div class="cube-face"></div>
+              </div>
+
+              <span class="preview-tag">
+                3D ASSET
+              </span>
+
+            </div>
+
+            <div class="showcase-info">
+
+              <div>
+                <span class="showcase-category">
+                  Minecraft
+                </span>
+
+                <h3>
+                  Creator Asset
+                </h3>
+              </div>
+
+              <span class="showcase-arrow">↗</span>
+
+            </div>
+
+          </div>
+
+
+          <div class="floating-card floating-left">
+
+            <div class="floating-icon">◆</div>
+
+            <div>
+              <strong>Rigs</strong>
+              <span>Creator assets</span>
+            </div>
+
+          </div>
+
+
+          <div class="floating-card floating-right">
+
+            <div class="floating-number">
+              +∞
+            </div>
+
+            <div>
+              <strong>More to forge</strong>
+              <span>Every creator matters</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CATEGORIES
+    ========================== -->
+
+    <section
+      class="section categories-section"
+      id="categories"
+    >
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div>
+            <span class="section-label">
+              EXPLORE BY TYPE
+            </span>
+
+            <h2>
+              Find what you need.
+            </h2>
+          </div>
+
+          <p>
+            A growing library built by the community,
+            for the community.
+          </p>
+
+        </div>
+
+
+        <div class="category-grid">
+
+          <button
+            class="category-card"
+            data-category="rigs"
+          >
+            <span class="category-number">01</span>
+            <span class="category-icon">◇</span>
+
+            <div>
+              <h3>Rigs</h3>
+              <p>Ready-to-use character rigs</p>
+            </div>
+
+            <span class="category-arrow">↗</span>
           </button>
+
+
+          <button
+            class="category-card"
+            data-category="models"
+          >
+            <span class="category-number">02</span>
+            <span class="category-icon">⬡</span>
+
+            <div>
+              <h3>Models</h3>
+              <p>3D models &amp; creations</p>
+            </div>
+
+            <span class="category-arrow">↗</span>
+          </button>
+
+
+          <button
+            class="category-card"
+            data-category="vfx"
+          >
+            <span class="category-number">03</span>
+            <span class="category-icon">✦</span>
+
+            <div>
+              <h3>VFX</h3>
+              <p>Effects for your projects</p>
+            </div>
+
+            <span class="category-arrow">↗</span>
+          </button>
+
+
+          <button
+            class="category-card"
+            data-category="textures"
+          >
+            <span class="category-number">04</span>
+            <span class="category-icon">▧</span>
+
+            <div>
+              <h3>Textures</h3>
+              <p>Textures &amp; resource assets</p>
+            </div>
+
+            <span class="category-arrow">↗</span>
+          </button>
+
+
+          <button
+            class="category-card"
+            data-category="thumbnails"
+          >
+            <span class="category-number">05</span>
+            <span class="category-icon">▣</span>
+
+            <div>
+              <h3>Thumbnails</h3>
+              <p>Visuals made to stand out</p>
+            </div>
+
+            <span class="category-arrow">↗</span>
+          </button>
+
+
+          <button
+            class="category-card"
+            data-category="minecraft"
+          >
+            <span class="category-number">06</span>
+            <span class="category-icon">◈</span>
+
+            <div>
+              <h3>Minecraft</h3>
+              <p>Everything Minecraft</p>
+            </div>
+
+            <span class="category-arrow">↗</span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         EXPLORE
+    ========================== -->
+
+    <section
+      class="section explore-section"
+      id="explore"
+    >
+
+      <div class="container">
+
+        <div class="explore-header">
+
+          <div>
+
+            <span class="section-label">
+              COMMUNITY LIBRARY
+            </span>
+
+            <h2>
+              Explore assets.
+            </h2>
+
+          </div>
+
+
+          <div class="sort-tabs">
+
+            <button
+              class="sort-btn active"
+              data-sort="latest"
+            >
+              Latest
+            </button>
+
+            <button
+              class="sort-btn"
+              data-sort="popular"
+            >
+              Popular
+            </button>
+
+            <button
+              class="sort-btn"
+              data-sort="downloads"
+            >
+              Downloads
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="explore-tools">
+
+          <div class="filter-list">
+
+            <button
+              class="filter-btn active"
+              data-category="all"
+            >
+              All
+            </button>
+
+            <button
+              class="filter-btn"
+              data-category="rigs"
+            >
+              Rigs
+            </button>
+
+            <button
+              class="filter-btn"
+              data-category="models"
+            >
+              Models
+            </button>
+
+            <button
+              class="filter-btn"
+              data-category="vfx"
+            >
+              VFX
+            </button>
+
+            <button
+              class="filter-btn"
+              data-category="textures"
+            >
+              Textures
+            </button>
+
+            <button
+              class="filter-btn"
+              data-category="thumbnails"
+            >
+              Thumbnails
+            </button>
+
+            <button
+              class="filter-btn"
+              data-category="minecraft"
+            >
+              Minecraft
+            </button>
+
+          </div>
+
+
+          <div class="library-search">
+
+            <span>⌕</span>
+
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search assets..."
+              autocomplete="off"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="asset-grid"
+          id="assetGrid"
+        ></div>
+
+
+        <div
+          class="empty-state"
+          id="emptyState"
+          style="display:none;"
+        >
+
+          <div class="empty-orb">
+            +
+          </div>
+
+          <h3>
+            Nothing here yet.
+          </h3>
+
+          <p>
+            Be one of the first creators to forge
+            something for the community.
+          </p>
+
+          <button
+            class="btn btn-primary"
+            data-upload
+          >
+            Upload an asset
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CREATORS
+    ========================== -->
+
+    <section
+      class="section creators-section"
+      id="creators"
+    >
+
+      <div class="container">
+
+        <div class="creator-banner">
+
+          <div class="creator-lines"></div>
+
+          <div class="creator-content">
+
+            <span class="section-label">
+              YOUR WORK BELONGS HERE
+            </span>
+
+            <h2>
+              Built something?
+              <span>Forge it.</span>
+            </h2>
+
+            <p>
+              Share your work with other creators,
+              grow your profile and help build the
+              next generation of creative assets.
+            </p>
+
+            <button
+              class="btn btn-primary btn-large"
+              data-upload
+            >
+              Start creating
+              <span>↗</span>
+            </button>
+
+          </div>
+
+          <div class="creator-mark">
+            LF
+          </div>
 
         </div>
 
@@ -287,59 +583,101 @@
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
   <footer>
 
-    <div class="footer-brand">
-      <span class="brand-mark">L</span>
-      <strong>LOYALFORGE</strong>
+    <div class="container footer-inner">
+
+      <div class="footer-brand">
+
+        <div class="brand">
+          <span class="brand-symbol">L</span>
+          <span>LOYAL<span class="orange">FORGE</span></span>
+        </div>
+
+        <p>
+          Forge. Share. Create.
+        </p>
+
+      </div>
+
+
+      <div class="footer-right">
+
+        <span>
+          Built for creators.
+        </span>
+
+        <span class="footer-dot"></span>
+
+        <span>
+          © 2026 LoyalForge
+        </span>
+
+      </div>
+
     </div>
-
-    <p>
-      Create. Share. Inspire.
-    </p>
-
-    <span class="copyright">
-      © 2026 LoyalForge
-    </span>
 
   </footer>
 
 
-  <!-- SEARCH MODAL -->
-  <div class="modal" id="searchModal">
+  <!-- =========================
+       SEARCH MODAL
+  ========================== -->
 
-    <div class="modal-backdrop"></div>
+  <div
+    class="search-modal"
+    id="searchModal"
+  >
 
-    <div class="search-modal">
+    <div class="search-modal-box">
 
-      <div class="search-modal-top">
+      <div class="modal-top">
 
-        <input
-          type="text"
-          id="modalSearch"
-          placeholder="Search LoyalForge..."
-          autofocus
-        >
+        <span>
+          SEARCH LOYALFORGE
+        </span>
 
-        <button id="closeSearch">ESC</button>
+        <button data-search-close>
+          ESC
+        </button>
 
       </div>
 
-      <div class="search-results">
-        Start typing to search assets.
-      </div>
+      <input
+        id="searchModalInput"
+        class="search-modal-input"
+        type="search"
+        placeholder="Search rigs, models, VFX..."
+        autocomplete="off"
+      >
+
+      <p class="modal-hint">
+        Press Enter to search
+      </p>
 
     </div>
 
   </div>
 
 
-  <!-- TOAST -->
-  <div class="toast" id="toast"></div>
+  <!-- =========================
+       TOAST
+  ========================== -->
+
+  <div
+    class="toast"
+    id="toast"
+  ></div>
 
 
-  <script type="module" src="app.js"></script>
+  <script
+    type="module"
+    src="app.js"
+  ></script>
 
 </body>
 </html>
