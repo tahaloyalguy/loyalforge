@@ -2418,3 +2418,41 @@ footer {
     flex-wrap: wrap;
   }
 }
+
+/* =========================================================
+   PERSIAN FONT FIX
+   ========================================================= */
+
+html,
+body,
+button,
+input,
+textarea,
+select,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+label {
+  font-family: "Estedad", "Inter", sans-serif;
+}
+
+.brand,
+.brand-symbol,
+.mini-label,
+.preview-tag,
+.section-label,
+.category-number,
+.footer-right {
+  font-family: "Inter", sans-serif;
+}
+
+.brand > span:last-child {
+  font-family: "Space Grotesk", "Inter", sans-serif;
+}
