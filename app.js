@@ -491,9 +491,7 @@ document
       "click",
       () => {
 
-        showToast(
-          "Upload system is coming next."
-        );
+        window.location.href = "upload.html";
 
       }
     );
