@@ -2453,6 +2453,17 @@ label {
   font-family: "Inter", sans-serif;
 }
 
+.hero h1 .hero-title-line {
+  display: block;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .hero h1 .hero-title-line {
+    white-space: normal;
+  }
+}
+
 .brand > span:last-child {
   font-family: "Space Grotesk", "Inter", sans-serif;
 }
