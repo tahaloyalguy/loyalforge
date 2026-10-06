@@ -954,12 +954,23 @@ form.addEventListener(
       );
 
 
-    } catch (error) {
+} catch (error) {
+  console.error("LOYALFORGE UPLOAD ERROR:", error);
 
-      console.error(
-        "UPLOAD ERROR:",
-        error
-      );
+  const details = [
+    error?.message ? `Message: ${error.message}` : "",
+    error?.statusCode ? `Status Code: ${error.statusCode}` : "",
+    error?.status ? `Status: ${error.status}` : "",
+    error?.error ? `Error: ${error.error}` : "",
+    error?.details ? `Details: ${error.details}` : "",
+    error?.hint ? `Hint: ${error.hint}` : ""
+  ].filter(Boolean).join("\n");
+
+  showMessage(
+    details || "Upload failed. Check browser console.",
+    "error"
+  );
+}
 
 
       showStatus(
