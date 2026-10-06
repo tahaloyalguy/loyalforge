@@ -473,146 +473,211 @@ async function loadAsset() {
     }
 
 
-    const asset =
-      assets[0];
+const asset = assets[0];
 
+document.title =
+  `${asset.title || "Asset"} — LoyalForge`;
 
-    document.title =
-      `${asset.title || "Asset"} — LoyalForge`;
+const profile = asset.profiles || {};
 
+const creatorName =
+  profile.display_name ||
+  profile.username ||
+  "Unknown Creator";
 
-    container.innerHTML = `
+const avatar =
+  profile.avatar_url ||
+  "";
 
-      <section class="asset-layout">
+container.innerHTML = `
 
-        <div class="asset-preview-large">
+  <section class="asset-layout">
 
+    <div class="asset-preview-large">
+
+      ${
+        asset.preview_url
+        ? `
           <img
-            src="${asset.preview || ""}"
+            src="${asset.preview_url}"
             alt="${asset.title || "Asset"}"
           >
+        `
+        : `
+          <div class="not-found">
+            NO PREVIEW
+          </div>
+        `
+      }
+
+    </div>
+
+
+    <aside class="asset-info">
+
+      <span class="asset-badge">
+        ${asset.category || "Asset"}
+      </span>
+
+
+      <h1>
+        ${asset.title || "Untitled Asset"}
+      </h1>
+
+
+      <p class="asset-description">
+        ${asset.description || "No description available."}
+      </p>
+
+
+      <div class="creator-box">
+
+        ${
+          avatar
+          ? `
+            <img
+              class="creator-avatar"
+              src="${avatar}"
+              alt="${creatorName}"
+            >
+          `
+          : `
+            <div class="creator-avatar">
+              ${creatorName.charAt(0).toUpperCase()}
+            </div>
+          `
+        }
+
+        <div>
+
+          <div class="creator-name">
+            ${creatorName}
+          </div>
+
+          <div class="creator-role">
+            Creator
+          </div>
 
         </div>
 
-
-        <aside class="asset-info">
-
-          <span class="asset-badge">
-            ${asset.category || "Asset"}
-          </span>
+      </div>
 
 
-          <h1>
-            ${asset.title || "Untitled Asset"}
-          </h1>
+      <div class="asset-stats-large">
+
+        <div class="stat-box">
+          <strong>
+            ${asset.likes || 0}
+          </strong>
+          <span>Likes</span>
+        </div>
+
+        <div class="stat-box">
+          <strong>
+            ${asset.downloads || 0}
+          </strong>
+          <span>Downloads</span>
+        </div>
+
+        <div class="stat-box">
+          <strong>
+            ${asset.file_size
+              ? formatFileSize(asset.file_size)
+              : "—"}
+          </strong>
+          <span>Size</span>
+        </div>
+
+      </div>
 
 
-          <p class="asset-description">
-            ${asset.description || "No description available."}
-          </p>
+      <div class="asset-meta">
+
+        <div class="meta-item">
+          <span>Format</span>
+
+          <strong>
+            ${asset.file_format || "Unknown"}
+          </strong>
+        </div>
 
 
-          <div class="creator-box">
+        <div class="meta-item">
+          <span>File</span>
 
-            <div class="creator-avatar">
-              ${(asset.creator || "L").charAt(0).toUpperCase()}
-            </div>
+          <strong>
+            ${asset.file_name || "—"}
+          </strong>
+        </div>
 
-            <div>
-
-              <div class="creator-name">
-                ${asset.creator || "LoyalForge Creator"}
-              </div>
-
-              <div class="creator-role">
-                Asset Creator
-              </div>
-
-            </div>
-
-          </div>
+      </div>
 
 
-          <div class="asset-stats-large">
+      <button
+        class="download-btn"
+        id="downloadBtn"
+      >
+        Download Asset
+      </button>
 
-            <div class="stat-box">
-              <strong>
-                ${asset.likes || 0}
-              </strong>
-              <span>Likes</span>
-            </div>
+    </aside>
 
-            <div class="stat-box">
-              <strong>
-                ${asset.downloads || 0}
-              </strong>
-              <span>Downloads</span>
-            </div>
+  </section>
 
-            <div class="stat-box">
-              <strong>
-                ${asset.views || 0}
-              </strong>
-              <span>Views</span>
-            </div>
-
-          </div>
+`;
 
 
-          <div class="asset-meta">
+const downloadBtn =
+  document.getElementById("downloadBtn");
 
-            <div class="meta-item">
-              <span>Format</span>
-              <strong>
-                ${asset.format || "Unknown"}
-              </strong>
-            </div>
+downloadBtn.addEventListener(
+  "click",
+  async () => {
 
-            <div class="meta-item">
-              <span>Version</span>
-              <strong>
-                ${asset.version || "—"}
-              </strong>
-            </div>
+    if (!asset.file_name) {
 
-          </div>
+      alert(
+        "Download is not available yet."
+      );
 
+      return;
+    }
 
-          <button
-            class="download-btn"
-            id="downloadBtn"
-          >
-            Download Asset
-          </button>
+    /*
+      فایل دانلودی را فعلاً
+      از Storage پیدا می‌کنیم.
+    */
 
-        </aside>
-
-      </section>
-
-    `;
-
-
-    document
-      .getElementById("downloadBtn")
-      .addEventListener("click", () => {
-
-        if (!asset.download_url) {
-
-          alert(
-            "Download link is not available yet."
-          );
-
-          return;
-        }
+    const {
+      data,
+      error
+    } = await supabase.storage
+      .from("assets")
+      .createSignedUrl(
+        asset.file_name,
+        60
+      );
 
 
-        window.open(
-          asset.download_url,
-          "_blank"
-        );
+    if (error || !data?.signedUrl) {
 
-      });
+      console.error(error);
 
+      alert(
+        "Download link is not available yet."
+      );
+
+      return;
+    }
+
+
+    window.open(
+      data.signedUrl,
+      "_blank"
+    );
+
+  }
+);
 
   } catch (error) {
 
