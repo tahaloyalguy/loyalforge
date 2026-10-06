@@ -885,119 +885,69 @@ form.addEventListener(
         `${safeTitle}-${unique}`;
 
 
-      /* =====================================================
-         DATABASE
-      ===================================================== */
+     /* =====================================================
+   DATABASE
+===================================================== */
 
-      const {
-        error: databaseError
-      } =
-        await supabase
-          .from("assets")
-          .insert({
-            title: title,
+const { data: assetPublicData } =
+  supabase
+    .storage
+    .from("assets")
+    .getPublicUrl(assetPath);
 
-            slug: slug,
-
-            description:
-              description,
-
-            category:
-              category,
-
-            preview_url:
-              previewUrl,
-
-            file_name:
-              assetPath,
-
-            file_size:
-              assetFile.size,
-
-            file_format:
-              format,
-
-            downloads:
-              0,
-
-            likes:
-              0,
-
-            status:
-              "published"
-          });
+const assetPublicUrl =
+  assetPublicData.publicUrl;
 
 
-      if (databaseError) {
-        throw databaseError;
-      }
+const {
+  error: databaseError
+} =
+  await supabase
+    .from("assets")
+    .insert({
+
+      title:
+        title,
+
+      slug:
+        slug,
+
+      description:
+        description,
+
+      category:
+        category,
+
+      preview_url:
+        previewUrl,
+
+      file_url:
+        assetPublicUrl,
+
+      file_name:
+        assetPath,
+
+      file_size:
+        assetFile.size,
+
+      file_format:
+        format,
+
+      downloads:
+        0,
+
+      likes:
+        0,
+
+      status:
+        "published"
+
+    });
 
 
-      progressBar.style.width =
-        "100%";
-
-
-      showStatus(
-        "Asset published successfully! Redirecting...",
-        "success"
-      );
-
-
-      setTimeout(
-        () => {
-
-          window.location.href =
-            `asset.html?slug=${encodeURIComponent(slug)}`;
-
-        },
-        1200
-      );
-
-
-} catch (error) {
-  console.error("LOYALFORGE UPLOAD ERROR:", error);
-
-  const details = [
-    error?.message ? `Message: ${error.message}` : "",
-    error?.statusCode ? `Status Code: ${error.statusCode}` : "",
-    error?.status ? `Status: ${error.status}` : "",
-    error?.error ? `Error: ${error.error}` : "",
-    error?.details ? `Details: ${error.details}` : "",
-    error?.hint ? `Hint: ${error.hint}` : ""
-  ].filter(Boolean).join("\n");
-
-  showMessage(
-    details || "Upload failed. Check browser console.",
-    "error"
-  );
+if (databaseError) {
+  throw databaseError;
 }
-
-
-      showStatus(
-        error.message ||
-        "Upload failed.",
-        "error"
-      );
-
-
-      publishButton.disabled =
-        false;
-
-      publishButton.textContent =
-        "Publish Asset";
-
-      progress.style.display =
-        "none";
-
-      progressBar.style.width =
-        "0%";
-
-    }
-
-  }
-);
-
-
 /* =========================================================
    EXTENSION
 ========================================================= */
