@@ -3543,20 +3543,3 @@ label {
 .footer.scroll-reveal {
   transform: translateY(35px);
 }
-
-
-/* -----------------------------------------
-   REDUCED MOTION
-   ----------------------------------------- */
-
-@media (prefers-reduced-motion: reduce) {
-  .scroll-reveal,
-  .section > .section-head,
-  .section > .section-header,
-  .scroll-grid > * {
-    opacity: 1;
-    transform: none;
-    filter: none;
-    transition: none;
-  }
-}
