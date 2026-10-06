@@ -380,325 +380,208 @@
 </main>
 
 
-<script>
-
-const SUPABASE_URL =
-  "https://ywrbojtzkkygahxqeueg.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
-
-
-const params =
-  new URLSearchParams(window.location.search);
-
-const slug =
-  params.get("slug");
-
-const id =
-  params.get("id");
-
-
-async function loadAsset() {
-
-  const container =
-    document.getElementById("assetContainer");
-
-
-  if (!slug && !id) {
-
-    container.innerHTML = `
-      <div class="not-found">
-        <div>
-          <h2>Asset not found</h2>
-          <p>Missing asset identifier.</p>
-        </div>
-      </div>
-    `;
-
-    return;
-  }
-
-
-  try {
-
-    let query =
-      `${SUPABASE_URL}/rest/v1/assets?select=*`;
-
-    if (slug) {
-
-      query +=
-        `&slug=eq.${encodeURIComponent(slug)}`;
-
-    } else {
-
-      query +=
-        `&id=eq.${encodeURIComponent(id)}`;
-
-    }
-
-
-    const response =
-      await fetch(query, {
-
-        headers: {
-          "apikey": SUPABASE_ANON_KEY,
-          "Authorization":
-            `Bearer ${SUPABASE_ANON_KEY}`
-        }
-
-      });
-
-
-    if (!response.ok)
-      throw new Error("Request failed");
-
-
-    const assets =
-      await response.json();
-
-
-    if (!assets.length) {
-
-      container.innerHTML = `
-        <div class="not-found">
-          <div>
-            <h2>Asset not found</h2>
-            <p>This asset doesn't exist or was removed.</p>
-          </div>
-        </div>
-      `;
-
-      return;
-    }
-
-
-const asset = assets[0];
-
-document.title =
-  `${asset.title || "Asset"} — LoyalForge`;
-
-const profile = asset.profiles || {};
-
-const creatorName =
-  profile.display_name ||
-  profile.username ||
-  "Unknown Creator";
-
-const avatar =
-  profile.avatar_url ||
-  "";
-
-container.innerHTML = `
-
-  <section class="asset-layout">
-
-    <div class="asset-preview-large">
-
-      ${
-        asset.preview_url
-        ? `
-          <img
-            src="${asset.preview_url}"
-            alt="${asset.title || "Asset"}"
-          >
-        `
-        : `
-          <div class="not-found">
-            NO PREVIEW
-          </div>
-        `
-      }
-
-    </div>
-
-
-    <aside class="asset-info">
-
-      <span class="asset-badge">
-        ${asset.category || "Asset"}
-      </span>
-
-
-      <h1>
-        ${asset.title || "Untitled Asset"}
-      </h1>
-
-
-      <p class="asset-description">
-        ${asset.description || "No description available."}
-      </p>
-
-
-      <div class="creator-box">
-
-        ${
-          avatar
-          ? `
-            <img
-              class="creator-avatar"
-              src="${avatar}"
-              alt="${creatorName}"
-            >
-          `
-          : `
-            <div class="creator-avatar">
-              ${creatorName.charAt(0).toUpperCase()}
-            </div>
-          `
-        }
-
-        <div>
-
-          <div class="creator-name">
-            ${creatorName}
-          </div>
-
-          <div class="creator-role">
-            Creator
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="asset-stats-large">
-
-        <div class="stat-box">
-          <strong>
-            ${asset.likes || 0}
-          </strong>
-          <span>Likes</span>
-        </div>
-
-        <div class="stat-box">
-          <strong>
-            ${asset.downloads || 0}
-          </strong>
-          <span>Downloads</span>
-        </div>
-
-        <div class="stat-box">
-          <strong>
-            ${asset.file_size
-              ? formatFileSize(asset.file_size)
-              : "—"}
-          </strong>
-          <span>Size</span>
-        </div>
-
-      </div>
-
-
-      <div class="asset-meta">
-
-        <div class="meta-item">
-          <span>Format</span>
-
-          <strong>
-            ${asset.file_format || "Unknown"}
-          </strong>
-        </div>
-
-
-        <div class="meta-item">
-          <span>File</span>
-
-          <strong>
-            ${asset.file_name || "—"}
-          </strong>
-        </div>
-
-      </div>
-
-
-      <button
-        class="download-btn"
-        id="downloadBtn"
-      >
-        Download Asset
-      </button>
-
-    </aside>
-
-  </section>
-
-`;
-
-
-const downloadBtn =
-  document.getElementById("downloadBtn");
-
-downloadBtn.addEventListener(
-  "click",
-  async () => {
-
-    if (!asset.file_name) {
-
-      alert(
-        "Download is not available yet."
-      );
-
-      return;
-    }
-
-    /*
-      فایل دانلودی را فعلاً
-      از Storage پیدا می‌کنیم.
-    */
-
-    const {
-      data,
-      error
-    } = await supabase.storage
-      .from("assets")
-      .createSignedUrl(
-        asset.file_name,
-        60
-      );
-
-
-    if (error || !data?.signedUrl) {
-
-      console.error(error);
-
-      alert(
-        "Download link is not available yet."
-      );
-
-      return;
-    }
-
-
-    window.open(
-      data.signedUrl,
-      "_blank"
-    );
-
-  }
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const SUPABASE_URL = "https://ywrbojtzkkygahxqeueg.supabase.co";
+const SUPABASE_KEY = "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
+
+const supabase = createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
-  } catch (error) {
+const params = new URLSearchParams(window.location.search);
+const slug = params.get("slug");
+const id = params.get("id");
 
+const loading = document.getElementById("loading");
+const content = document.getElementById("assetContent");
+const errorBox = document.getElementById("error");
+
+async function loadAsset() {
+  try {
+    if (!slug && !id) {
+      throw new Error("Asset not specified.");
+    }
+
+    let query = supabase
+      .from("assets")
+      .select(`
+        id,
+        title,
+        slug,
+        description,
+        category,
+        preview_url,
+        file_name,
+        file_size,
+        file_format,
+        downloads,
+        likes,
+        created_at,
+        user_id,
+        profiles (
+          username,
+          display_name,
+          avatar_url
+        )
+      `)
+      .eq("status", "published");
+
+    if (slug) {
+      query = query.eq("slug", slug);
+    } else {
+      query = query.eq("id", id);
+    }
+
+    const { data, error } = await query.single();
+
+    if (error) throw error;
+
+    if (!data) {
+      throw new Error("Asset not found.");
+    }
+
+    renderAsset(data);
+
+  } catch (error) {
     console.error(error);
 
-    container.innerHTML = `
-      <div class="not-found">
-        <div>
-          <h2>Something went wrong</h2>
-          <p>Could not load this asset.</p>
-        </div>
-      </div>
-    `;
+    loading.style.display = "none";
+    content.style.display = "none";
+    errorBox.style.display = "block";
 
+    errorBox.textContent =
+      "خطا در دریافت اطلاعات این Asset: " + error.message;
   }
-
 }
 
+function formatFileSize(bytes) {
+  if (!bytes) return "نامشخص";
+
+  if (bytes < 1024) {
+    return bytes + " B";
+  }
+
+  if (bytes < 1024 * 1024) {
+    return (bytes / 1024).toFixed(1) + " KB";
+  }
+
+  if (bytes < 1024 * 1024 * 1024) {
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
+
+  return (bytes / (1024 * 1024 * 1024)).toFixed(1) + " GB";
+}
+
+function renderAsset(asset) {
+  loading.style.display = "none";
+  errorBox.style.display = "none";
+  content.style.display = "block";
+
+  const profile = Array.isArray(asset.profiles)
+    ? asset.profiles[0]
+    : asset.profiles;
+
+  document.title = `${asset.title} — LoyalForge`;
+
+  const title = document.getElementById("assetTitle");
+  const description = document.getElementById("assetDescription");
+  const category = document.getElementById("assetCategory");
+  const preview = document.getElementById("assetPreview");
+  const creator = document.getElementById("assetCreator");
+  const likes = document.getElementById("assetLikes");
+  const downloads = document.getElementById("assetDownloads");
+  const format = document.getElementById("assetFormat");
+  const size = document.getElementById("assetSize");
+
+  if (title) {
+    title.textContent = asset.title || "Untitled Asset";
+  }
+
+  if (description) {
+    description.textContent =
+      asset.description || "No description provided.";
+  }
+
+  if (category) {
+    category.textContent =
+      asset.category || "Other";
+  }
+
+  if (preview) {
+    preview.src =
+      asset.preview_url ||
+      "https://placehold.co/1200x700/111827/ffffff?text=LoyalForge";
+
+    preview.alt = asset.title || "Asset Preview";
+  }
+
+  if (creator) {
+    creator.textContent =
+      profile?.display_name ||
+      profile?.username ||
+      "Unknown Creator";
+  }
+
+  if (likes) {
+    likes.textContent = asset.likes || 0;
+  }
+
+  if (downloads) {
+    downloads.textContent = asset.downloads || 0;
+  }
+
+  if (format) {
+    format.textContent =
+      asset.file_format ||
+      "Unknown";
+  }
+
+  if (size) {
+    size.textContent =
+      formatFileSize(asset.file_size);
+  }
+
+  const downloadButton =
+    document.getElementById("downloadButton");
+
+  if (downloadButton) {
+    downloadButton.addEventListener("click", async () => {
+      if (!asset.file_name) {
+        alert("فایل این Asset هنوز ثبت نشده.");
+        return;
+      }
+
+      try {
+        downloadButton.disabled = true;
+        downloadButton.textContent = "در حال آماده‌سازی...";
+
+        /*
+          فعلاً فقط فایل را پیدا می‌کنیم.
+          اسم Bucket را بعد از مشخص شدن Storage
+          اضافه می‌کنیم.
+        */
+
+        console.log("File:", asset.file_name);
+
+        alert(
+          "اطلاعات Asset درست دریافت شد. سیستم دانلود را در مرحله بعد وصل می‌کنیم."
+        );
+
+      } catch (error) {
+        console.error(error);
+        alert("دانلود فایل با خطا مواجه شد.");
+      } finally {
+        downloadButton.disabled = false;
+        downloadButton.textContent = "Download";
+      }
+    });
+  }
+}
 
 loadAsset();
-
 </script>
 
 </body>
