@@ -291,7 +291,16 @@ function renderAssets(assets) {
 
       </div>
     `;
+    card.style.cursor = "pointer";
 
+    card.addEventListener("click", () => {
+      if (asset.slug) {
+        window.location.href = `asset.html?slug=${encodeURIComponent(asset.slug)}`;
+      } else {
+        window.location.href = `asset.html?id=${encodeURIComponent(asset.id)}`;
+      }
+    });
+    
     assetGrid.appendChild(card);
   });
 }
