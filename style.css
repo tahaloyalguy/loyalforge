@@ -58,18 +58,19 @@ body {
   min-height: 100vh;
 
   color: var(--text);
+
   background:
     radial-gradient(
-      circle at 80% 0%,
-      rgba(142, 216, 255, .055),
-      transparent 28%
+      circle at 85% -10%,
+      rgba(142, 216, 255, 0.045),
+      transparent 32%
     ),
     radial-gradient(
-      circle at 10% 35%,
-      rgba(184, 167, 255, .035),
-      transparent 25%
+      circle at -10% 60%,
+      rgba(184, 167, 255, 0.025),
+      transparent 28%
     ),
-    var(--bg);
+    #0b1020;
 
   font-family: "Inter", sans-serif;
 
@@ -394,35 +395,6 @@ img {
   align-items: center;
 
   overflow: hidden;
-}
-
-.hero::before {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  background-image:
-    linear-gradient(
-      rgba(142, 216, 255, .018) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(142, 216, 255, .018) 1px,
-      transparent 1px
-    );
-
-  background-size: 70px 70px;
-
-  mask-image:
-    linear-gradient(
-      to bottom,
-      black,
-      transparent 88%
-    );
-
-  pointer-events: none;
 }
 
 .hero::after {
