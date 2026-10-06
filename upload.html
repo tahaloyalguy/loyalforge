@@ -588,6 +588,62 @@ function slugify(text) {
 }
 
 
+function randomName() {
+
+  return (
+    Date.now() +
+    "-" +
+    Math.random()
+      .toString(36)
+      .slice(2, 10)
+  );
+
+}
+
+
+function getExtension(filename) {
+
+  const parts =
+    filename.split(".");
+
+  if (parts.length < 2) {
+    return "bin";
+  }
+
+  return parts
+    .pop()
+    .toLowerCase();
+
+}
+
+
+function formatSize(bytes) {
+
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${(
+      bytes / 1024
+    ).toFixed(1)} KB`;
+  }
+
+  if (bytes < 1024 * 1024 * 1024) {
+    return `${(
+      bytes /
+      (1024 * 1024)
+    ).toFixed(1)} MB`;
+  }
+
+  return `${(
+    bytes /
+    (1024 * 1024 * 1024)
+  ).toFixed(1)} GB`;
+
+}
+
+
 function showStatus(
   message,
   type
@@ -602,21 +658,8 @@ function showStatus(
 }
 
 
-function randomName() {
-
-  return (
-    Date.now() +
-    "-" +
-    Math.random()
-      .toString(36)
-      .slice(2, 10)
-  );
-
-}
-
-
 /* =========================================================
-   PREVIEW
+   PREVIEW IMAGE
 ========================================================= */
 
 previewFileInput.addEventListener(
@@ -627,7 +670,12 @@ previewFileInput.addEventListener(
       previewFileInput.files[0];
 
     if (!file) {
+
+      previewBox.style.display =
+        "none";
+
       return;
+
     }
 
     const reader =
@@ -662,10 +710,12 @@ assetFileInput.addEventListener(
       assetFileInput.files[0];
 
     if (!file) {
+
       selectedFile.style.display =
         "none";
 
       return;
+
     }
 
     selectedFile.textContent =
@@ -678,35 +728,8 @@ assetFileInput.addEventListener(
 );
 
 
-function formatSize(bytes) {
-
-  if (bytes < 1024) {
-    return `${bytes} B`;
-  }
-
-  if (bytes < 1024 * 1024) {
-    return `${(
-      bytes / 1024
-    ).toFixed(1)} KB`;
-  }
-
-  if (bytes < 1024 * 1024 * 1024) {
-    return `${(
-      bytes /
-      (1024 * 1024)
-    ).toFixed(1)} MB`;
-  }
-
-  return `${(
-    bytes /
-    (1024 * 1024 * 1024)
-  ).toFixed(1)} GB`;
-
-}
-
-
 /* =========================================================
-   UPLOAD
+   SUBMIT
 ========================================================= */
 
 form.addEventListener(
@@ -735,6 +758,10 @@ form.addEventListener(
       assetFileInput.files[0];
 
 
+    /* =====================================================
+       VALIDATION
+    ===================================================== */
+
     if (
       !title ||
       !category ||
@@ -759,17 +786,17 @@ form.addEventListener(
         true;
 
       publishButton.textContent =
-        "Publishing...";
+        "Uploading...";
 
       progress.style.display =
         "block";
 
       progressBar.style.width =
-        "10%";
+        "5%";
 
 
       /* =====================================================
-         CREATE UNIQUE FILE NAMES
+         UNIQUE PATHS
       ===================================================== */
 
       const unique =
@@ -779,17 +806,32 @@ form.addEventListener(
         slugify(title) ||
         "asset";
 
+      const previewExtension =
+        getExtension(
+          previewFile.name
+        );
+
+      const assetExtension =
+        getExtension(
+          assetFile.name
+        );
+
 
       const previewPath =
-        `previews/${safeTitle}-${unique}.${getExtension(previewFile.name)}`;
+        `previews/${safeTitle}-${unique}.${previewExtension}`;
 
       const assetPath =
-        `files/${safeTitle}-${unique}.${getExtension(assetFile.name)}`;
+        `files/${safeTitle}-${unique}.${assetExtension}`;
 
 
       /* =====================================================
          UPLOAD PREVIEW
       ===================================================== */
+
+      showStatus(
+        "Uploading preview...",
+        "success"
+      );
 
       const {
         error: previewError
@@ -819,11 +861,11 @@ form.addEventListener(
 
 
       progressBar.style.width =
-        "45%";
+        "35%";
 
 
       /* =====================================================
-         GET PREVIEW URL
+         PREVIEW URL
       ===================================================== */
 
       const {
@@ -842,8 +884,13 @@ form.addEventListener(
 
 
       /* =====================================================
-         UPLOAD ASSET FILE
+         UPLOAD ASSET
       ===================================================== */
+
+      showStatus(
+        "Uploading asset file...",
+        "success"
+      );
 
       const {
         error: assetError
@@ -878,6 +925,25 @@ form.addEventListener(
 
 
       /* =====================================================
+         ASSET URL
+      ===================================================== */
+
+      const {
+        data: assetPublicData
+      } =
+        supabase
+          .storage
+          .from("assets")
+          .getPublicUrl(
+            assetPath
+          );
+
+
+      const assetPublicUrl =
+        assetPublicData.publicUrl;
+
+
+      /* =====================================================
          SLUG
       ===================================================== */
 
@@ -885,87 +951,159 @@ form.addEventListener(
         `${safeTitle}-${unique}`;
 
 
-     /* =====================================================
-   DATABASE
-===================================================== */
+      /* =====================================================
+         DATABASE
+      ===================================================== */
 
-const { data: assetPublicData } =
-  supabase
-    .storage
-    .from("assets")
-    .getPublicUrl(assetPath);
-
-const assetPublicUrl =
-  assetPublicData.publicUrl;
+      showStatus(
+        "Saving asset information...",
+        "success"
+      );
 
 
-const {
-  error: databaseError
-} =
-  await supabase
-    .from("assets")
-    .insert({
+      const {
+        error: databaseError
+      } =
+        await supabase
+          .from("assets")
+          .insert({
 
-      title:
-        title,
+            title:
+              title,
 
-      slug:
-        slug,
+            slug:
+              slug,
 
-      description:
-        description,
+            description:
+              description,
 
-      category:
-        category,
+            category:
+              category,
 
-      preview_url:
-        previewUrl,
+            preview_url:
+              previewUrl,
 
-      file_url:
-        assetPublicUrl,
+            file_url:
+              assetPublicUrl,
 
-      file_name:
-        assetPath,
+            file_name:
+              assetPath,
 
-      file_size:
-        assetFile.size,
+            file_size:
+              assetFile.size,
 
-      file_format:
-        format,
+            file_format:
+              format,
 
-      downloads:
-        0,
+            downloads:
+              0,
 
-      likes:
-        0,
+            likes:
+              0,
 
-      status:
-        "published"
+            status:
+              "published"
 
-    });
+          });
 
 
-if (databaseError) {
-  throw databaseError;
-}
-/* =========================================================
-   EXTENSION
-========================================================= */
+      if (databaseError) {
+        throw databaseError;
+      }
 
-function getExtension(filename) {
 
-  const parts =
-    filename.split(".");
+      /* =====================================================
+         SUCCESS
+      ===================================================== */
 
-  if (parts.length < 2) {
-    return "bin";
+      progressBar.style.width =
+        "100%";
+
+      showStatus(
+        "Asset published successfully! Redirecting...",
+        "success"
+      );
+
+
+      setTimeout(
+        () => {
+
+          window.location.href =
+            `asset.html?slug=${encodeURIComponent(slug)}`;
+
+        },
+        1200
+      );
+
+    }
+
+
+    /* =======================================================
+       ERROR
+    ======================================================= */
+
+    catch (error) {
+
+      console.error(
+        "LOYALFORGE UPLOAD ERROR:",
+        error
+      );
+
+
+      const details = [
+
+        error?.message
+          ? `Message: ${error.message}`
+          : "",
+
+        error?.statusCode
+          ? `Status Code: ${error.statusCode}`
+          : "",
+
+        error?.status
+          ? `Status: ${error.status}`
+          : "",
+
+        error?.error
+          ? `Error: ${error.error}`
+          : "",
+
+        error?.details
+          ? `Details: ${error.details}`
+          : "",
+
+        error?.hint
+          ? `Hint: ${error.hint}`
+          : ""
+
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+
+      showStatus(
+        details ||
+        "Upload failed. Please try again.",
+        "error"
+      );
+
+
+      publishButton.disabled =
+        false;
+
+      publishButton.textContent =
+        "Publish Asset";
+
+      progress.style.display =
+        "none";
+
+      progressBar.style.width =
+        "0%";
+
+    }
+
   }
-
-  return parts
-    .pop()
-    .toLowerCase();
-
-}
+);
 
 </script>
 
