@@ -1,25 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta
     name="description"
-    content="LoyalForge — A creator-first platform for Minecraft assets, rigs, models, VFX and more."
+    content="LoyalForge — پلتفرم سازندگان برای اشتراک‌گذاری ریگ، مدل، VFX، تکسچر، تامنیل و دارایی‌های ماینکرفتی."
   >
 
-  <title>LoyalForge — Forge Your Assets</title>
+  <title>LoyalForge — دنیای سازندگان</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Vazirmatn:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   >
 
@@ -28,678 +24,825 @@
 
 <body>
 
-  <!-- =========================
-       NAVBAR
-  ========================== -->
+<header class="navbar">
+  <div class="nav-inner">
 
-  <header class="navbar">
+    <a href="#" class="brand">
+      <span class="brand-symbol">L</span>
+      <span>LOYAL<span class="orange">FORGE</span></span>
+    </a>
 
-    <div class="nav-inner">
+    <nav class="nav-links">
 
-      <a href="#" class="brand">
-        <span class="brand-symbol">L</span>
-        <span>LOYAL<span class="orange">FORGE</span></span>
+      <a href="#explore">
+        اکتشاف
       </a>
 
-      <nav class="nav-links">
-        <a href="#explore">Explore</a>
-        <a href="#categories">Categories</a>
-        <a href="#creators">Creators</a>
-      </nav>
+      <a href="#categories">
+        دسته‌بندی‌ها
+      </a>
 
-      <div class="nav-actions">
+      <a href="#creators">
+        سازندگان
+      </a>
 
-        <button
-          class="nav-search"
-          data-search-open
-          aria-label="Search"
-        >
-          <span>⌕</span>
-          <span>Search</span>
-          <kbd>⌘ K</kbd>
-        </button>
+    </nav>
 
-        <button
-          class="btn btn-primary nav-upload"
-          data-upload
-        >
-          Upload
-        </button>
+    <div class="nav-actions">
+
+      <button
+        class="nav-search"
+        data-search-open
+        aria-label="جستجو"
+      >
+        <span>⌕</span>
+        <span>جستجو</span>
+        <kbd>⌘ K</kbd>
+      </button>
+
+      <button
+        class="btn btn-ghost nav-login"
+        data-auth-open
+      >
+        ورود
+      </button>
+
+      <button
+        class="btn btn-primary nav-upload"
+        data-upload
+      >
+        آپلود
+      </button>
+
+    </div>
+
+  </div>
+</header>
+
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-grid">
+
+      <div class="hero-content">
+
+        <div class="hero-badge">
+          <span class="pulse"></span>
+          ساخته‌شده برای سازندگان
+        </div>
+
+        <h1>
+          اثرت رو بساز.
+          <span>دنیات رو به اشتراک بذار.</span>
+        </h1>
+
+        <p class="hero-description">
+          دارایی‌های باکیفیت ساخته‌شده توسط سازندگان رو کشف، دانلود و به اشتراک بذار.
+          از ریگ و مدل گرفته تا VFX، تکسچر، تامنیل و هر چیزی که برای پروژه‌ات نیاز داری.
+        </p>
+
+        <div class="hero-actions">
+
+          <a
+            href="#explore"
+            class="btn btn-primary btn-large"
+          >
+            مشاهده دارایی‌ها
+            <span>↙</span>
+          </a>
+
+          <button
+            class="btn btn-ghost btn-large"
+            data-upload
+          >
+            آپلود اثرت
+            <span>↑</span>
+          </button>
+
+        </div>
+
+        <div class="hero-stats">
+
+          <div>
+            <strong>∞</strong>
+            <span>آزادی خلاقیت</span>
+          </div>
+
+          <div class="stat-divider"></div>
+
+          <div>
+            <strong>رایگان</strong>
+            <span>برای جستجو</span>
+          </div>
+
+          <div class="stat-divider"></div>
+
+          <div>
+            <strong>برای</strong>
+            <span>سازندگان</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- HERO SHOWCASE -->
+      <div class="hero-showcase">
+
+        <div class="showcase-glow"></div>
+
+        <div class="showcase-card main-showcase">
+
+          <div class="showcase-top">
+
+            <span class="mini-label">
+              دارایی منتخب
+            </span>
+
+            <span class="mini-dot"></span>
+
+          </div>
+
+
+          <div class="showcase-preview">
+
+            <div class="preview-grid"></div>
+
+            <div class="preview-object">
+              <div class="cube-face"></div>
+              <div class="cube-face"></div>
+              <div class="cube-face"></div>
+            </div>
+
+            <span class="preview-tag">
+              دارایی سه‌بعدی
+            </span>
+
+          </div>
+
+
+          <div class="showcase-info">
+
+            <div>
+
+              <span class="showcase-category">
+                ماینکرفت
+              </span>
+
+              <h3>
+                دارایی سازنده
+              </h3>
+
+            </div>
+
+            <span class="showcase-arrow">
+              ↙
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="floating-card floating-left">
+
+          <div class="floating-icon">
+            ◆
+          </div>
+
+          <div>
+            <strong>
+              ریگ‌ها
+            </strong>
+
+            <span>
+              دارایی‌های سازندگان
+            </span>
+          </div>
+
+        </div>
+
+
+        <div class="floating-card floating-right">
+
+          <div class="floating-number">
+            +∞
+          </div>
+
+          <div>
+            <strong>
+              چیزهای بیشتری برای ساختن
+            </strong>
+
+            <span>
+              هر سازنده مهمه
+            </span>
+          </div>
+
+        </div>
 
       </div>
 
     </div>
 
-  </header>
+  </section>
 
 
-  <main>
+  <!-- CATEGORIES -->
+  <section
+    class="section categories-section"
+    id="categories"
+  >
 
-    <!-- =========================
-         HERO
-    ========================== -->
+    <div class="container">
 
-    <section class="hero">
+      <div class="section-heading">
 
-      <div class="hero-grid">
+        <div>
 
-        <div class="hero-content">
+          <span class="section-label">
+            جستجو بر اساس نوع
+          </span>
 
-          <div class="hero-badge">
-            <span class="pulse"></span>
-            Built for creators
-          </div>
+          <h2>
+            چیزی که نیاز داری رو پیدا کن.
+          </h2>
 
-          <h1>
-            Forge your work.
-            <span>Share your world.</span>
-          </h1>
-
-          <p class="hero-description">
-            Discover, share and download high-quality assets
-            made by creators. Rigs, models, VFX, textures,
-            thumbnails and everything in between.
-          </p>
-
-          <div class="hero-actions">
-
-            <a
-              href="#explore"
-              class="btn btn-primary btn-large"
-            >
-              Explore Assets
-              <span>↗</span>
-            </a>
-
-            <button
-              class="btn btn-ghost btn-large"
-              data-upload
-            >
-              Upload your work
-              <span>↑</span>
-            </button>
-
-          </div>
-
-          <div class="hero-stats">
-
-            <div>
-              <strong>∞</strong>
-              <span>Creative freedom</span>
-            </div>
-
-            <div class="stat-divider"></div>
-
-            <div>
-              <strong>FREE</strong>
-              <span>To explore</span>
-            </div>
-
-            <div class="stat-divider"></div>
-
-            <div>
-              <strong>FOR</strong>
-              <span>Creators</span>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- HERO VISUAL -->
-
-        <div class="hero-showcase">
-
-          <div class="showcase-glow"></div>
-
-          <div class="showcase-card main-showcase">
-
-            <div class="showcase-top">
-              <span class="mini-label">FEATURED ASSET</span>
-
-              <span class="mini-dot"></span>
-            </div>
-
-            <div class="showcase-preview">
-
-              <div class="preview-grid"></div>
-
-              <div class="preview-object">
-                <div class="cube-face"></div>
-                <div class="cube-face"></div>
-                <div class="cube-face"></div>
-              </div>
-
-              <span class="preview-tag">
-                3D ASSET
-              </span>
-
-            </div>
-
-            <div class="showcase-info">
-
-              <div>
-                <span class="showcase-category">
-                  Minecraft
-                </span>
-
-                <h3>
-                  Creator Asset
-                </h3>
-              </div>
-
-              <span class="showcase-arrow">↗</span>
-
-            </div>
-
-          </div>
-
-
-          <div class="floating-card floating-left">
-
-            <div class="floating-icon">◆</div>
-
-            <div>
-              <strong>Rigs</strong>
-              <span>Creator assets</span>
-            </div>
-
-          </div>
-
-
-          <div class="floating-card floating-right">
-
-            <div class="floating-number">
-              +∞
-            </div>
-
-            <div>
-              <strong>More to forge</strong>
-              <span>Every creator matters</span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         CATEGORIES
-    ========================== -->
-
-    <section
-      class="section categories-section"
-      id="categories"
-    >
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <div>
-            <span class="section-label">
-              EXPLORE BY TYPE
-            </span>
-
-            <h2>
-              Find what you need.
-            </h2>
-          </div>
-
-          <p>
-            A growing library built by the community,
-            for the community.
-          </p>
-
-        </div>
-
-
-        <div class="category-grid">
-
-          <button
-            class="category-card"
-            data-category="rigs"
-          >
-            <span class="category-number">01</span>
-            <span class="category-icon">◇</span>
-
-            <div>
-              <h3>Rigs</h3>
-              <p>Ready-to-use character rigs</p>
-            </div>
-
-            <span class="category-arrow">↗</span>
-          </button>
-
-
-          <button
-            class="category-card"
-            data-category="models"
-          >
-            <span class="category-number">02</span>
-            <span class="category-icon">⬡</span>
-
-            <div>
-              <h3>Models</h3>
-              <p>3D models &amp; creations</p>
-            </div>
-
-            <span class="category-arrow">↗</span>
-          </button>
-
-
-          <button
-            class="category-card"
-            data-category="vfx"
-          >
-            <span class="category-number">03</span>
-            <span class="category-icon">✦</span>
-
-            <div>
-              <h3>VFX</h3>
-              <p>Effects for your projects</p>
-            </div>
-
-            <span class="category-arrow">↗</span>
-          </button>
-
-
-          <button
-            class="category-card"
-            data-category="textures"
-          >
-            <span class="category-number">04</span>
-            <span class="category-icon">▧</span>
-
-            <div>
-              <h3>Textures</h3>
-              <p>Textures &amp; resource assets</p>
-            </div>
-
-            <span class="category-arrow">↗</span>
-          </button>
-
-
-          <button
-            class="category-card"
-            data-category="thumbnails"
-          >
-            <span class="category-number">05</span>
-            <span class="category-icon">▣</span>
-
-            <div>
-              <h3>Thumbnails</h3>
-              <p>Visuals made to stand out</p>
-            </div>
-
-            <span class="category-arrow">↗</span>
-          </button>
-
-
-          <button
-            class="category-card"
-            data-category="minecraft"
-          >
-            <span class="category-number">06</span>
-            <span class="category-icon">◈</span>
-
-            <div>
-              <h3>Minecraft</h3>
-              <p>Everything Minecraft</p>
-            </div>
-
-            <span class="category-arrow">↗</span>
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         EXPLORE
-    ========================== -->
-
-    <section
-      class="section explore-section"
-      id="explore"
-    >
-
-      <div class="container">
-
-        <div class="explore-header">
-
-          <div>
-
-            <span class="section-label">
-              COMMUNITY LIBRARY
-            </span>
-
-            <h2>
-              Explore assets.
-            </h2>
-
-          </div>
-
-
-          <div class="sort-tabs">
-
-            <button
-              class="sort-btn active"
-              data-sort="latest"
-            >
-              Latest
-            </button>
-
-            <button
-              class="sort-btn"
-              data-sort="popular"
-            >
-              Popular
-            </button>
-
-            <button
-              class="sort-btn"
-              data-sort="downloads"
-            >
-              Downloads
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div class="explore-tools">
-
-          <div class="filter-list">
-
-            <button
-              class="filter-btn active"
-              data-category="all"
-            >
-              All
-            </button>
-
-            <button
-              class="filter-btn"
-              data-category="rigs"
-            >
-              Rigs
-            </button>
-
-            <button
-              class="filter-btn"
-              data-category="models"
-            >
-              Models
-            </button>
-
-            <button
-              class="filter-btn"
-              data-category="vfx"
-            >
-              VFX
-            </button>
-
-            <button
-              class="filter-btn"
-              data-category="textures"
-            >
-              Textures
-            </button>
-
-            <button
-              class="filter-btn"
-              data-category="thumbnails"
-            >
-              Thumbnails
-            </button>
-
-            <button
-              class="filter-btn"
-              data-category="minecraft"
-            >
-              Minecraft
-            </button>
-
-          </div>
-
-
-          <div class="library-search">
-
-            <span>⌕</span>
-
-            <input
-              id="searchInput"
-              type="search"
-              placeholder="Search assets..."
-              autocomplete="off"
-            >
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="asset-grid"
-          id="assetGrid"
-        ></div>
-
-
-        <div
-          class="empty-state"
-          id="emptyState"
-          style="display:none;"
-        >
-
-          <div class="empty-orb">
-            +
-          </div>
-
-          <h3>
-            Nothing here yet.
-          </h3>
-
-          <p>
-            Be one of the first creators to forge
-            something for the community.
-          </p>
-
-          <button
-            class="btn btn-primary"
-            data-upload
-          >
-            Upload an asset
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         CREATORS
-    ========================== -->
-
-    <section
-      class="section creators-section"
-      id="creators"
-    >
-
-      <div class="container">
-
-        <div class="creator-banner">
-
-          <div class="creator-lines"></div>
-
-          <div class="creator-content">
-
-            <span class="section-label">
-              YOUR WORK BELONGS HERE
-            </span>
-
-            <h2>
-              Built something?
-              <span>Forge it.</span>
-            </h2>
-
-            <p>
-              Share your work with other creators,
-              grow your profile and help build the
-              next generation of creative assets.
-            </p>
-
-            <button
-              class="btn btn-primary btn-large"
-              data-upload
-            >
-              Start creating
-              <span>↗</span>
-            </button>
-
-          </div>
-
-          <div class="creator-mark">
-            LF
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <!-- =========================
-       FOOTER
-  ========================== -->
-
-  <footer>
-
-    <div class="container footer-inner">
-
-      <div class="footer-brand">
-
-        <div class="brand">
-          <span class="brand-symbol">L</span>
-          <span>LOYAL<span class="orange">FORGE</span></span>
         </div>
 
         <p>
-          Forge. Share. Create.
+          یک کتابخانه در حال رشد که توسط جامعه سازندگان ساخته می‌شه، برای خود جامعه.
         </p>
 
       </div>
 
 
-      <div class="footer-right">
+      <div class="category-grid">
 
-        <span>
-          Built for creators.
-        </span>
 
-        <span class="footer-dot"></span>
+        <button
+          class="category-card"
+          data-category="rigs"
+        >
 
-        <span>
-          © 2026 LoyalForge
-        </span>
+          <span class="category-number">
+            01
+          </span>
+
+          <span class="category-icon">
+            ◇
+          </span>
+
+          <div>
+
+            <h3>
+              ریگ‌ها
+            </h3>
+
+            <p>
+              ریگ‌های آماده استفاده
+            </p>
+
+          </div>
+
+          <span class="category-arrow">
+            ↙
+          </span>
+
+        </button>
+
+
+        <button
+          class="category-card"
+          data-category="models"
+        >
+
+          <span class="category-number">
+            02
+          </span>
+
+          <span class="category-icon">
+            ⬡
+          </span>
+
+          <div>
+
+            <h3>
+              مدل‌ها
+            </h3>
+
+            <p>
+              مدل‌های سه‌بعدی و ساخته‌ها
+            </p>
+
+          </div>
+
+          <span class="category-arrow">
+            ↙
+          </span>
+
+        </button>
+
+
+        <button
+          class="category-card"
+          data-category="vfx"
+        >
+
+          <span class="category-number">
+            03
+          </span>
+
+          <span class="category-icon">
+            ✦
+          </span>
+
+          <div>
+
+            <h3>
+              VFX
+            </h3>
+
+            <p>
+              جلوه‌های ویژه برای پروژه‌ها
+            </p>
+
+          </div>
+
+          <span class="category-arrow">
+            ↙
+          </span>
+
+        </button>
+
+
+        <button
+          class="category-card"
+          data-category="textures"
+        >
+
+          <span class="category-number">
+            04
+          </span>
+
+          <span class="category-icon">
+            ▧
+          </span>
+
+          <div>
+
+            <h3>
+              تکسچرها
+            </h3>
+
+            <p>
+              تکسچر و دارایی‌های گرافیکی
+            </p>
+
+          </div>
+
+          <span class="category-arrow">
+            ↙
+          </span>
+
+        </button>
+
+
+        <button
+          class="category-card"
+          data-category="thumbnails"
+        >
+
+          <span class="category-number">
+            05
+          </span>
+
+          <span class="category-icon">
+            ▣
+          </span>
+
+          <div>
+
+            <h3>
+              تامنیل‌ها
+            </h3>
+
+            <p>
+              تصاویری برای بهتر دیده شدن
+            </p>
+
+          </div>
+
+          <span class="category-arrow">
+            ↙
+          </span>
+
+        </button>
+
+
+        <button
+          class="category-card"
+          data-category="minecraft"
+        >
+
+          <span class="category-number">
+            06
+          </span>
+
+          <span class="category-icon">
+            ◈
+          </span>
+
+          <div>
+
+            <h3>
+              ماینکرفت
+            </h3>
+
+            <p>
+              همه‌چیز برای ماینکرفت
+            </p>
+
+          </div>
+
+          <span class="category-arrow">
+            ↙
+          </span>
+
+        </button>
+
 
       </div>
 
     </div>
 
-  </footer>
+  </section>
 
 
-  <!-- =========================
-       SEARCH MODAL
-  ========================== -->
-
-  <div
-    class="search-modal"
-    id="searchModal"
+  <!-- EXPLORE -->
+  <section
+    class="section explore-section"
+    id="explore"
   >
 
-    <div class="search-modal-box">
+    <div class="container">
 
-      <div class="modal-top">
+      <div class="explore-header">
 
-        <span>
-          SEARCH LOYALFORGE
-        </span>
+        <div>
 
-        <button data-search-close>
-          ESC
+          <span class="section-label">
+            کتابخانه جامعه
+          </span>
+
+          <h2>
+            دارایی‌ها رو کشف کن.
+          </h2>
+
+        </div>
+
+
+        <div class="sort-tabs">
+
+          <button
+            class="sort-btn active"
+            data-sort="latest"
+          >
+            جدیدترین
+          </button>
+
+          <button
+            class="sort-btn"
+            data-sort="popular"
+          >
+            محبوب‌ترین
+          </button>
+
+          <button
+            class="sort-btn"
+            data-sort="downloads"
+          >
+            بیشترین دانلود
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="explore-tools">
+
+        <div class="filter-list">
+
+          <button
+            class="filter-btn active"
+            data-category="all"
+          >
+            همه
+          </button>
+
+          <button
+            class="filter-btn"
+            data-category="rigs"
+          >
+            ریگ‌ها
+          </button>
+
+          <button
+            class="filter-btn"
+            data-category="models"
+          >
+            مدل‌ها
+          </button>
+
+          <button
+            class="filter-btn"
+            data-category="vfx"
+          >
+            VFX
+          </button>
+
+          <button
+            class="filter-btn"
+            data-category="textures"
+          >
+            تکسچرها
+          </button>
+
+          <button
+            class="filter-btn"
+            data-category="thumbnails"
+          >
+            تامنیل‌ها
+          </button>
+
+          <button
+            class="filter-btn"
+            data-category="minecraft"
+          >
+            ماینکرفت
+          </button>
+
+        </div>
+
+
+        <div class="library-search">
+
+          <span>
+            ⌕
+          </span>
+
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="جستجوی دارایی‌ها..."
+            autocomplete="off"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="asset-grid"
+        id="assetGrid"
+      ></div>
+
+
+      <div
+        class="empty-state"
+        id="emptyState"
+        style="display:none;"
+      >
+
+        <div class="empty-orb">
+          +
+        </div>
+
+        <h3>
+          هنوز چیزی اینجا نیست.
+        </h3>
+
+        <p>
+          اولین سازنده‌ای باش که یک اثر برای جامعه LoyalForge منتشر می‌کنه.
+        </p>
+
+        <button
+          class="btn btn-primary"
+          data-upload
+        >
+          آپلود یک دارایی
         </button>
 
       </div>
 
-      <input
-        id="searchModalInput"
-        class="search-modal-input"
-        type="search"
-        placeholder="Search rigs, models, VFX..."
-        autocomplete="off"
-      >
+    </div>
 
-      <p class="modal-hint">
-        Press Enter to search
+  </section>
+
+
+  <!-- CREATORS -->
+  <section
+    class="section creators-section"
+    id="creators"
+  >
+
+    <div class="container">
+
+      <div class="creator-banner">
+
+        <div class="creator-lines"></div>
+
+        <div class="creator-content">
+
+          <span class="section-label">
+            اثرت اینجا جای داره
+          </span>
+
+          <h2>
+            چیزی ساختی؟
+            <span>
+              منتشرش کن.
+            </span>
+          </h2>
+
+          <p>
+            کارت رو با سازندگان دیگه به اشتراک بذار، پروفایلت رو رشد بده و به ساخت نسل بعدی دارایی‌های خلاقانه کمک کن.
+          </p>
+
+          <button
+            class="btn btn-primary btn-large"
+            data-upload
+          >
+            شروع ساختن
+            <span>↙</span>
+          </button>
+
+        </div>
+
+        <div class="creator-mark">
+          LF
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- FOOTER -->
+<footer>
+
+  <div class="container footer-inner">
+
+    <div class="footer-brand">
+
+      <div class="brand">
+
+        <span class="brand-symbol">
+          L
+        </span>
+
+        <span>
+          LOYAL<span class="orange">FORGE</span>
+        </span>
+
+      </div>
+
+      <p>
+        بساز. به اشتراک بذار. خلق کن.
       </p>
+
+    </div>
+
+
+    <div class="footer-right">
+
+      <span>
+        ساخته‌شده برای سازندگان.
+      </span>
+
+      <span class="footer-dot"></span>
+
+      <span>
+        © ۲۰۲۶ LoyalForge
+      </span>
 
     </div>
 
   </div>
 
+</footer>
 
-  <!-- =========================
-       TOAST
-  ========================== -->
 
-  <div
-    class="toast"
-    id="toast"
-  ></div>
+<!-- SEARCH MODAL -->
+<div
+  class="search-modal"
+  id="searchModal"
+>
+
+  <div class="search-modal-box">
+
+    <div class="modal-top">
+
+      <span>
+        جستجوی LOYALFORGE
+      </span>
+
+      <button data-search-close>
+        بستن
+      </button>
+
+    </div>
+
+    <input
+      id="searchModalInput"
+      class="search-modal-input"
+      type="search"
+      placeholder="ریگ، مدل، VFX و..."
+      autocomplete="off"
+    >
+
+    <p class="modal-hint">
+      برای جستجو Enter را بزن
+    </p>
+
+  </div>
+
+</div>
+
 
 <!-- AUTH MODAL -->
-<div class="auth-modal" id="authModal" aria-hidden="true">
-  <div class="auth-backdrop" data-auth-close></div>
+<div
+  class="auth-modal"
+  id="authModal"
+  aria-hidden="true"
+>
 
-  <div class="auth-box" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div
+    class="auth-backdrop"
+    data-auth-close
+  ></div>
 
-    <button class="auth-close" type="button" data-auth-close aria-label="Close">
+
+  <div
+    class="auth-box"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="authTitle"
+  >
+
+    <button
+      class="auth-close"
+      type="button"
+      data-auth-close
+      aria-label="بستن"
+    >
       ×
     </button>
 
+
     <div class="auth-header">
-      <div class="auth-logo">L</div>
 
-      <span class="section-label">WELCOME TO LOYALFORGE</span>
+      <div class="auth-logo">
+        L
+      </div>
 
-      <h2 id="authTitle">Welcome back.</h2>
+      <span class="section-label">
+        به LOYALFORGE خوش آمدید
+      </span>
+
+      <h2 id="authTitle">
+        خوش برگشتی.
+      </h2>
 
       <p id="authSubtitle">
-        Sign in to continue to LoyalForge.
+        برای ادامه وارد حساب کاربری خودت شو.
       </p>
+
     </div>
 
+
     <!-- LOGIN -->
-    <form class="auth-form" id="loginForm">
+
+    <form
+      class="auth-form"
+      id="loginForm"
+    >
 
       <div class="auth-field">
-        <label for="loginEmail">Email</label>
+
+        <label for="loginEmail">
+          ایمیل
+        </label>
 
         <input
           id="loginEmail"
@@ -708,52 +851,89 @@
           autocomplete="email"
           required
         >
+
       </div>
 
+
       <div class="auth-field">
+
         <div class="field-top">
-          <label for="loginPassword">Password</label>
-          <button type="button" class="forgot-btn" id="forgotPassword">
-            Forgot password?
+
+          <label for="loginPassword">
+            رمز عبور
+          </label>
+
+          <button
+            type="button"
+            class="forgot-btn"
+            id="forgotPassword"
+          >
+            رمز عبور را فراموش کردی؟
           </button>
+
         </div>
+
 
         <input
           id="loginPassword"
           type="password"
-          placeholder="Enter your password"
+          placeholder="رمز عبورت را وارد کن"
           autocomplete="current-password"
           required
         >
+
       </div>
 
-      <button class="btn btn-primary auth-submit" type="submit">
-        Sign in
-        <span>↗</span>
+
+      <button
+        class="btn btn-primary auth-submit"
+        type="submit"
+      >
+        ورود به حساب
+        <span>←</span>
       </button>
 
-      <p class="auth-message" id="loginMessage"></p>
+
+      <p
+        class="auth-message"
+        id="loginMessage"
+      ></p>
+
     </form>
 
+
     <!-- REGISTER -->
-    <form class="auth-form" id="registerForm" style="display:none;">
+
+    <form
+      class="auth-form"
+      id="registerForm"
+      style="display:none;"
+    >
 
       <div class="auth-field">
-        <label for="registerUsername">Username</label>
+
+        <label for="registerUsername">
+          نام کاربری
+        </label>
 
         <input
           id="registerUsername"
           type="text"
-          placeholder="yourname"
+          placeholder="مثلاً taha"
           minlength="3"
           maxlength="24"
           autocomplete="username"
           required
         >
+
       </div>
 
+
       <div class="auth-field">
-        <label for="registerEmail">Email</label>
+
+        <label for="registerEmail">
+          ایمیل
+        </label>
 
         <input
           id="registerEmail"
@@ -762,44 +942,75 @@
           autocomplete="email"
           required
         >
+
       </div>
 
+
       <div class="auth-field">
-        <label for="registerPassword">Password</label>
+
+        <label for="registerPassword">
+          رمز عبور
+        </label>
 
         <input
           id="registerPassword"
           type="password"
-          placeholder="At least 6 characters"
+          placeholder="حداقل ۶ کاراکتر"
           minlength="6"
           autocomplete="new-password"
           required
         >
+
       </div>
 
-      <button class="btn btn-primary auth-submit" type="submit">
-        Create account
-        <span>↗</span>
+
+      <button
+        class="btn btn-primary auth-submit"
+        type="submit"
+      >
+        ساخت حساب
+        <span>←</span>
       </button>
 
-      <p class="auth-message" id="registerMessage"></p>
+
+      <p
+        class="auth-message"
+        id="registerMessage"
+      ></p>
+
     </form>
 
-    <div class="auth-switch">
-      <span id="authSwitchText">Don't have an account?</span>
 
-      <button type="button" id="authSwitch">
-        Create one
+    <div class="auth-switch">
+
+      <span id="authSwitchText">
+        حساب کاربری نداری؟
+      </span>
+
+      <button
+        type="button"
+        id="authSwitch"
+      >
+        ثبت‌نام کن
       </button>
+
     </div>
 
   </div>
+
 </div>
 
-  <script
-    type="module"
-    src="app.js"
-  ></script>
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+<script
+  type="module"
+  src="app.js"
+></script>
 
 </body>
 </html>
