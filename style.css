@@ -72,8 +72,7 @@ body {
     ),
     #0b1020;
 
-font-family: "Vazirmatn", "Inter", sans-serif;
-  overflow-x: hidden;
+font-family: "Estedad", "Inter", sans-serif;  overflow-x: hidden;
 }
 
 ::selection {
@@ -499,8 +498,7 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 .hero h1 {
   margin-top: 25px;
 
-  font-family: "Space Grotesk", sans-serif;
-
+font-family: "Estedad", "Inter", sans-serif;
   font-size: clamp(54px, 6.3vw, 86px);
 
   line-height: .98;
