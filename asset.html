@@ -10,360 +10,763 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet"
   >
 
   <link rel="stylesheet" href="style.css">
 
   <style>
+    /* =========================================================
+       LOYALFORGE — ASSET PAGE
+    ========================================================= */
+
+    :root {
+      --asset-bg: #070b13;
+      --asset-panel: rgba(13, 21, 36, .82);
+      --asset-panel-strong: #0c1525;
+      --asset-border: rgba(180, 215, 255, .10);
+
+      --asset-text: #eef6ff;
+      --asset-muted: #8da1b8;
+      --asset-dim: #60748c;
+
+      --asset-blue: #8ed8ff;
+      --asset-purple: #b9a7ff;
+
+      --asset-radius: 24px;
+    }
 
     body {
-      background: #070b13;
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(92, 150, 255, .08),
+          transparent 35%
+        ),
+        var(--asset-bg);
     }
 
     .asset-page {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 130px 0 80px;
+      padding: 115px 0 90px;
+    }
+
+    /* =========================================================
+       TOP BAR
+    ========================================================= */
+
+    .asset-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 26px;
     }
 
     .asset-back {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
 
-      margin-bottom: 28px;
+      padding: 9px 13px;
 
-      color: #8fa5bf;
+      color: var(--asset-muted);
       text-decoration: none;
 
-      font-size: 13px;
+      border: 1px solid rgba(180, 215, 255, .07);
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.015);
+
+      font-size: 12px;
+      font-weight: 600;
 
       transition: .25s ease;
     }
 
     .asset-back:hover {
-      color: #8ed8ff;
-      transform: translateX(-4px);
+      color: var(--asset-text);
+      border-color: rgba(142,216,255,.20);
+      background: rgba(142,216,255,.05);
+      transform: translateX(-3px);
     }
 
-    .asset-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr);
-      gap: 28px;
-      align-items: start;
-    }
-
-    .asset-preview-large {
-      position: relative;
-
-      min-height: 560px;
-
-      display: grid;
-      place-items: center;
-
-      overflow: hidden;
-
-      border: 1px solid rgba(190,220,255,.10);
-      border-radius: 24px;
-
-      background:
-        radial-gradient(
-          circle at 50% 40%,
-          rgba(142,216,255,.11),
-          transparent 38%
-        ),
-        #0a1120;
-
-      box-shadow:
-        0 35px 100px rgba(0,0,0,.35);
-    }
-
-    .asset-preview-large img {
-      width: 100%;
-      height: 100%;
-
-      min-height: 560px;
-
-      object-fit: contain;
-
-      padding: 35px;
-
-      transition: transform .6s cubic-bezier(.22,1,.36,1);
-    }
-
-    .asset-preview-large:hover img {
-      transform: scale(1.025);
-    }
-
-    .asset-info {
-      padding: 30px;
-
-      border: 1px solid rgba(190,220,255,.09);
-      border-radius: 24px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(18,28,47,.96),
-          rgba(9,15,27,.98)
-        );
-
-      box-shadow:
-        0 25px 70px rgba(0,0,0,.22);
-    }
-
-    .asset-badge {
-      display: inline-flex;
-
-      padding: 7px 10px;
-
-      color: #8ed8ff;
-
-      background: rgba(142,216,255,.07);
-
-      border: 1px solid rgba(142,216,255,.14);
-
-      border-radius: 8px;
-
-      font-size: 9px;
+    .asset-brand-mini {
+      color: #71859d;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 11px;
       font-weight: 700;
-
+      letter-spacing: .12em;
       text-transform: uppercase;
-      letter-spacing: .08em;
     }
 
-    .asset-info h1 {
-      margin: 18px 0 10px;
+    /* =========================================================
+       LOADING
+    ========================================================= */
 
-      color: #edf5ff;
-
-      font-family:
-        "Space Grotesk",
-        Inter,
-        sans-serif;
-
-      font-size: clamp(30px, 4vw, 48px);
-
-      line-height: 1.05;
-    }
-
-    .asset-description {
-      color: #8fa5bf;
-
-      font-size: 13px;
-
-      line-height: 1.9;
-    }
-
-    .creator-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      margin-top: 26px;
-      padding-top: 20px;
-
-      border-top:
-        1px solid rgba(190,220,255,.07);
-    }
-
-    .creator-avatar {
-      width: 42px;
-      height: 42px;
+    .asset-loading {
+      min-height: 65vh;
 
       display: grid;
       place-items: center;
 
-      border-radius: 50%;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(142,216,255,.18),
-          rgba(184,167,255,.16)
-        );
-
-      border: 1px solid rgba(190,220,255,.12);
-
-      color: #8ed8ff;
-      font-weight: 700;
+      color: var(--asset-muted);
     }
 
-    .creator-name {
-      color: #edf5ff;
-
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .creator-role {
-      margin-top: 3px;
-
-      color: #60738c;
-
-      font-size: 10px;
-    }
-
-    .asset-stats-large {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-
-      gap: 8px;
-
-      margin-top: 25px;
-    }
-
-    .stat-box {
-      padding: 13px;
-
-      background: rgba(255,255,255,.018);
-
-      border: 1px solid rgba(190,220,255,.06);
-
-      border-radius: 12px;
-
+    .loading-inner {
       text-align: center;
     }
 
-    .stat-box strong {
-      display: block;
+    .loading-spinner {
+      width: 38px;
+      height: 38px;
 
-      color: #edf5ff;
+      margin: 0 auto 15px;
 
-      font-family:
-        "Space Grotesk",
-        sans-serif;
+      border: 2px solid rgba(142,216,255,.12);
+      border-top-color: var(--asset-blue);
 
-      font-size: 15px;
+      border-radius: 50%;
+
+      animation: assetSpin .8s linear infinite;
     }
 
-    .stat-box span {
-      display: block;
-
-      margin-top: 4px;
-
-      color: #60738c;
-
-      font-size: 9px;
+    @keyframes assetSpin {
+      to {
+        transform: rotate(360deg);
+      }
     }
 
-    .download-btn {
-      width: 100%;
-
-      margin-top: 22px;
-      padding: 14px 18px;
-
-      border: 0;
-      border-radius: 12px;
-
-      color: #06101a;
-
-      background: #8ed8ff;
-
-      font-size: 13px;
-      font-weight: 800;
-
-      cursor: pointer;
-
-      transition:
-        transform .3s ease,
-        box-shadow .3s ease,
-        background .3s ease;
+    .loading-inner span {
+      font-size: 12px;
     }
 
-    .download-btn:hover {
-      transform: translateY(-3px);
+    /* =========================================================
+       ERROR
+    ========================================================= */
 
-      background: #b5e8ff;
-
-      box-shadow:
-        0 15px 35px rgba(142,216,255,.16);
-    }
-
-    .asset-meta {
-      display: grid;
-
-      grid-template-columns: 1fr 1fr;
-
-      gap: 8px;
-
-      margin-top: 18px;
-    }
-
-    .meta-item {
-      padding: 12px;
-
-      background: rgba(255,255,255,.014);
-
-      border: 1px solid rgba(190,220,255,.055);
-
-      border-radius: 10px;
-    }
-
-    .meta-item span {
-      display: block;
-
-      color: #60738c;
-
-      font-size: 9px;
-    }
-
-    .meta-item strong {
-      display: block;
-
-      margin-top: 5px;
-
-      color: #b7c7d9;
-
-      font-size: 11px;
-    }
-
-    .not-found {
+    .asset-error {
       min-height: 60vh;
 
       display: grid;
       place-items: center;
 
       text-align: center;
-
-      color: #8fa5bf;
     }
 
-    @media (max-width: 850px) {
+    .error-card {
+      width: min(480px, 100%);
+      padding: 35px;
 
+      border: 1px solid rgba(255,100,100,.12);
+      border-radius: 20px;
+
+      background: rgba(255,80,80,.025);
+    }
+
+    .error-icon {
+      width: 50px;
+      height: 50px;
+
+      display: grid;
+      place-items: center;
+
+      margin: 0 auto 17px;
+
+      border-radius: 15px;
+
+      color: #ff9d9d;
+      background: rgba(255,90,90,.08);
+
+      font-size: 22px;
+    }
+
+    .error-card h2 {
+      margin: 0 0 8px;
+
+      color: var(--asset-text);
+
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 22px;
+    }
+
+    .error-card p {
+      margin: 0;
+
+      color: var(--asset-muted);
+
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    /* =========================================================
+       MAIN ASSET
+    ========================================================= */
+
+    .asset-content {
+      display: none;
+    }
+
+    .asset-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(340px, .82fr);
+      gap: 25px;
+      align-items: start;
+    }
+
+    /* =========================================================
+       PREVIEW
+    ========================================================= */
+
+    .asset-preview-card {
+      position: relative;
+
+      overflow: hidden;
+
+      min-height: 590px;
+
+      border: 1px solid var(--asset-border);
+      border-radius: var(--asset-radius);
+
+      background:
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(142,216,255,.10),
+          transparent 40%
+        ),
+        radial-gradient(
+          circle at 70% 80%,
+          rgba(185,167,255,.07),
+          transparent 35%
+        ),
+        #09111e;
+
+      box-shadow:
+        0 30px 90px rgba(0,0,0,.30);
+    }
+
+    .asset-preview-card::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,.035),
+          transparent 30%
+        );
+
+      pointer-events: none;
+    }
+
+    .asset-preview-image-wrap {
+      position: absolute;
+      inset: 0;
+
+      display: grid;
+      place-items: center;
+
+      padding: 28px;
+    }
+
+    .asset-preview-image {
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      border-radius: 15px;
+
+      transition: transform .45s cubic-bezier(.22,1,.36,1);
+    }
+
+    .asset-preview-card:hover .asset-preview-image {
+      transform: scale(1.018);
+    }
+
+    .preview-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+
+      height: 130px;
+
+      background:
+        linear-gradient(
+          to top,
+          rgba(5,9,16,.75),
+          transparent
+        );
+
+      pointer-events: none;
+    }
+
+    .preview-category {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+
+      display: inline-flex;
+      align-items: center;
+
+      padding: 7px 11px;
+
+      border: 1px solid rgba(142,216,255,.16);
+      border-radius: 9px;
+
+      color: var(--asset-blue);
+      background: rgba(7,14,25,.72);
+
+      backdrop-filter: blur(12px);
+
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .preview-format {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+
+      padding: 7px 10px;
+
+      color: #c6d3e2;
+
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 8px;
+
+      background: rgba(7,14,25,.68);
+
+      backdrop-filter: blur(12px);
+
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       INFO PANEL
+    ========================================================= */
+
+    .asset-info-card {
+      padding: 28px;
+
+      border: 1px solid var(--asset-border);
+      border-radius: var(--asset-radius);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(17,28,47,.94),
+          rgba(9,15,27,.98)
+        );
+
+      box-shadow:
+        0 25px 70px rgba(0,0,0,.20);
+    }
+
+    .asset-category-badge {
+      display: inline-flex;
+
+      padding: 7px 10px;
+
+      color: var(--asset-blue);
+
+      border: 1px solid rgba(142,216,255,.14);
+      border-radius: 8px;
+
+      background: rgba(142,216,255,.055);
+
+      font-size: 9px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .09em;
+    }
+
+    .asset-title {
+      margin: 17px 0 11px;
+
+      color: var(--asset-text);
+
+      font-family:
+        "Space Grotesk",
+        Inter,
+        sans-serif;
+
+      font-size: clamp(31px, 4vw, 48px);
+      line-height: 1.02;
+
+      letter-spacing: -.025em;
+    }
+
+    .asset-description {
+      margin: 0;
+
+      color: var(--asset-muted);
+
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    /* =========================================================
+       CREATOR
+    ========================================================= */
+
+    .creator-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      margin-top: 25px;
+      padding-top: 21px;
+
+      border-top: 1px solid rgba(180,215,255,.07);
+    }
+
+    .creator-avatar {
+      width: 44px;
+      height: 44px;
+
+      flex: 0 0 44px;
+
+      overflow: hidden;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgba(180,215,255,.10);
+      border-radius: 50%;
+
+      color: var(--asset-blue);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(142,216,255,.16),
+          rgba(185,167,255,.14)
+        );
+
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 800;
+    }
+
+    .creator-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .creator-details {
+      min-width: 0;
+    }
+
+    .creator-label {
+      color: var(--asset-dim);
+
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .creator-name {
+      margin-top: 3px;
+
+      color: var(--asset-text);
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .asset-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 8px;
+
+      margin-top: 23px;
+    }
+
+    .asset-stat {
+      padding: 13px 10px;
+
+      border: 1px solid rgba(180,215,255,.055);
+      border-radius: 12px;
+
+      background: rgba(255,255,255,.016);
+
+      text-align: center;
+    }
+
+    .asset-stat-value {
+      display: block;
+
+      color: var(--asset-text);
+
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .asset-stat-label {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--asset-dim);
+
+      font-size: 9px;
+    }
+
+    /* =========================================================
+       ACTIONS
+    ========================================================= */
+
+    .asset-actions {
+      display: grid;
+      grid-template-columns: 1fr 48px;
+
+      gap: 9px;
+
+      margin-top: 20px;
+    }
+
+    .download-btn,
+    .like-btn {
+      min-height: 48px;
+
+      border-radius: 12px;
+
+      font-family: inherit;
+      font-weight: 800;
+
+      cursor: pointer;
+
+      transition:
+        transform .25s ease,
+        background .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .download-btn {
+      border: 0;
+
+      color: #06101a;
+      background: var(--asset-blue);
+
+      font-size: 12px;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+
+      background: #b8eaff;
+
+      box-shadow:
+        0 13px 35px rgba(142,216,255,.16);
+    }
+
+    .like-btn {
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgba(180,215,255,.09);
+
+      color: #9db1c7;
+      background: rgba(255,255,255,.025);
+
+      font-size: 18px;
+    }
+
+    .like-btn:hover {
+      color: #ff8ca8;
+      border-color: rgba(255,140,168,.20);
+      background: rgba(255,140,168,.06);
+
+      transform: translateY(-2px);
+    }
+
+    .like-btn.liked {
+      color: #ff7f9d;
+      border-color: rgba(255,127,157,.22);
+      background: rgba(255,127,157,.07);
+    }
+
+    /* =========================================================
+       FILE DETAILS
+    ========================================================= */
+
+    .asset-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      gap: 8px;
+
+      margin-top: 15px;
+    }
+
+    .meta-item {
+      padding: 12px;
+
+      border: 1px solid rgba(180,215,255,.055);
+      border-radius: 10px;
+
+      background: rgba(255,255,255,.012);
+    }
+
+    .meta-label {
+      display: block;
+
+      color: var(--asset-dim);
+
+      font-size: 9px;
+    }
+
+    .meta-value {
+      display: block;
+
+      margin-top: 5px;
+
+      overflow: hidden;
+
+      color: #b9c8d9;
+
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 11px;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       LOWER INFORMATION
+    ========================================================= */
+
+    .asset-bottom {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+
+      gap: 18px;
+
+      margin-top: 20px;
+    }
+
+    .asset-section-card {
+      padding: 24px;
+
+      border: 1px solid var(--asset-border);
+      border-radius: 20px;
+
+      background: rgba(12,20,34,.72);
+    }
+
+    .section-label {
+      margin-bottom: 12px;
+
+      color: var(--asset-blue);
+
+      font-size: 9px;
+      font-weight: 800;
+
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .asset-long-description {
+      color: var(--asset-muted);
+
+      font-size: 12px;
+      line-height: 2;
+      white-space: pre-wrap;
+    }
+
+    .asset-note {
+      display: flex;
+      gap: 11px;
+
+      color: var(--asset-muted);
+
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    .note-icon {
+      color: var(--asset-blue);
+      font-size: 15px;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 900px) {
       .asset-layout {
         grid-template-columns: 1fr;
       }
 
-      .asset-preview-large {
-        min-height: 420px;
+      .asset-preview-card {
+        min-height: 500px;
       }
 
-      .asset-preview-large img {
-        min-height: 420px;
-      }
-
-    }
-
-    @media (max-width: 500px) {
-
-      .asset-page {
-        width: min(100% - 20px, 1180px);
-        padding-top: 105px;
-      }
-
-      .asset-info {
-        padding: 22px;
-      }
-
-      .asset-stats-large {
+      .asset-bottom {
         grid-template-columns: 1fr;
       }
-
     }
 
+    @media (max-width: 560px) {
+      .asset-page {
+        width: min(100% - 20px, 1180px);
+        padding-top: 92px;
+      }
+
+      .asset-topbar {
+        margin-bottom: 17px;
+      }
+
+      .asset-brand-mini {
+        display: none;
+      }
+
+      .asset-preview-card {
+        min-height: 350px;
+        border-radius: 18px;
+      }
+
+      .asset-preview-image-wrap {
+        padding: 16px;
+      }
+
+      .asset-info-card {
+        padding: 21px;
+        border-radius: 18px;
+      }
+
+      .asset-title {
+        font-size: 32px;
+      }
+
+      .asset-stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .asset-bottom {
+        margin-top: 14px;
+      }
+
+      .asset-section-card {
+        padding: 20px;
+      }
+    }
   </style>
 </head>
 
@@ -371,217 +774,854 @@
 
 <main class="asset-page">
 
-  <a href="index.html" class="asset-back">
-    ← Back to Explore
-  </a>
+  <!-- TOP -->
+  <div class="asset-topbar">
 
-  <div id="assetContainer"></div>
+    <a href="index.html" class="asset-back">
+      <span>←</span>
+      <span>Back to Explore</span>
+    </a>
+
+    <div class="asset-brand-mini">
+      LOYALFORGE / ASSET
+    </div>
+
+  </div>
+
+
+  <!-- LOADING -->
+  <section id="loading" class="asset-loading">
+
+    <div class="loading-inner">
+
+      <div class="loading-spinner"></div>
+
+      <span>Loading asset...</span>
+
+    </div>
+
+  </section>
+
+
+  <!-- ERROR -->
+  <section id="error" class="asset-error" style="display:none;">
+
+    <div class="error-card">
+
+      <div class="error-icon">
+        !
+      </div>
+
+      <h2>Asset not found</h2>
+
+      <p id="errorMessage">
+        We couldn't load this asset.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- CONTENT -->
+  <section id="assetContent" class="asset-content">
+
+    <div class="asset-layout">
+
+
+      <!-- PREVIEW -->
+      <div class="asset-preview-card">
+
+        <div class="preview-category" id="assetCategory">
+          ASSET
+        </div>
+
+        <div class="asset-preview-image-wrap">
+
+          <img
+            id="assetPreview"
+            class="asset-preview-image"
+            src=""
+            alt="Asset Preview"
+          >
+
+        </div>
+
+        <div class="preview-overlay"></div>
+
+        <div class="preview-format" id="previewFormat">
+          FILE
+        </div>
+
+      </div>
+
+
+      <!-- INFO -->
+      <div class="asset-info-card">
+
+        <div
+          id="assetCategoryBadge"
+          class="asset-category-badge"
+        >
+          ASSET
+        </div>
+
+
+        <h1
+          id="assetTitle"
+          class="asset-title"
+        >
+          Asset
+        </h1>
+
+
+        <p
+          id="assetDescription"
+          class="asset-description"
+        >
+          Loading description...
+        </p>
+
+
+        <!-- CREATOR -->
+        <div class="creator-card">
+
+          <div
+            id="creatorAvatar"
+            class="creator-avatar"
+          >
+            LF
+          </div>
+
+          <div class="creator-details">
+
+            <div class="creator-label">
+              Created by
+            </div>
+
+            <div
+              id="assetCreator"
+              class="creator-name"
+            >
+              Unknown Creator
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- STATS -->
+        <div class="asset-stats">
+
+          <div class="asset-stat">
+
+            <span
+              id="assetLikes"
+              class="asset-stat-value"
+            >
+              0
+            </span>
+
+            <span class="asset-stat-label">
+              Likes
+            </span>
+
+          </div>
+
+
+          <div class="asset-stat">
+
+            <span
+              id="assetDownloads"
+              class="asset-stat-value"
+            >
+              0
+            </span>
+
+            <span class="asset-stat-label">
+              Downloads
+            </span>
+
+          </div>
+
+
+          <div class="asset-stat">
+
+            <span
+              id="assetFormat"
+              class="asset-stat-value"
+            >
+              —
+            </span>
+
+            <span class="asset-stat-label">
+              Format
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+        <div class="asset-actions">
+
+          <button
+            id="downloadButton"
+            class="download-btn"
+            type="button"
+          >
+            Download Asset
+          </button>
+
+          <button
+            id="likeButton"
+            class="like-btn"
+            type="button"
+            aria-label="Like asset"
+          >
+            ♡
+          </button>
+
+        </div>
+
+
+        <!-- FILE META -->
+        <div class="asset-meta">
+
+          <div class="meta-item">
+
+            <span class="meta-label">
+              File size
+            </span>
+
+            <strong
+              id="assetSize"
+              class="meta-value"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="meta-item">
+
+            <span class="meta-label">
+              File name
+            </span>
+
+            <strong
+              id="assetFileName"
+              class="meta-value"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="meta-item">
+
+            <span class="meta-label">
+              Category
+            </span>
+
+            <strong
+              id="assetMetaCategory"
+              class="meta-value"
+            >
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="meta-item">
+
+            <span class="meta-label">
+              Published
+            </span>
+
+            <strong
+              id="assetDate"
+              class="meta-value"
+            >
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- LOWER -->
+    <div class="asset-bottom">
+
+
+      <div class="asset-section-card">
+
+        <div class="section-label">
+          About this asset
+        </div>
+
+        <div
+          id="assetLongDescription"
+          class="asset-long-description"
+        >
+          No additional description.
+        </div>
+
+      </div>
+
+
+      <div class="asset-section-card">
+
+        <div class="section-label">
+          LoyalForge
+        </div>
+
+        <div class="asset-note">
+
+          <span class="note-icon">
+            ✦
+          </span>
+
+          <span>
+            Downloadable assets, rigs, models, textures,
+            VFX and other creative resources — all in one place.
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 </main>
 
 
 <script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const SUPABASE_URL = "https://ywrbojtzkkygahxqeueg.supabase.co";
-const SUPABASE_KEY = "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
+  import {
+    createClient
+  } from "https://esm.sh/@supabase/supabase-js@2";
 
-const supabase = createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 
-const params = new URLSearchParams(window.location.search);
-const slug = params.get("slug");
-const id = params.get("id");
+  /* =========================================================
+     SUPABASE
+  ========================================================= */
 
-const loading = document.getElementById("loading");
-const content = document.getElementById("assetContent");
-const errorBox = document.getElementById("error");
+  const SUPABASE_URL =
+    "https://ywrbojtzkkygahxqeueg.supabase.co";
 
-async function loadAsset() {
-  try {
-    if (!slug && !id) {
-      throw new Error("Asset not specified.");
+  const SUPABASE_KEY =
+    "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
+
+
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+  /* =========================================================
+     ELEMENTS
+  ========================================================= */
+
+  const loading =
+    document.getElementById("loading");
+
+  const content =
+    document.getElementById("assetContent");
+
+  const errorBox =
+    document.getElementById("error");
+
+  const errorMessage =
+    document.getElementById("errorMessage");
+
+
+  /* =========================================================
+     URL
+  ========================================================= */
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const slug =
+    params.get("slug");
+
+  const id =
+    params.get("id");
+
+
+  /* =========================================================
+     HELPERS
+  ========================================================= */
+
+  function formatFileSize(bytes) {
+
+    if (!bytes) {
+      return "Unknown";
     }
 
-    let query = supabase
-      .from("assets")
-      .select(`
-        id,
-        title,
-        slug,
-        description,
-        category,
-        preview_url,
-        file_name,
-        file_size,
-        file_format,
-        downloads,
-        likes,
-        created_at,
-        user_id,
-        profiles (
-          username,
-          display_name,
-          avatar_url
-        )
-      `)
-      .eq("status", "published");
-
-    if (slug) {
-      query = query.eq("slug", slug);
-    } else {
-      query = query.eq("id", id);
+    if (bytes < 1024) {
+      return `${bytes} B`;
     }
 
-    const { data, error } = await query.single();
-
-    if (error) throw error;
-
-    if (!data) {
-      throw new Error("Asset not found.");
+    if (bytes < 1024 * 1024) {
+      return `${(bytes / 1024).toFixed(1)} KB`;
     }
 
-    renderAsset(data);
+    if (bytes < 1024 * 1024 * 1024) {
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
 
-  } catch (error) {
-    console.error(error);
+    return `${(
+      bytes /
+      (1024 * 1024 * 1024)
+    ).toFixed(1)} GB`;
 
-    loading.style.display = "none";
-    content.style.display = "none";
-    errorBox.style.display = "block";
-
-    errorBox.textContent =
-      "خطا در دریافت اطلاعات این Asset: " + error.message;
-  }
-}
-
-function formatFileSize(bytes) {
-  if (!bytes) return "نامشخص";
-
-  if (bytes < 1024) {
-    return bytes + " B";
   }
 
-  if (bytes < 1024 * 1024) {
-    return (bytes / 1024).toFixed(1) + " KB";
+
+  function formatDate(date) {
+
+    if (!date) {
+      return "Unknown";
+    }
+
+    return new Date(date).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      }
+    );
+
   }
 
-  if (bytes < 1024 * 1024 * 1024) {
-    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+
+  function creatorInitials(name) {
+
+    if (!name) {
+      return "LF";
+    }
+
+    return name
+      .split(" ")
+      .slice(0, 2)
+      .map(word => word[0])
+      .join("")
+      .toUpperCase();
+
   }
 
-  return (bytes / (1024 * 1024 * 1024)).toFixed(1) + " GB";
-}
 
-function renderAsset(asset) {
-  loading.style.display = "none";
-  errorBox.style.display = "none";
-  content.style.display = "block";
+  /* =========================================================
+     LOAD ASSET
+  ========================================================= */
 
-  const profile = Array.isArray(asset.profiles)
-    ? asset.profiles[0]
-    : asset.profiles;
+  async function loadAsset() {
 
-  document.title = `${asset.title} — LoyalForge`;
+    try {
 
-  const title = document.getElementById("assetTitle");
-  const description = document.getElementById("assetDescription");
-  const category = document.getElementById("assetCategory");
-  const preview = document.getElementById("assetPreview");
-  const creator = document.getElementById("assetCreator");
-  const likes = document.getElementById("assetLikes");
-  const downloads = document.getElementById("assetDownloads");
-  const format = document.getElementById("assetFormat");
-  const size = document.getElementById("assetSize");
+      if (!slug && !id) {
+        throw new Error(
+          "No asset was specified."
+        );
+      }
 
-  if (title) {
-    title.textContent = asset.title || "Untitled Asset";
+
+      let query =
+        supabase
+          .from("assets")
+          .select(`
+            id,
+            title,
+            slug,
+            description,
+            category,
+            preview_url,
+            file_name,
+            file_size,
+            file_format,
+            downloads,
+            likes,
+            created_at,
+            user_id,
+            profiles (
+              username,
+              display_name,
+              avatar_url
+            )
+          `)
+          .eq(
+            "status",
+            "published"
+          );
+
+
+      if (slug) {
+
+        query =
+          query.eq(
+            "slug",
+            slug
+          );
+
+      } else {
+
+        query =
+          query.eq(
+            "id",
+            id
+          );
+
+      }
+
+
+      const {
+        data: asset,
+        error
+      } = await query.single();
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      if (!asset) {
+        throw new Error(
+          "Asset not found."
+        );
+      }
+
+
+      renderAsset(asset);
+
+
+    } catch (error) {
+
+      console.error(
+        "Asset loading error:",
+        error
+      );
+
+      loading.style.display =
+        "none";
+
+      content.style.display =
+        "none";
+
+      errorBox.style.display =
+        "grid";
+
+      errorMessage.textContent =
+        error.message ||
+        "Something went wrong while loading this asset.";
+
+    }
+
   }
 
-  if (description) {
-    description.textContent =
-      asset.description || "No description provided.";
-  }
 
-  if (category) {
-    category.textContent =
-      asset.category || "Other";
-  }
+  /* =========================================================
+     RENDER
+  ========================================================= */
 
-  if (preview) {
-    preview.src =
-      asset.preview_url ||
-      "https://placehold.co/1200x700/111827/ffffff?text=LoyalForge";
+  function renderAsset(asset) {
 
-    preview.alt = asset.title || "Asset Preview";
-  }
+    loading.style.display =
+      "none";
 
-  if (creator) {
-    creator.textContent =
+    errorBox.style.display =
+      "none";
+
+    content.style.display =
+      "block";
+
+
+    const profile =
+      Array.isArray(asset.profiles)
+        ? asset.profiles[0]
+        : asset.profiles;
+
+
+    const creatorName =
       profile?.display_name ||
       profile?.username ||
       "Unknown Creator";
-  }
 
-  if (likes) {
-    likes.textContent = asset.likes || 0;
-  }
 
-  if (downloads) {
-    downloads.textContent = asset.downloads || 0;
-  }
+    /* PAGE TITLE */
 
-  if (format) {
-    format.textContent =
+    document.title =
+      `${asset.title || "Asset"} — LoyalForge`;
+
+
+    /* TITLE */
+
+    document.getElementById(
+      "assetTitle"
+    ).textContent =
+      asset.title ||
+      "Untitled Asset";
+
+
+    /* DESCRIPTION */
+
+    const description =
+      asset.description ||
+      "No description provided.";
+
+    document.getElementById(
+      "assetDescription"
+    ).textContent =
+      description;
+
+
+    document.getElementById(
+      "assetLongDescription"
+    ).textContent =
+      description;
+
+
+    /* CATEGORY */
+
+    const category =
+      asset.category ||
+      "Other";
+
+
+    document.getElementById(
+      "assetCategory"
+    ).textContent =
+      category;
+
+
+    document.getElementById(
+      "assetCategoryBadge"
+    ).textContent =
+      category;
+
+
+    document.getElementById(
+      "assetMetaCategory"
+    ).textContent =
+      category;
+
+
+    /* PREVIEW */
+
+    const preview =
+      document.getElementById(
+        "assetPreview"
+      );
+
+
+    preview.src =
+      asset.preview_url ||
+      "https://placehold.co/1200x800/0b1220/8ed8ff?text=LoyalForge";
+
+
+    preview.alt =
+      asset.title ||
+      "Asset Preview";
+
+
+    /* FORMAT */
+
+    const format =
       asset.file_format ||
       "Unknown";
-  }
 
-  if (size) {
-    size.textContent =
-      formatFileSize(asset.file_size);
-  }
 
-  const downloadButton =
-    document.getElementById("downloadButton");
+    document.getElementById(
+      "assetFormat"
+    ).textContent =
+      format;
 
-  if (downloadButton) {
-    downloadButton.addEventListener("click", async () => {
-      if (!asset.file_name) {
-        alert("فایل این Asset هنوز ثبت نشده.");
-        return;
-      }
 
-      try {
-        downloadButton.disabled = true;
-        downloadButton.textContent = "در حال آماده‌سازی...";
+    document.getElementById(
+      "previewFormat"
+    ).textContent =
+      format;
 
-        /*
-          فعلاً فقط فایل را پیدا می‌کنیم.
-          اسم Bucket را بعد از مشخص شدن Storage
-          اضافه می‌کنیم.
-        */
 
-        console.log("File:", asset.file_name);
+    /* CREATOR */
 
-        alert(
-          "اطلاعات Asset درست دریافت شد. سیستم دانلود را در مرحله بعد وصل می‌کنیم."
+    document.getElementById(
+      "assetCreator"
+    ).textContent =
+      creatorName;
+
+
+    const avatar =
+      document.getElementById(
+        "creatorAvatar"
+      );
+
+
+    if (profile?.avatar_url) {
+
+      avatar.innerHTML =
+        `<img
+          src="${profile.avatar_url}"
+          alt="${creatorName}"
+        >`;
+
+    } else {
+
+      avatar.textContent =
+        creatorInitials(
+          creatorName
         );
 
-      } catch (error) {
-        console.error(error);
-        alert("دانلود فایل با خطا مواجه شد.");
-      } finally {
-        downloadButton.disabled = false;
-        downloadButton.textContent = "Download";
-      }
-    });
-  }
-}
+    }
 
-loadAsset();
+
+    /* STATS */
+
+    document.getElementById(
+      "assetLikes"
+    ).textContent =
+      asset.likes || 0;
+
+
+    document.getElementById(
+      "assetDownloads"
+    ).textContent =
+      asset.downloads || 0;
+
+
+    /* FILE SIZE */
+
+    document.getElementById(
+      "assetSize"
+    ).textContent =
+      formatFileSize(
+        asset.file_size
+      );
+
+
+    /* FILE NAME */
+
+    document.getElementById(
+      "assetFileName"
+    ).textContent =
+      asset.file_name ||
+      "Unknown";
+
+
+    /* DATE */
+
+    document.getElementById(
+      "assetDate"
+    ).textContent =
+      formatDate(
+        asset.created_at
+      );
+
+
+    setupActions(asset);
+
+  }
+
+
+  /* =========================================================
+     ACTIONS
+  ========================================================= */
+
+  function setupActions(asset) {
+
+    const downloadButton =
+      document.getElementById(
+        "downloadButton"
+      );
+
+
+    const likeButton =
+      document.getElementById(
+        "likeButton"
+      );
+
+
+    /* DOWNLOAD */
+
+    downloadButton.addEventListener(
+      "click",
+      async () => {
+
+        if (!asset.file_name) {
+
+          alert(
+            "This asset doesn't have a downloadable file yet."
+          );
+
+          return;
+        }
+
+
+        /*
+          Storage download will be connected
+          after we confirm the actual bucket.
+        */
+
+        alert(
+          "Download system will be connected next."
+        );
+
+      }
+    );
+
+
+    /* LIKE */
+
+    likeButton.addEventListener(
+      "click",
+      () => {
+
+        likeButton.classList.toggle(
+          "liked"
+        );
+
+
+        const liked =
+          likeButton.classList.contains(
+            "liked"
+          );
+
+
+        likeButton.textContent =
+          liked
+            ? "♥"
+            : "♡";
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     START
+  ========================================================= */
+
+  loadAsset();
+
 </script>
 
 </body>
