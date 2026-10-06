@@ -500,28 +500,30 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 
   font-family: "Estedad", "Inter", sans-serif;
 
-  font-size: clamp(42px, 5.2vw, 72px);
-  font-weight: 800;
+  font-size: clamp(38px, 4.5vw, 62px);
+  font-weight: 700;
 
-  line-height: 1.35;
-  letter-spacing: -1.5px;
+  line-height: 1.45;
+  letter-spacing: 0;
 
   color: var(--text);
+
+  direction: rtl;
+  text-align: right;
 }
 
 .hero h1 span {
   display: block;
 
-  margin-top: 4px;
+  margin-top: 6px;
 
   color: var(--sky);
 
-  line-height: 1.35;
-}
-.hero h1 span {
-  display: block;
+  font-family: "Estedad", "Inter", sans-serif;
+  font-size: inherit;
+  font-weight: 700;
 
-  color: var(--sky);
+  line-height: 1.45;
 
   text-shadow:
     0 0 45px rgba(142, 216, 255, .09);
@@ -534,8 +536,13 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 
   color: var(--muted);
 
+  font-family: "Estedad", "Inter", sans-serif;
+
   font-size: 15px;
-  line-height: 1.8;
+  line-height: 1.9;
+
+  direction: rtl;
+  text-align: right;
 }
 
 .hero-actions {
@@ -566,7 +573,7 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 .hero-stats strong {
   color: var(--sky-soft);
 
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Space Grotesk", "Estedad", sans-serif;
 
   font-size: 18px;
 
@@ -576,10 +583,13 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 .hero-stats span {
   color: var(--muted-2);
 
+  font-family: "Estedad", "Inter", sans-serif;
+
   font-size: 9px;
 
-  text-transform: uppercase;
-  letter-spacing: .08em;
+  letter-spacing: 0;
+
+  direction: rtl;
 }
 
 .stat-divider {
