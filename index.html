@@ -1037,5 +1037,37 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const sections = document.querySelectorAll(".section");
+  const revealElements = document.querySelectorAll(".scroll-reveal");
+  const grids = document.querySelectorAll(".scroll-grid");
+
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach(entry => {
+
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add("is-visible");
+
+        observer.unobserve(entry.target);
+
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -60px 0px"
+    }
+  );
+
+  sections.forEach(el => observer.observe(el));
+  revealElements.forEach(el => observer.observe(el));
+  grids.forEach(el => observer.observe(el));
+
+});
+</script>
+
 </body>
 </html>
