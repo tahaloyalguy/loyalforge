@@ -15,6 +15,9 @@ const supabase = createClient(
 const assetGrid = document.getElementById("assetGrid");
 const emptyState = document.getElementById("emptyState");
 
+console.log("LoyalForge assetGrid:", assetGrid);
+console.log("LoyalForge emptyState:", emptyState);
+
 const searchInput = document.getElementById("searchInput");
 
 const filterButtons = document.querySelectorAll(".filter-btn");
