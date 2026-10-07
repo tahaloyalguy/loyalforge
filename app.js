@@ -727,6 +727,50 @@ document
 
   });
 
+// =========================
+// LOAD MORE
+// =========================
+
+const loadMoreBtn =
+  document.getElementById(
+    "loadMoreBtn"
+  );
+
+
+if (loadMoreBtn) {
+
+  loadMoreBtn.addEventListener(
+    "click",
+    async () => {
+
+      if (!hasMoreAssets) {
+        return;
+      }
+
+
+      loadMoreBtn.disabled =
+        true;
+
+      loadMoreBtn.textContent =
+        "در حال بارگذاری...";
+
+
+      currentPage++;
+
+
+      await loadAssets(false);
+
+
+      loadMoreBtn.disabled =
+        false;
+
+      loadMoreBtn.textContent =
+        "نمایش بیشتر";
+
+    }
+  );
+
+}
 
 // =========================
 // INITIAL LOAD
