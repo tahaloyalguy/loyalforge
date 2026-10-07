@@ -1682,7 +1682,9 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   gap: 18px;
 }
 
-/* CARD */
+/* =========================================================
+   ASSET CARD
+========================================================= */
 
 .asset-card {
   position: relative;
@@ -1705,14 +1707,14 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   transform: translateY(0);
 
   transition:
-    transform .45s var(--ease),
+    transform .4s cubic-bezier(.22, 1, .36, 1),
     border-color .35s ease,
     box-shadow .45s ease,
     background .35s ease;
 }
 
 .asset-card:hover {
-  transform: translateY(-9px);
+  transform: translateY(-8px);
 
   border-color:
     rgba(142, 216, 255, .25);
@@ -1730,7 +1732,9 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
     inset 0 1px 0 rgba(255, 255, 255, .045);
 }
 
-/* PREVIEW */
+/* =========================================================
+   ASSET PREVIEW
+========================================================= */
 
 .asset-preview {
   position: relative;
@@ -1759,12 +1763,14 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   width: 100%;
   height: 100%;
 
+  display: block;
+
   object-fit: cover;
 
   transform: scale(1.001);
 
   transition:
-    transform .7s var(--ease),
+    transform .7s cubic-bezier(.22, 1, .36, 1),
     filter .5s ease;
 }
 
@@ -1776,7 +1782,9 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
     saturate(1.08);
 }
 
-/* overlay */
+/* =========================================================
+   PREVIEW OVERLAY
+========================================================= */
 
 .asset-preview::before {
   content: "";
@@ -1797,7 +1805,7 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   pointer-events: none;
 }
 
-/* نور hover */
+/* نور عبوری */
 
 .asset-preview::after {
   content: "";
@@ -1823,7 +1831,7 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   transform: skewX(-18deg);
 
   transition:
-    left .75s var(--ease);
+    left .75s cubic-bezier(.22, 1, .36, 1);
 
   pointer-events: none;
 }
@@ -1832,7 +1840,9 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   left: 120%;
 }
 
-/* CATEGORY BADGE */
+/* =========================================================
+   CATEGORY BADGE
+========================================================= */
 
 .asset-category {
   position: absolute;
@@ -1865,7 +1875,7 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   transition:
     background .3s ease,
     border-color .3s ease,
-    transform .35s var(--ease);
+    transform .35s cubic-bezier(.22, 1, .36, 1);
 }
 
 .asset-card:hover .asset-category {
@@ -1878,7 +1888,9 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   transform: translateY(-2px);
 }
 
-/* CONTENT */
+/* =========================================================
+   CONTENT
+========================================================= */
 
 .asset-content {
   position: relative;
@@ -1903,7 +1915,7 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 
   transition:
     color .3s ease,
-    transform .3s var(--ease);
+    transform .3s cubic-bezier(.22, 1, .36, 1);
 }
 
 .asset-card:hover .asset-title {
@@ -1912,26 +1924,9 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   transform: translateX(-2px);
 }
 
-.asset-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 12px;
-
-  margin-top: 14px;
-
-  padding-top: 12px;
-
-  color: var(--muted-2);
-
-  border-top:
-    1px solid rgba(190, 220, 255, .055);
-
-  font-size: 10px;
-}
-
-/* CREATOR */
+/* =========================================================
+   CREATOR
+========================================================= */
 
 .asset-creator {
   display: flex;
@@ -1966,7 +1961,28 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
     0 4px 15px rgba(0, 0, 0, .18);
 }
 
-/* STATS */
+/* =========================================================
+   META / STATS
+========================================================= */
+
+.asset-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-top: 14px;
+
+  padding-top: 12px;
+
+  color: var(--muted-2);
+
+  border-top:
+    1px solid rgba(190, 220, 255, .055);
+
+  font-size: 10px;
+}
 
 .asset-stats {
   display: flex;
@@ -1986,7 +2002,9 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   color: #8fa5bf;
 }
 
-/* subtle bottom glow */
+/* =========================================================
+   SUBTLE CARD GLOW
+========================================================= */
 
 .asset-card::after {
   content: "";
@@ -2009,7 +2027,7 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   opacity: .45;
 
   transition:
-    transform .6s var(--ease),
+    transform .6s cubic-bezier(.22, 1, .36, 1),
     opacity .4s ease;
 
   pointer-events: none;
@@ -2021,12 +2039,44 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   opacity: .9;
 }
 
-/* RESPONSIVE */
+/* =========================================================
+   ASSET CARD ENTRANCE
+========================================================= */
+
+.asset-card-enter {
+  opacity: 0;
+
+  transform:
+    translateY(18px)
+    scale(.985);
+
+  filter: blur(4px);
+
+  transition:
+    opacity .45s ease,
+    transform .45s cubic-bezier(.22, 1, .36, 1),
+    filter .45s ease;
+}
+
+.asset-card-enter.asset-card-visible {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter: blur(0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media (max-width: 950px) {
 
   .asset-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
 }
@@ -2035,6 +2085,7 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
 
   .asset-grid {
     grid-template-columns: 1fr;
+
     gap: 13px;
   }
 
@@ -2047,6 +2098,27 @@ font-family: "Vazirmatn", "Inter", sans-serif;  font-size: 17px;
   }
 
 }
+
+@media (prefers-reduced-motion: reduce) {
+
+  .asset-card,
+  .asset-preview img,
+  .asset-card-enter {
+    transition: none;
+    animation: none;
+  }
+
+  .asset-card:hover {
+    transform: none;
+  }
+
+  .asset-card:hover .asset-preview img {
+    transform: none;
+    filter: none;
+  }
+
+}
+
 /* =========================================================
    EMPTY STATE
 ========================================================= */
@@ -3395,29 +3467,6 @@ label {
 .asset-card .card-action:hover {
   transform: translateY(-2px);
 }
-
-
-/* -----------------------------------------
-   STAGGERED CARD ENTRANCE
-   ----------------------------------------- */
-
-.category-card,
-.asset-card {
-  animation: cardReveal .65s cubic-bezier(.22, 1, .36, 1) both;
-}
-
-@keyframes cardReveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 
 /* -----------------------------------------
    REDUCE MOTION
