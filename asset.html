@@ -22,6 +22,8 @@
 
   <title>Asset — LoyalForge</title>
 
+  <link rel="icon" href="images/favicon.png" type="image/png">
+
   <!-- =====================================================
        FONTS
   ====================================================== -->
@@ -1828,6 +1830,15 @@
 
 
     /* =====================================================
+       DELETE ASSET
+    ====================================================== */
+
+    .delete-asset-btn { width: 100%; min-height: 44px; margin-top: 10px; padding: 0 14px; border: 1px solid rgba(255,95,110,.16); border-radius: 11px; color: #ff9aa7; background: rgba(255,80,100,.035); font-family: inherit; font-size: 11px; font-weight: 800; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease, opacity .2s ease; }
+    .delete-asset-btn:hover { transform: translateY(-1px); color: #fff; border-color: rgba(255,95,110,.30); background: rgba(255,80,100,.09); }
+    .delete-asset-btn:disabled { cursor: wait; opacity: .55; transform: none; }
+
+
+    /* =====================================================
        MOBILE
     ====================================================== */
 
@@ -2378,6 +2389,16 @@
 
 
           </div>
+
+
+          <button
+            id="deleteAssetButton"
+            class="delete-asset-btn"
+            type="button"
+            style="display:none;"
+          >
+            🗑️ Delete Asset
+          </button>
 
 
           <!-- FILE META -->
@@ -4466,6 +4487,10 @@
         asset
       );
 
+      setupDeleteButton(
+        asset
+      );
+
     }
 
 
@@ -4586,216 +4611,55 @@
        DOWNLOAD
     ====================================================== */
 
-    async function handleDownload(
-      asset,
-      downloadButton
-    ) {
+    async function handleDownload(asset, downloadButton) {
 
-      if (
-        !asset?.file_name
-      ) {
-
-        alert(
-          "This asset doesn't have a downloadable file yet."
-        );
-
-
+      if (!asset?.file_url) {
+        alert("This asset doesn't have a downloadable file yet.");
         return;
-
       }
 
+      if (downloadButton.disabled) return;
 
-      if (
-        downloadButton.disabled
-      ) {
-
-        return;
-
-      }
-
-
-      downloadButton.disabled =
-        true;
-
-
-      const originalText =
-        downloadButton.textContent;
-
-
-      downloadButton.textContent =
-        "Preparing download...";
-
+      downloadButton.disabled = true;
+      const originalText = downloadButton.textContent;
+      downloadButton.textContent = "Preparing download...";
 
       try {
+        const downloadUrl = asset.file_url;
 
-        const {
-          data,
-          error
-        } =
-          supabase
-            .storage
-            .from("assets")
-            .getPublicUrl(
-              asset.file_name
-            );
+        const { data: newDownloads, error: countError } =
+          await supabase.rpc("increment_asset_download", { asset_id: asset.id });
 
-
-        if (
-          error ||
-          !data?.publicUrl
-        ) {
-
-          throw new Error(
-            "Download URL could not be created."
-          );
-
+        if (countError) {
+          console.warn("Download counter error:", countError);
+        } else if (typeof newDownloads === "number") {
+          asset.downloads = newDownloads;
+          const downloadsElement = document.getElementById("assetDownloads");
+          if (downloadsElement) downloadsElement.textContent = newDownloads;
         }
 
-
-        const downloadUrl =
-          data.publicUrl;
-
-
-        /*
-         * Increase download count.
-         */
-
-        const {
-          data: newDownloads,
-          error: countError
-        } =
-          await supabase.rpc(
-            "increment_asset_download",
-            {
-              asset_id:
-                asset.id
-            }
-          );
-
-
-        if (
-          countError
-        ) {
-
-          console.warn(
-            "Download counter error:",
-            countError
-          );
-
-        }
-
-
-        if (
-          !countError &&
-          typeof newDownloads ===
-            "number"
-        ) {
-
-          asset.downloads =
-            newDownloads;
-
-
-          const downloadsElement =
-            document.getElementById(
-              "assetDownloads"
-            );
-
-
-          if (
-            downloadsElement
-          ) {
-
-            downloadsElement.textContent =
-              newDownloads;
-
-          }
-
-        }
-
-
-        /*
-         * Download.
-         */
-
-        const link =
-          document.createElement(
-            "a"
-          );
-
-
-        link.href =
-          downloadUrl;
-
-
-        link.download =
-          asset.file_name
-            .split("/")
-            .pop() ||
-          "asset";
-
-
-        link.target =
-          "_blank";
-
-
-        link.rel =
-          "noopener";
-
-
-        document.body.appendChild(
-          link
-        );
-
-
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = asset.file_name?.split("/").pop() || "asset";
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        document.body.appendChild(link);
         link.click();
-
-
         link.remove();
 
-
-        downloadButton.textContent =
-          "Download Started";
-
-
-        setTimeout(
-          () => {
-
-            downloadButton.disabled =
-              false;
-
-
-            downloadButton.textContent =
-              originalText;
-
-          },
-          1600
-        );
-
+        downloadButton.textContent = "Download Started";
+        setTimeout(() => {
+          downloadButton.disabled = false;
+          downloadButton.textContent = originalText;
+        }, 1600);
 
       } catch (error) {
-
-        console.error(
-          "Download error:",
-          error
-        );
-
-
-        alert(
-          "The download could not be started. Please try again."
-        );
-
-
-        downloadButton.disabled =
-          false;
-
-
-        downloadButton.textContent =
-          originalText;
-
+        console.error("Download error:", error);
+        alert("The download could not be started. Please try again.");
+        downloadButton.disabled = false;
+        downloadButton.textContent = originalText;
       }
-
     }
-
 
     /* =====================================================
        LIKE
@@ -5045,6 +4909,90 @@
 
       }
 
+    }
+
+
+    /* =====================================================
+       DELETE ASSET
+    ====================================================== */
+
+    function getStoragePathFromPublicUrl(url) {
+      if (!url) return null;
+      try {
+        const parsed = new URL(url);
+        const marker = "/storage/v1/object/public/assets/";
+        const index = parsed.pathname.indexOf(marker);
+        if (index === -1) return null;
+        return decodeURIComponent(parsed.pathname.slice(index + marker.length));
+      } catch (error) {
+        console.warn("Could not parse Storage URL:", url);
+        return null;
+      }
+    }
+
+    async function deleteAsset(asset, deleteButton) {
+      if (!asset?.id || !deleteButton) return;
+
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) { alert("Please log in to delete this asset."); return; }
+        if (user.id !== asset.user_id) { alert("You can only delete your own assets."); return; }
+
+        const confirmed = window.confirm(
+          `Delete "${asset.title || "this asset"}"?\n\nThis will permanently remove the Asset and its files.`
+        );
+        if (!confirmed) return;
+
+        deleteButton.disabled = true;
+        deleteButton.textContent = "Deleting Asset...";
+
+        const filePath = getStoragePathFromPublicUrl(asset.file_url);
+        const previewPath = getStoragePathFromPublicUrl(asset.preview_url);
+
+        const { error: assetDeleteError } = await supabase
+          .from("assets")
+          .delete()
+          .eq("id", asset.id)
+          .eq("user_id", user.id);
+
+        if (assetDeleteError) throw assetDeleteError;
+
+        const paths = [...new Set([filePath, previewPath].filter(Boolean))];
+        if (paths.length) {
+          const { error: storageDeleteError } = await supabase
+            .storage.from("assets").remove(paths);
+          if (storageDeleteError) {
+            console.warn("Asset row deleted, but Storage cleanup failed:", storageDeleteError);
+          }
+        }
+
+        alert("Asset deleted successfully.");
+        window.location.href = "index.html#explore";
+
+      } catch (error) {
+        console.error("Delete asset error:", error);
+        alert(`Could not delete the asset.\n\n${error.message || "Unknown error"}`);
+        deleteButton.disabled = false;
+        deleteButton.textContent = "🗑️ Delete Asset";
+      }
+    }
+
+    async function setupDeleteButton(asset) {
+      const deleteButton = document.getElementById("deleteAssetButton");
+      if (!deleteButton) return;
+
+      deleteButton.style.display = "none";
+      deleteButton.onclick = null;
+
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user && asset?.user_id && user.id === asset.user_id) {
+          deleteButton.style.display = "block";
+          deleteButton.onclick = () => deleteAsset(asset, deleteButton);
+        }
+      } catch (error) {
+        console.error("Delete button auth check error:", error);
+      }
     }
 
 
