@@ -457,6 +457,17 @@ a {
 }
 
 
+.profile-name-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+
 .profile-name {
   font-size: 31px;
 
@@ -508,26 +519,25 @@ a {
   color:
     #c9ced8;
 
-  font-size: 14px;ب
+  font-size: 14px;
 
   white-space: pre-wrap;
+}
+
+
+.profile-joined {
+  margin-top: 7px;
+
+  color:
+    var(--muted-2);
+
+  font-size: 11px;
 }
 
 
 /* =========================
    CREATOR BADGE
    ========================= */
-
-.profile-name-row {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  flex-wrap: wrap;
-}
-
 
 .creator-badge {
   display: inline-flex;
@@ -654,6 +664,9 @@ a {
 
   border-color:
     rgba(255,255,255,.14);
+
+  transform:
+    translateY(-2px);
 }
 
 
@@ -676,6 +689,9 @@ a {
 
   border-color:
     rgba(255,77,103,.25);
+
+  transform:
+    translateY(-2px);
 }
 
 
@@ -1031,12 +1047,32 @@ a {
 }
 
 
+.asset-date {
+  margin-top: 8px;
+
+  color:
+    var(--muted-2);
+
+  font-size: 10px;
+}
+
+
 /* =========================
    EMPTY
    ========================= */
 
 .empty {
-  padding: 65px 20px;
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 55px 20px;
 
   border:
     1px dashed
@@ -1059,12 +1095,37 @@ a {
 
   display: block;
 
-  margin-bottom: 9px;
+  margin-bottom: 2px;
 
   color:
     var(--accent);
 
   font-size: 25px;
+}
+
+
+.empty strong {
+  color:
+    var(--text);
+
+  font-size: 15px;
+
+  font-weight: 900;
+}
+
+
+.empty span {
+  max-width: 420px;
+
+  color:
+    var(--muted);
+
+  font-size: 12px;
+}
+
+
+.empty .btn {
+  margin-top: 8px;
 }
 
 
@@ -1638,9 +1699,7 @@ a {
 
 
 @media (max-width: 600px) {
-.profile-name-row {
-  justify-content: center;
-}
+
   .page {
     width:
       calc(100% - 20px);
@@ -1697,6 +1756,12 @@ a {
   }
 
 
+  .profile-name-row {
+    justify-content:
+      center;
+  }
+
+
   .profile-name {
     font-size: 25px;
   }
@@ -1711,6 +1776,11 @@ a {
 
   .profile-bio {
     font-size: 13px;
+  }
+
+
+  .profile-joined {
+    font-size: 10px;
   }
 
 
@@ -1863,18 +1933,21 @@ a {
 
           <div class="profile-info">
 
-<div class="profile-name-row">
-  <h1
-    class="profile-name"
-    id="profileName"
-  >
-    -
-  </h1>
+            <div class="profile-name-row">
 
-  <span class="creator-badge">
-    LOYALFORGE CREATOR
-  </span>
-</div>
+              <h1
+                class="profile-name"
+                id="profileName"
+              >
+                -
+              </h1>
+
+              <span class="creator-badge">
+                LOYALFORGE CREATOR
+              </span>
+
+            </div>
+
 
             <div
               class="profile-username"
@@ -1883,12 +1956,14 @@ a {
               @-
             </div>
 
+
             <div
               class="profile-email"
               id="profileEmail"
             >
               -
             </div>
+
 
             <div
               class="profile-bio"
@@ -1897,21 +1972,39 @@ a {
               هنوز بیویی نوشته نشده.
             </div>
 
+
+            <div
+              class="profile-joined"
+              id="profileJoined"
+            >
+            </div>
+
           </div>
 
 
           <div class="profile-actions">
 
-            <button
+            <a
               class="btn btn-primary"
+              href="upload.html"
+            >
+              ⬆️ آپلود محتوا
+            </a>
+
+
+            <button
+              class="btn btn-secondary"
               id="editProfileBtn"
+              type="button"
             >
               ✏️ ویرایش پروفایل
             </button>
 
+
             <button
               class="btn btn-danger"
               id="logoutBtn"
+              type="button"
             >
               خروج از حساب
             </button>
@@ -2006,7 +2099,20 @@ a {
           style="display:none"
         >
 
-          هنوز محتوایی منتشر نکردی.
+          <strong>
+            هنوز محتوایی منتشر نکردی.
+          </strong>
+
+          <span>
+            اولین Asset خودت رو منتشر کن و پروفایلت رو کامل‌تر کن.
+          </span>
+
+          <a
+            href="upload.html"
+            class="btn btn-primary"
+          >
+            ⬆️ انتشار Asset
+          </a>
 
         </div>
 
@@ -2039,6 +2145,7 @@ a {
           class="close-btn"
           id="closeEditBtn"
           type="button"
+          aria-label="بستن"
         >
           ×
         </button>
@@ -2126,6 +2233,7 @@ a {
             id="usernameInput"
             maxlength="30"
             placeholder="tahaloyalguy"
+            autocomplete="username"
           >
 
         </div>
@@ -2191,6 +2299,7 @@ a {
     const SUPABASE_URL =
       "https://ywrbojtzkkygahxqeueg.supabase.co";
 
+
     const SUPABASE_KEY =
       "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
 
@@ -2207,75 +2316,55 @@ a {
     // =========================
 
     const loading =
-      document.getElementById(
-        "loading"
-      );
+      document.getElementById("loading");
 
 
     const profileAvatar =
-      document.getElementById(
-        "profileAvatar"
-      );
+      document.getElementById("profileAvatar");
 
 
     const editAvatar =
-      document.getElementById(
-        "editAvatar"
-      );
+      document.getElementById("editAvatar");
 
 
     const profileName =
-      document.getElementById(
-        "profileName"
-      );
+      document.getElementById("profileName");
 
 
     const profileUsername =
-      document.getElementById(
-        "profileUsername"
-      );
+      document.getElementById("profileUsername");
 
 
     const profileEmail =
-      document.getElementById(
-        "profileEmail"
-      );
+      document.getElementById("profileEmail");
 
 
     const profileBio =
-      document.getElementById(
-        "profileBio"
-      );
+      document.getElementById("profileBio");
+
+
+    const profileJoined =
+      document.getElementById("profileJoined");
 
 
     const assetCount =
-      document.getElementById(
-        "assetCount"
-      );
+      document.getElementById("assetCount");
 
 
     const downloadCount =
-      document.getElementById(
-        "downloadCount"
-      );
+      document.getElementById("downloadCount");
 
 
     const likeCount =
-      document.getElementById(
-        "likeCount"
-      );
+      document.getElementById("likeCount");
 
 
     const assetsGrid =
-      document.getElementById(
-        "assetsGrid"
-      );
+      document.getElementById("assetsGrid");
 
 
     const emptyState =
-      document.getElementById(
-        "emptyState"
-      );
+      document.getElementById("emptyState");
 
 
     // =========================
@@ -2283,63 +2372,43 @@ a {
     // =========================
 
     const editModal =
-      document.getElementById(
-        "editModal"
-      );
+      document.getElementById("editModal");
 
 
     const editProfileBtn =
-      document.getElementById(
-        "editProfileBtn"
-      );
+      document.getElementById("editProfileBtn");
 
 
     const closeEditBtn =
-      document.getElementById(
-        "closeEditBtn"
-      );
+      document.getElementById("closeEditBtn");
 
 
     const cancelEditBtn =
-      document.getElementById(
-        "cancelEditBtn"
-      );
+      document.getElementById("cancelEditBtn");
 
 
     const saveProfileBtn =
-      document.getElementById(
-        "saveProfileBtn"
-      );
+      document.getElementById("saveProfileBtn");
 
 
     const avatarInput =
-      document.getElementById(
-        "avatarInput"
-      );
+      document.getElementById("avatarInput");
 
 
     const displayNameInput =
-      document.getElementById(
-        "displayNameInput"
-      );
+      document.getElementById("displayNameInput");
 
 
     const usernameInput =
-      document.getElementById(
-        "usernameInput"
-      );
+      document.getElementById("usernameInput");
 
 
     const bioInput =
-      document.getElementById(
-        "bioInput"
-      );
+      document.getElementById("bioInput");
 
 
     const editMessage =
-      document.getElementById(
-        "editMessage"
-      );
+      document.getElementById("editMessage");
 
 
     // =========================
@@ -2351,6 +2420,8 @@ a {
     let currentProfile = null;
 
     let selectedAvatarFile = null;
+
+    let avatarPreviewUrl = null;
 
 
     // =========================
@@ -2365,6 +2436,7 @@ a {
       ) {
         return "";
       }
+
 
       return String(value)
         .replaceAll("&", "&amp;")
@@ -2381,9 +2453,8 @@ a {
       const number =
         Number(value || 0);
 
-      if (
-        number >= 1000000
-      ) {
+
+      if (number >= 1000000) {
 
         return (
           (number / 1000000)
@@ -2394,9 +2465,7 @@ a {
       }
 
 
-      if (
-        number >= 1000
-      ) {
+      if (number >= 1000) {
 
         return (
           (number / 1000)
@@ -2418,9 +2487,93 @@ a {
         String(name || "?")
           .trim();
 
+
       return (
         value.charAt(0)
           .toUpperCase()
+      );
+
+    }
+
+
+    function formatJoinDate(date) {
+
+      if (!date) {
+        return "";
+      }
+
+
+      try {
+
+        return new Intl.DateTimeFormat(
+          "fa-IR",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+          }
+        ).format(
+          new Date(date)
+        );
+
+      }
+
+      catch {
+
+        return "";
+
+      }
+
+    }
+
+
+    function formatAssetDate(date) {
+
+      if (!date) {
+        return "";
+      }
+
+
+      try {
+
+        return new Intl.DateTimeFormat(
+          "fa-IR",
+          {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+          }
+        ).format(
+          new Date(date)
+        );
+
+      }
+
+      catch {
+
+        return "";
+
+      }
+
+    }
+
+
+    function getCacheBustedUrl(url) {
+
+      if (!url) {
+        return null;
+      }
+
+
+      return (
+        url +
+        (
+          url.includes("?")
+            ? "&"
+            : "?"
+        ) +
+        "v=" +
+        Date.now()
       );
 
     }
@@ -2432,7 +2585,9 @@ a {
       name
     ) {
 
-      if (!element) return;
+      if (!element) {
+        return;
+      }
 
 
       if (avatarUrl) {
@@ -2441,6 +2596,7 @@ a {
           <img
             src="${escapeHTML(avatarUrl)}"
             alt="Avatar"
+            loading="eager"
           >
         `;
 
@@ -2510,40 +2666,68 @@ a {
 
     async function loadProfile() {
 
-      const {
-        data,
-        error
-      } =
-        await supabase.auth.getUser();
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabase.auth.getUser();
 
 
-      if (
-        error ||
-        !data?.user
-      ) {
+        if (
+          error ||
+          !data?.user
+        ) {
 
-        window.location.href =
-          "auth.html";
+          window.location.href =
+            "auth.html";
 
-        return;
+          return;
+
+        }
+
+
+        currentUser =
+          data.user;
+
+
+        await loadProfileData();
+
+        await loadUserAssets();
 
       }
 
+      catch (error) {
 
-      currentUser =
-        data.user;
-
-
-      await loadProfileData();
-
-      await loadUserAssets();
-
-
-      if (loading) {
-
-        loading.classList.add(
-          "hidden"
+        console.error(
+          "Profile initialization error:",
+          error
         );
+
+        if (loading) {
+
+          loading.classList.add(
+            "hidden"
+          );
+
+        }
+
+        alert(
+          "بارگذاری پروفایل انجام نشد. دوباره صفحه را باز کن."
+        );
+
+      }
+
+      finally {
+
+        if (loading) {
+
+          loading.classList.add(
+            "hidden"
+          );
+
+        }
 
       }
 
@@ -2626,14 +2810,38 @@ a {
         "هنوز بیویی نوشته نشده.";
 
 
+      if (profileJoined) {
+
+        const joined =
+          formatJoinDate(
+            currentUser.created_at
+          );
+
+
+        profileJoined.textContent =
+          joined
+            ? `عضو LoyalForge از ${joined}`
+            : "";
+
+      }
+
+
+      const avatarUrl =
+        getCacheBustedUrl(
+          currentProfile.avatar_url
+        );
+
+
       setAvatar(
         profileAvatar,
-        currentProfile.avatar_url,
+        avatarUrl,
         displayName
       );
 
 
-      // Fill edit form
+      // =========================
+      // FILL EDIT FORM
+      // =========================
 
       displayNameInput.value =
         displayName;
@@ -2649,7 +2857,7 @@ a {
 
       setAvatar(
         editAvatar,
-        currentProfile.avatar_url,
+        avatarUrl,
         displayName
       );
 
@@ -2700,6 +2908,24 @@ a {
           "Assets load error:",
           error
         );
+
+        assetsGrid.innerHTML = "";
+
+
+        emptyState.innerHTML = `
+          <strong>
+            محتوای شما بارگذاری نشد.
+          </strong>
+
+          <span>
+            اتصال به سرور یا اطلاعات محتوا را بررسی کن.
+          </span>
+        `;
+
+
+        emptyState.style.display =
+          "flex";
+
 
         return;
 
@@ -2768,8 +2994,27 @@ a {
 
         assetsGrid.innerHTML = "";
 
+        emptyState.innerHTML = `
+          <strong>
+            هنوز محتوایی منتشر نکردی.
+          </strong>
+
+          <span>
+            اولین Asset خودت رو منتشر کن و پروفایلت رو کامل‌تر کن.
+          </span>
+
+          <a
+            href="upload.html"
+            class="btn btn-primary"
+          >
+            ⬆️ انتشار Asset
+          </a>
+        `;
+
+
         emptyState.style.display =
-          "block";
+          "flex";
+
 
         return;
 
@@ -2802,6 +3047,12 @@ a {
                     NO PREVIEW
                   </div>
                 `;
+
+
+            const formattedDate =
+              formatAssetDate(
+                asset.created_at
+              );
 
 
             return `
@@ -2846,6 +3097,18 @@ a {
 
                   </div>
 
+                  ${
+                    formattedDate
+                      ? `
+                        <div class="asset-date">
+                          📅 ${escapeHTML(
+                            formattedDate
+                          )}
+                        </div>
+                      `
+                      : ""
+                  }
+
                 </div>
 
               </article>
@@ -2872,6 +3135,7 @@ a {
 
               const slug =
                 card.dataset.slug;
+
 
               const id =
                 card.dataset.id;
@@ -2907,10 +3171,65 @@ a {
 
       clearEditMessage();
 
+
       selectedAvatarFile =
         null;
 
-      avatarInput.value = "";
+
+      if (avatarPreviewUrl) {
+
+        URL.revokeObjectURL(
+          avatarPreviewUrl
+        );
+
+        avatarPreviewUrl =
+          null;
+
+      }
+
+
+      avatarInput.value =
+        "";
+
+
+      if (currentProfile) {
+
+        const username =
+          currentProfile.username ||
+          currentUser?.user_metadata?.username ||
+          currentUser?.email
+            ?.split("@")[0] ||
+          "user";
+
+
+        const displayName =
+          currentProfile.display_name ||
+          currentUser?.user_metadata?.display_name ||
+          username;
+
+
+        displayNameInput.value =
+          displayName;
+
+
+        usernameInput.value =
+          username;
+
+
+        bioInput.value =
+          currentProfile.bio ||
+          "";
+
+
+        setAvatar(
+          editAvatar,
+          getCacheBustedUrl(
+            currentProfile.avatar_url
+          ),
+          displayName
+        );
+
+      }
 
 
       editModal.classList.add(
@@ -2944,6 +3263,53 @@ a {
 
 
       clearEditMessage();
+
+
+      selectedAvatarFile =
+        null;
+
+
+      avatarInput.value =
+        "";
+
+
+      if (avatarPreviewUrl) {
+
+        URL.revokeObjectURL(
+          avatarPreviewUrl
+        );
+
+        avatarPreviewUrl =
+          null;
+
+      }
+
+
+      if (currentProfile) {
+
+        const username =
+          currentProfile.username ||
+          currentUser?.user_metadata?.username ||
+          currentUser?.email
+            ?.split("@")[0] ||
+          "user";
+
+
+        const displayName =
+          currentProfile.display_name ||
+          currentUser?.user_metadata?.display_name ||
+          username;
+
+
+        setAvatar(
+          editAvatar,
+          getCacheBustedUrl(
+            currentProfile.avatar_url
+          ),
+          displayName
+        );
+
+      }
 
     }
 
@@ -3028,11 +3394,14 @@ a {
             "error"
           );
 
+
           avatarInput.value =
             "";
 
+
           selectedAvatarFile =
             null;
+
 
           return;
 
@@ -3057,11 +3426,14 @@ a {
             "error"
           );
 
+
           avatarInput.value =
             "";
 
+
           selectedAvatarFile =
             null;
+
 
           return;
 
@@ -3072,9 +3444,16 @@ a {
           file;
 
 
-        // Preview selected image
+        if (avatarPreviewUrl) {
 
-        const previewUrl =
+          URL.revokeObjectURL(
+            avatarPreviewUrl
+          );
+
+        }
+
+
+        avatarPreviewUrl =
           URL.createObjectURL(
             file
           );
@@ -3082,7 +3461,7 @@ a {
 
         editAvatar.innerHTML = `
           <img
-            src="${previewUrl}"
+            src="${escapeHTML(avatarPreviewUrl)}"
             alt="Preview"
           >
         `;
@@ -3106,6 +3485,13 @@ a {
 
     async function saveProfile() {
 
+      if (
+        saveProfileBtn.disabled
+      ) {
+        return;
+      }
+
+
       clearEditMessage();
 
 
@@ -3127,9 +3513,7 @@ a {
       // VALIDATION
       // =========================
 
-      if (
-        username.length < 3
-      ) {
+      if (username.length < 3) {
 
         showEditMessage(
           "نام کاربری باید حداقل 3 کاراکتر باشد.",
@@ -3141,9 +3525,7 @@ a {
       }
 
 
-      if (
-        username.length > 30
-      ) {
+      if (username.length > 30) {
 
         showEditMessage(
           "نام کاربری نباید بیشتر از 30 کاراکتر باشد.",
@@ -3155,11 +3537,7 @@ a {
       }
 
 
-      if (
-        !/^[a-z0-9_.-]+$/.test(
-          username
-        )
-      ) {
+      if (!/^[a-z0-9_.-]+$/.test(username)) {
 
         showEditMessage(
           "نام کاربری فقط می‌تواند شامل حروف انگلیسی، عدد، نقطه، خط تیره و _ باشد.",
@@ -3171,9 +3549,7 @@ a {
       }
 
 
-      if (
-        displayName.length > 40
-      ) {
+      if (displayName.length > 40) {
 
         showEditMessage(
           "نام نمایشی نباید بیشتر از 40 کاراکتر باشد.",
@@ -3185,9 +3561,7 @@ a {
       }
 
 
-      if (
-        bio.length > 180
-      ) {
+      if (bio.length > 180) {
 
         showEditMessage(
           "بیو نباید بیشتر از 180 کاراکتر باشد.",
@@ -3198,6 +3572,67 @@ a {
 
       }
 
+
+      // =========================
+      // CHECK USERNAME
+      // =========================
+
+      const {
+        data: existingProfiles,
+        error: usernameCheckError
+      } =
+        await supabase
+          .from("profiles")
+          .select("id")
+          .eq(
+            "username",
+            username
+          )
+          .neq(
+            "id",
+            currentUser.id
+          )
+          .limit(1);
+
+
+      if (usernameCheckError) {
+
+        console.error(
+          "Username check error:",
+          usernameCheckError
+        );
+
+
+        showEditMessage(
+          "بررسی نام کاربری انجام نشد. دوباره تلاش کن.",
+          "error"
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        existingProfiles &&
+        existingProfiles.length > 0
+      ) {
+
+        showEditMessage(
+          "این نام کاربری قبلاً استفاده شده.",
+          "error"
+        );
+
+
+        return;
+
+      }
+
+
+      // =========================
+      // START SAVING
+      // =========================
 
       saveProfileBtn.disabled =
         true;
@@ -3218,9 +3653,7 @@ a {
         // UPLOAD AVATAR
         // =========================
 
-        if (
-          selectedAvatarFile
-        ) {
+        if (selectedAvatarFile) {
 
           const extension =
             selectedAvatarFile.name
@@ -3234,8 +3667,7 @@ a {
 
 
           const {
-            error:
-              uploadError
+            error: uploadError
           } =
             await supabase
               .storage
@@ -3244,37 +3676,35 @@ a {
                 filePath,
                 selectedAvatarFile,
                 {
-                  cacheControl:
-                    "3600",
-
-                  upsert:
-                    true,
-
+                  cacheControl: "3600",
+                  upsert: true,
                   contentType:
                     selectedAvatarFile.type
                 }
               );
 
 
-          if (
-            uploadError
-          ) {
+          if (uploadError) {
 
             console.error(
               "Avatar upload error:",
               uploadError
             );
 
-            throw new Error(
-              "آپلود عکس پروفایل انجام نشد."
+
+            showEditMessage(
+              "آپلود عکس انجام نشد.",
+              "error"
             );
+
+
+            return;
 
           }
 
 
           const {
-            data:
-              publicData
+            data: publicUrlData
           } =
             supabase
               .storage
@@ -3285,19 +3715,18 @@ a {
 
 
           avatarUrl =
-            publicData?.publicUrl ||
+            publicUrlData?.publicUrl ||
             null;
 
         }
 
 
         // =========================
-        // UPDATE PROFILE TABLE
+        // UPDATE PROFILE
         // =========================
 
         const {
-          error:
-            profileError
+          error: profileError
         } =
           await supabase
             .from("profiles")
@@ -3306,8 +3735,7 @@ a {
                 id:
                   currentUser.id,
 
-                username:
-                  username,
+                username,
 
                 display_name:
                   displayName ||
@@ -3316,9 +3744,7 @@ a {
                 avatar_url:
                   avatarUrl,
 
-                bio:
-                  bio
-
+                bio
               },
               {
                 onConflict:
@@ -3327,19 +3753,21 @@ a {
             );
 
 
-        if (
-          profileError
-        ) {
+        if (profileError) {
 
           console.error(
             "Profile update error:",
             profileError
           );
 
-          throw new Error(
-            profileError.message ||
-            "ذخیره پروفایل انجام نشد."
+
+          showEditMessage(
+            "ذخیره پروفایل انجام نشد.",
+            "error"
           );
+
+
+          return;
 
         }
 
@@ -3349,29 +3777,20 @@ a {
         // =========================
 
         const {
-          error:
-            authUpdateError
+          error: authUpdateError
         } =
-          await supabase.auth.updateUser(
-            {
-              data: {
+          await supabase.auth.updateUser({
+            data: {
+              username,
 
-                username:
-                  username,
-
-                display_name:
-                  displayName ||
-                  username
-
-              }
-
+              display_name:
+                displayName ||
+                username
             }
-          );
+          });
 
 
-        if (
-          authUpdateError
-        ) {
+        if (authUpdateError) {
 
           console.warn(
             "Auth metadata update warning:",
@@ -3386,22 +3805,39 @@ a {
         // =========================
 
         showEditMessage(
-          "پروفایل با موفقیت بروزرسانی شد ✓",
+          "پروفایل با موفقیت ذخیره شد.",
           "success"
         );
+
+
+        selectedAvatarFile =
+          null;
+
+
+        avatarInput.value =
+          "";
+
+
+        if (avatarPreviewUrl) {
+
+          URL.revokeObjectURL(
+            avatarPreviewUrl
+          );
+
+          avatarPreviewUrl =
+            null;
+
+        }
 
 
         await loadProfileData();
 
 
-        setTimeout(
-          () => {
+        setTimeout(() => {
 
-            closeEditModal();
+          closeEditModal();
 
-          },
-          800
-        );
+        }, 800);
 
       }
 
@@ -3414,8 +3850,7 @@ a {
 
 
         showEditMessage(
-          error.message ||
-          "ذخیره تغییرات انجام نشد.",
+          "خطایی هنگام ذخیره پروفایل رخ داد.",
           "error"
         );
 
@@ -3425,6 +3860,7 @@ a {
 
         saveProfileBtn.disabled =
           false;
+
 
         saveProfileBtn.textContent =
           "ذخیره تغییرات";
@@ -3438,11 +3874,34 @@ a {
     // LOGOUT
     // =========================
 
-    document
-      .getElementById("logoutBtn")
-      .addEventListener(
-        "click",
-        async () => {
+    const logoutBtn =
+      document.getElementById(
+        "logoutBtn"
+      );
+
+
+    logoutBtn.addEventListener(
+      "click",
+      async () => {
+
+        if (
+          !confirm(
+            "مطمئنی می‌خوای از حساب خارج بشی؟"
+          )
+        ) {
+          return;
+        }
+
+
+        logoutBtn.disabled =
+          true;
+
+
+        logoutBtn.textContent =
+          "در حال خروج...";
+
+
+        try {
 
           const {
             error
@@ -3459,9 +3918,19 @@ a {
               error
             );
 
+
             alert(
               "خروج از حساب انجام نشد."
             );
+
+
+            logoutBtn.disabled =
+              false;
+
+
+            logoutBtn.textContent =
+              "خروج از حساب";
+
 
             return;
 
@@ -3472,7 +3941,31 @@ a {
             "index.html";
 
         }
-      );
+
+        catch (error) {
+
+          console.error(
+            "Logout exception:",
+            error
+          );
+
+
+          alert(
+            "خطایی هنگام خروج از حساب رخ داد."
+          );
+
+
+          logoutBtn.disabled =
+            false;
+
+
+          logoutBtn.textContent =
+            "خروج از حساب";
+
+        }
+
+      }
+    );
 
 
     // =========================
