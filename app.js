@@ -427,8 +427,333 @@ function renderAssets(
 ) {
 
   if (!assetGrid) {
+    console.error(
+      "LoyalForge: #assetGrid not found."
+    );
     return;
   }
+
+
+  // =========================
+  // CLEAR
+  // =========================
+
+  if (!append) {
+
+    assetGrid.innerHTML = "";
+
+  }
+
+
+  // =========================
+  // EMPTY
+  // =========================
+
+  if (
+    !assets ||
+    !assets.length
+  ) {
+
+    if (!append && emptyState) {
+
+      emptyState.style.display =
+        "block";
+
+
+      const title =
+        emptyState.querySelector("h3");
+
+
+      const text =
+        emptyState.querySelector("p");
+
+
+      if (title) {
+
+        title.textContent =
+          "هنوز چیزی اینجا نیست.";
+
+      }
+
+
+      if (text) {
+
+        text.textContent =
+          "اولین سازنده‌ای باش که یک اثر برای جامعه LoyalForge منتشر می‌کنه.";
+
+      }
+
+    }
+
+    return;
+
+  }
+
+
+  // =========================
+  // HIDE EMPTY
+  // =========================
+
+  if (emptyState) {
+
+    emptyState.style.display =
+      "none";
+
+  }
+
+
+  // =========================
+  // CREATE CARDS
+  // =========================
+
+  assets.forEach(asset => {
+
+    if (
+      !asset ||
+      !asset.id
+    ) {
+
+      console.warn(
+        "LoyalForge: Asset without ID skipped.",
+        asset
+      );
+
+      return;
+
+    }
+
+
+    const card =
+      document.createElement(
+        "article"
+      );
+
+
+    card.className =
+      "asset-card";
+
+
+    // =========================
+    // PROFILE
+    // =========================
+
+    const profile =
+      asset.profiles || {};
+
+
+    const creatorName =
+      profile.display_name ||
+      profile.username ||
+      "Unknown Creator";
+
+
+    // =========================
+    // CATEGORY
+    // =========================
+
+    const category =
+      asset.category ||
+      "Asset";
+
+
+    // =========================
+    // PREVIEW
+    // =========================
+
+    const preview =
+      asset.preview_url
+
+        ? `
+          <img
+            src="${escapeHTML(asset.preview_url)}"
+            alt="${escapeHTML(
+              asset.title ||
+              "Asset Preview"
+            )}"
+            loading="lazy"
+          >
+        `
+
+        : `
+          <div class="asset-preview-placeholder">
+            NO PREVIEW
+          </div>
+        `;
+
+
+    // =========================
+    // CARD HTML
+    // =========================
+
+    card.innerHTML = `
+
+      <div class="asset-preview">
+
+        ${preview}
+
+      </div>
+
+
+      <div class="asset-info">
+
+        <div class="asset-category">
+
+          ${escapeHTML(category)}
+
+        </div>
+
+
+        <div class="asset-title">
+
+          ${escapeHTML(
+            asset.title ||
+            "Untitled Asset"
+          )}
+
+        </div>
+
+
+        <div class="asset-creator">
+
+          by ${escapeHTML(creatorName)}
+
+        </div>
+
+
+        <div class="asset-meta">
+
+          <div class="asset-stats">
+
+            <span>
+              ♥ ${formatNumber(asset.likes)}
+            </span>
+
+            <span>
+              ↓ ${formatNumber(asset.downloads)}
+            </span>
+
+          </div>
+
+
+          <div class="asset-download">
+
+            ${escapeHTML(
+              asset.file_format ||
+              formatFileSize(asset.file_size) ||
+              "FILE"
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    // =========================
+    // OPEN ASSET
+    // =========================
+
+    card.style.cursor =
+      "pointer";
+
+
+    card.addEventListener(
+      "click",
+      () => {
+
+        /*
+         * مهم:
+         * ID را مستقیماً از Asset می‌گیریم
+         * و مستقیم داخل URL قرار می‌دهیم.
+         *
+         * دیگر به getAssetPageURL()
+         * وابسته نیستیم.
+         */
+
+        const assetId =
+          String(asset.id);
+
+
+        if (!assetId) {
+
+          console.error(
+            "LoyalForge: Asset ID is missing.",
+            asset
+          );
+
+          return;
+
+        }
+
+
+        const targetURL =
+          `asset.html?id=${encodeURIComponent(
+            assetId
+          )}`;
+
+
+        console.log(
+          "LoyalForge: Opening asset:",
+          targetURL
+        );
+
+
+        window.location.href =
+          targetURL;
+
+      }
+    );
+
+
+    // =========================
+    // KEYBOARD ACCESSIBILITY
+    // =========================
+
+    card.setAttribute(
+      "role",
+      "link"
+    );
+
+
+    card.setAttribute(
+      "tabindex",
+      "0"
+    );
+
+
+    card.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+
+          event.preventDefault();
+
+          card.click();
+
+        }
+
+      }
+    );
+
+
+    // =========================
+    // APPEND
+    // =========================
+
+    assetGrid.appendChild(
+      card
+    );
+
+  });
+
+}
 
 
   // =========================
