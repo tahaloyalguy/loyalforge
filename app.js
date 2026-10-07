@@ -710,6 +710,702 @@ if (searchModalInput) {
   );
 }
 
+// =========================
+// AUTH
+// =========================
+
+const authModal = document.getElementById("authModal");
+
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+
+const loginMessage = document.getElementById("loginMessage");
+const registerMessage = document.getElementById("registerMessage");
+
+const authTitle = document.getElementById("authTitle");
+const authSubtitle = document.getElementById("authSubtitle");
+
+const authSwitch = document.getElementById("authSwitch");
+const authSwitchText = document.getElementById("authSwitchText");
+
+const forgotPassword =
+  document.getElementById("forgotPassword");
+
+let authMode = "login";
+
+
+// =========================
+// AUTH MODAL
+// =========================
+
+function openAuthModal(mode = "login") {
+
+  if (!authModal) return;
+
+  authMode = mode;
+
+  authModal.classList.add("open");
+  authModal.setAttribute("aria-hidden", "false");
+
+  updateAuthMode();
+
+}
+
+
+function closeAuthModal() {
+
+  if (!authModal) return;
+
+  authModal.classList.remove("open");
+  authModal.setAttribute("aria-hidden", "true");
+
+  clearAuthMessages();
+
+}
+
+
+function updateAuthMode() {
+
+  if (!loginForm || !registerForm) return;
+
+  const isLogin =
+    authMode === "login";
+
+  loginForm.style.display =
+    isLogin ? "" : "none";
+
+  registerForm.style.display =
+    isLogin ? "none" : "";
+
+  if (isLogin) {
+
+    if (authTitle) {
+      authTitle.textContent =
+        "خوش برگشتی.";
+    }
+
+    if (authSubtitle) {
+      authSubtitle.textContent =
+        "برای ادامه وارد حساب کاربری خودت شو.";
+    }
+
+    if (authSwitchText) {
+      authSwitchText.textContent =
+        "حساب کاربری نداری؟";
+    }
+
+    if (authSwitch) {
+      authSwitch.textContent =
+        "ثبت‌نام کن";
+    }
+
+  } else {
+
+    if (authTitle) {
+      authTitle.textContent =
+        "حساب جدید بساز.";
+    }
+
+    if (authSubtitle) {
+      authSubtitle.textContent =
+        "برای شروع فعالیت در LoyalForge ثبت‌نام کن.";
+    }
+
+    if (authSwitchText) {
+      authSwitchText.textContent =
+        "قبلاً حساب ساختی؟";
+    }
+
+    if (authSwitch) {
+      authSwitch.textContent =
+        "وارد شو";
+    }
+
+  }
+
+}
+
+
+// =========================
+// OPEN AUTH
+// =========================
+
+document
+  .querySelectorAll("[data-auth-open]")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        openAuthModal("login");
+
+      }
+    );
+
+  });
+
+
+// =========================
+// CLOSE AUTH
+// =========================
+
+document
+  .querySelectorAll("[data-auth-close]")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      closeAuthModal
+    );
+
+  });
+
+
+// =========================
+// SWITCH LOGIN / REGISTER
+// =========================
+
+if (authSwitch) {
+
+  authSwitch.addEventListener(
+    "click",
+    () => {
+
+      authMode =
+        authMode === "login"
+          ? "register"
+          : "login";
+
+      clearAuthMessages();
+
+      updateAuthMode();
+
+    }
+  );
+
+}
+
+
+// =========================
+// ESC CLOSE
+// =========================
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Escape" &&
+      authModal?.classList.contains("open")
+    ) {
+
+      closeAuthModal();
+
+    }
+
+  }
+);
+
+
+// =========================
+// AUTH MESSAGES
+// =========================
+
+function showAuthMessage(
+  element,
+  message,
+  type = "error"
+) {
+
+  if (!element) return;
+
+  element.textContent = message;
+
+  element.classList.remove(
+    "error",
+    "success"
+  );
+
+  element.classList.add(type);
+
+}
+
+
+function clearAuthMessages() {
+
+  if (loginMessage) {
+
+    loginMessage.textContent = "";
+
+    loginMessage.classList.remove(
+      "error",
+      "success"
+    );
+
+  }
+
+  if (registerMessage) {
+
+    registerMessage.textContent = "";
+
+    registerMessage.classList.remove(
+      "error",
+      "success"
+    );
+
+  }
+
+}
+
+
+// =========================
+// LOGIN
+// =========================
+
+if (loginForm) {
+
+  loginForm.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      clearAuthMessages();
+
+      const email =
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("loginPassword")
+          .value;
+
+      const submitButton =
+        loginForm.querySelector(
+          'button[type="submit"]'
+        );
+
+
+      if (submitButton) {
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+          "در حال ورود...";
+
+      }
+
+
+      const {
+        data,
+        error
+      } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+
+      if (error) {
+
+        console.error(
+          "Login error:",
+          error
+        );
+
+        showAuthMessage(
+          loginMessage,
+          "ایمیل یا رمز عبور اشتباه است.",
+          "error"
+        );
+
+        if (submitButton) {
+
+          submitButton.disabled = false;
+
+          submitButton.innerHTML =
+            'ورود به حساب <span>←</span>';
+
+        }
+
+        return;
+
+      }
+
+
+      console.log(
+        "Logged in:",
+        data.user
+      );
+
+
+      showAuthMessage(
+        loginMessage,
+        "با موفقیت وارد شدی ✓",
+        "success"
+      );
+
+
+      setTimeout(() => {
+
+        closeAuthModal();
+
+        updateAuthUI();
+
+      }, 700);
+
+    }
+  );
+
+}
+
+
+// =========================
+// REGISTER
+// =========================
+
+if (registerForm) {
+
+  registerForm.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      clearAuthMessages();
+
+      const username =
+        document
+          .getElementById("registerUsername")
+          .value
+          .trim();
+
+      const email =
+        document
+          .getElementById("registerEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("registerPassword")
+          .value;
+
+
+      if (username.length < 3) {
+
+        showAuthMessage(
+          registerMessage,
+          "نام کاربری باید حداقل ۳ کاراکتر باشد.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (password.length < 6) {
+
+        showAuthMessage(
+          registerMessage,
+          "رمز عبور باید حداقل ۶ کاراکتر باشد.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const submitButton =
+        registerForm.querySelector(
+          'button[type="submit"]'
+        );
+
+
+      if (submitButton) {
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+          "در حال ساخت حساب...";
+
+      }
+
+
+      const {
+        data,
+        error
+      } = await supabase.auth.signUp({
+
+        email,
+
+        password,
+
+        options: {
+
+          data: {
+
+            username
+
+          }
+
+        }
+
+      });
+
+
+      if (error) {
+
+        console.error(
+          "Register error:",
+          error
+        );
+
+        showAuthMessage(
+          registerMessage,
+          error.message,
+          "error"
+        );
+
+        if (submitButton) {
+
+          submitButton.disabled = false;
+
+          submitButton.innerHTML =
+            'ساخت حساب <span>←</span>';
+
+        }
+
+        return;
+
+      }
+
+
+      /*
+       * اگر تأیید ایمیل فعال باشد،
+       * session تا زمان تأیید ایمیل ساخته نمی‌شود.
+       */
+
+      if (
+        data.user &&
+        !data.session
+      ) {
+
+        showAuthMessage(
+          registerMessage,
+          "حساب ساخته شد. ایمیلت رو برای تأیید حساب بررسی کن.",
+          "success"
+        );
+
+        if (submitButton) {
+
+          submitButton.disabled = false;
+
+          submitButton.innerHTML =
+            'ساخت حساب <span>←</span>';
+
+        }
+
+        return;
+
+      }
+
+
+      showAuthMessage(
+        registerMessage,
+        "حساب با موفقیت ساخته شد ✓",
+        "success"
+      );
+
+
+      setTimeout(() => {
+
+        closeAuthModal();
+
+        updateAuthUI();
+
+      }, 700);
+
+    }
+  );
+
+}
+
+
+// =========================
+// FORGOT PASSWORD
+// =========================
+
+if (forgotPassword) {
+
+  forgotPassword.addEventListener(
+    "click",
+    async () => {
+
+      clearAuthMessages();
+
+      const emailInput =
+        document.getElementById(
+          "loginEmail"
+        );
+
+      const email =
+        emailInput?.value.trim();
+
+
+      if (!email) {
+
+        showAuthMessage(
+          loginMessage,
+          "اول ایمیلت رو وارد کن.",
+          "error"
+        );
+
+        emailInput?.focus();
+
+        return;
+
+      }
+
+
+      const {
+        error
+      } =
+        await supabase.auth
+          .resetPasswordForEmail(
+            email,
+            {
+              redirectTo:
+                `${window.location.origin}${window.location.pathname}`
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Password reset error:",
+          error
+        );
+
+        showAuthMessage(
+          loginMessage,
+          "ارسال لینک بازیابی انجام نشد.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      showAuthMessage(
+        loginMessage,
+        "لینک بازیابی رمز عبور به ایمیلت ارسال شد.",
+        "success"
+      );
+
+    }
+  );
+
+}
+
+
+// =========================
+// AUTH UI
+// =========================
+
+async function updateAuthUI() {
+
+  const {
+    data: {
+      user
+    }
+  } = await supabase.auth.getUser();
+
+
+  const loginButton =
+    document.querySelector(
+      ".nav-login"
+    );
+
+
+  if (!loginButton) return;
+
+
+  if (user) {
+
+    loginButton.textContent =
+      "حساب من";
+
+    loginButton.dataset.authenticated =
+      "true";
+
+  } else {
+
+    loginButton.textContent =
+      "ورود";
+
+    loginButton.dataset.authenticated =
+      "false";
+
+  }
+
+}
+
+
+// =========================
+// NAV LOGIN BUTTON
+// =========================
+
+const navLogin =
+  document.querySelector(
+    ".nav-login"
+  );
+
+
+if (navLogin) {
+
+  navLogin.addEventListener(
+    "click",
+    async () => {
+
+      const {
+        data: {
+          user
+        }
+      } = await supabase.auth.getUser();
+
+
+      if (user) {
+
+        showToast(
+          `وارد حساب ${user.email} هستی`
+        );
+
+        return;
+
+      }
+
+
+      openAuthModal("login");
+
+    }
+  );
+
+}
+
+
+// =========================
+// INITIAL AUTH CHECK
+// =========================
+
+updateAuthUI();
 
 // =========================
 // UPLOAD BUTTONS
