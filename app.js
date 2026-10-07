@@ -23,19 +23,35 @@ const sortButtons = document.querySelectorAll(".sort-btn");
 const searchModal = document.getElementById("searchModal");
 const searchModalInput = document.getElementById("searchModalInput");
 
+const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+
+// =========================
+// STATE
+// =========================
+
 let currentCategory = "all";
 let currentSort = "latest";
 let currentSearch = "";
+
 let currentPage = 0;
+
 const assetsPerPage = 30;
+
 let hasMoreAssets = true;
+let isLoadingAssets = false;
+
+let searchTimeout;
+
 
 // =========================
 // HELPERS
 // =========================
 
 function escapeHTML(value) {
-  if (value === null || value === undefined) return "";
+  if (value === null || value === undefined) {
+    return "";
+  }
 
   return String(value)
     .replaceAll("&", "&amp;")
@@ -64,7 +80,9 @@ function formatNumber(value) {
 function formatFileSize(bytes) {
   const size = Number(bytes || 0);
 
-  if (!size) return "";
+  if (!size) {
+    return "";
+  }
 
   if (size < 1024) {
     return `${size} B`;
@@ -81,7 +99,9 @@ function formatFileSize(bytes) {
 function showToast(message) {
   const toast = document.getElementById("toast");
 
-  if (!toast) return;
+  if (!toast) {
+    return;
+  }
 
   toast.textContent = message;
   toast.classList.add("show");
@@ -95,25 +115,63 @@ function showToast(message) {
 
 
 // =========================
+// ASSET URL
+// =========================
+
+function getAssetPageURL(asset) {
+
+  if (!asset || !asset.id) {
+    return null;
+  }
+
+  /*
+   * همیشه با ID باز می‌کنیم.
+   *
+   * این باعث می‌شود Asset Page دقیقاً
+   * رکورد درست Supabase را پیدا کند.
+   */
+
+  return `asset.html?id=${encodeURIComponent(asset.id)}`;
+}
+
+
+// =========================
 // LOAD ASSETS
 // =========================
 
 async function loadAssets(reset = true) {
 
-  if (!assetGrid) return;
+  if (!assetGrid) {
+    return;
+  }
 
-if (reset) {
+  if (isLoadingAssets) {
+    return;
+  }
 
-  renderAssets(assets);
+  isLoadingAssets = true;
 
-} else {
 
-  renderAssets(
-    assets,
-    true
-  );
+  // =========================
+  // RESET
+  // =========================
 
-}
+  if (reset) {
+
+    currentPage = 0;
+
+    hasMoreAssets = true;
+
+    if (loadMoreBtn) {
+      loadMoreBtn.style.display = "none";
+    }
+
+  }
+
+
+  // =========================
+  // SUPABASE QUERY
+  // =========================
 
   let query = supabase
     .from("assets")
@@ -151,10 +209,12 @@ if (reset) {
     other: "Other"
   };
 
+
   if (currentCategory !== "all") {
 
     const databaseCategory =
       categoryMap[currentCategory];
+
 
     if (databaseCategory) {
 
@@ -175,7 +235,10 @@ if (reset) {
   if (currentSearch.trim()) {
 
     const searchTerm =
-      currentSearch.trim();
+      currentSearch
+        .trim()
+        .replace(/[%(),]/g, " ");
+
 
     query = query.or(
       `title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,file_format.ilike.%${searchTerm}%`
@@ -193,7 +256,8 @@ if (reset) {
     query = query.order(
       "likes",
       {
-        ascending: false
+        ascending: false,
+        nullsFirst: false
       }
     );
 
@@ -204,7 +268,8 @@ if (reset) {
     query = query.order(
       "downloads",
       {
-        ascending: false
+        ascending: false,
+        nullsFirst: false
       }
     );
 
@@ -232,8 +297,16 @@ if (reset) {
   const to =
     from + assetsPerPage - 1;
 
-  query = query.range(from, to);
 
+  query = query.range(
+    from,
+    to
+  );
+
+
+  // =========================
+  // FETCH
+  // =========================
 
   const {
     data,
@@ -252,30 +325,45 @@ if (reset) {
       error
     );
 
-    assetGrid.innerHTML = "";
+
+    if (reset) {
+      assetGrid.innerHTML = "";
+    }
+
 
     if (emptyState) {
 
       emptyState.style.display =
         "block";
 
+
       const title =
         emptyState.querySelector("h3");
+
 
       const text =
         emptyState.querySelector("p");
 
+
       if (title) {
+
         title.textContent =
-          "Couldn't load assets";
+          "خطا در بارگذاری";
+
       }
 
+
       if (text) {
+
         text.textContent =
-          "There was a problem connecting to the asset database.";
+          "اتصال به پایگاه داده با مشکل مواجه شد.";
+
       }
 
     }
+
+
+    isLoadingAssets = false;
 
     return;
 
@@ -301,28 +389,15 @@ if (reset) {
   // RENDER
   // =========================
 
-  if (reset) {
-
-    renderAssets(assets);
-
-  } else {
-
-    renderAssets(
-      assets,
-      false
-    );
-
-  }
+  renderAssets(
+    assets,
+    !reset
+  );
 
 
   // =========================
-  // LOAD MORE BUTTON
+  // LOAD MORE
   // =========================
-
-  const loadMoreBtn =
-    document.getElementById(
-      "loadMoreBtn"
-    );
 
   if (loadMoreBtn) {
 
@@ -333,7 +408,11 @@ if (reset) {
 
   }
 
+
+  isLoadingAssets = false;
+
 }
+
 
 // =========================
 // RENDER ASSETS
@@ -344,26 +423,71 @@ function renderAssets(
   append = false
 ) {
 
-  if (!assetGrid) return;
-
-
-  // Clear only when starting fresh
-  if (!append) {
-    assetGrid.innerHTML = "";
+  if (!assetGrid) {
+    return;
   }
 
 
-  if (!assets.length && !append) {
+  // =========================
+  // CLEAR
+  // =========================
+
+  if (!append) {
+
+    assetGrid.innerHTML = "";
+
+  }
+
+
+  // =========================
+  // EMPTY
+  // =========================
+
+  if (
+    !assets.length &&
+    !append
+  ) {
 
     if (emptyState) {
+
       emptyState.style.display =
         "block";
+
+
+      const title =
+        emptyState.querySelector("h3");
+
+
+      const text =
+        emptyState.querySelector("p");
+
+
+      if (title) {
+
+        title.textContent =
+          "هنوز چیزی اینجا نیست.";
+
+      }
+
+
+      if (text) {
+
+        text.textContent =
+          "اولین سازنده‌ای باش که یک اثر برای جامعه LoyalForge منتشر می‌کنه.";
+
+      }
+
     }
+
 
     return;
 
   }
 
+
+  // =========================
+  // HIDE EMPTY
+  // =========================
 
   if (emptyState) {
 
@@ -373,14 +497,28 @@ function renderAssets(
   }
 
 
+  // =========================
+  // CARDS
+  // =========================
+
   assets.forEach(asset => {
+
+    if (!asset || !asset.id) {
+      return;
+    }
+
 
     const card =
       document.createElement("article");
 
+
     card.className =
       "asset-card";
 
+
+    // =========================
+    // PROFILE
+    // =========================
 
     const profile =
       asset.profiles || {};
@@ -392,16 +530,25 @@ function renderAssets(
       "Unknown Creator";
 
 
-    const category =
-      asset.category || "Asset";
+    // =========================
+    // CATEGORY
+    // =========================
 
+    const category =
+      asset.category ||
+      "Asset";
+
+
+    // =========================
+    // PREVIEW
+    // =========================
 
     const preview =
       asset.preview_url
         ? `
           <img
             src="${escapeHTML(asset.preview_url)}"
-            alt="${escapeHTML(asset.title)}"
+            alt="${escapeHTML(asset.title || "Asset Preview")}"
             loading="lazy"
           >
         `
@@ -412,27 +559,42 @@ function renderAssets(
         `;
 
 
+    // =========================
+    // CARD HTML
+    // =========================
+
     card.innerHTML = `
 
       <div class="asset-preview">
+
         ${preview}
+
       </div>
 
 
       <div class="asset-info">
 
         <div class="asset-category">
+
           ${escapeHTML(category)}
+
         </div>
 
 
         <div class="asset-title">
-          ${escapeHTML(asset.title)}
+
+          ${escapeHTML(
+            asset.title ||
+            "Untitled Asset"
+          )}
+
         </div>
 
 
         <div class="asset-creator">
+
           by ${escapeHTML(creatorName)}
+
         </div>
 
 
@@ -468,25 +630,73 @@ function renderAssets(
     `;
 
 
+    // =========================
+    // CLICK → ASSET PAGE
+    // =========================
+
     card.style.cursor =
       "pointer";
 
 
-    card.addEventListener(
-      "click",
+    card.setAttribute(
+      "role",
+      "link"
+    );
+
+
+    card.setAttribute(
+      "tabindex",
+      "0"
+    );
+
+
+    const openAsset =
       () => {
 
-        if (asset.slug) {
+        const url =
+          getAssetPageURL(asset);
 
-          window.location.href =
-            `asset.html?slug=${encodeURIComponent(asset.slug)}`;
+
+        if (!url) {
+
+          console.error(
+            "Asset has no ID:",
+            asset
+          );
+
+          showToast(
+            "شناسه این Asset پیدا نشد."
+          );
+
+          return;
 
         }
 
-        else {
 
-          window.location.href =
-            `asset.html?id=${encodeURIComponent(asset.id)}`;
+        window.location.href =
+          url;
+
+      };
+
+
+    card.addEventListener(
+      "click",
+      openAsset
+    );
+
+
+    card.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+
+          event.preventDefault();
+
+          openAsset();
 
         }
 
@@ -494,31 +704,57 @@ function renderAssets(
     );
 
 
-    assetGrid.appendChild(card);
+    // =========================
+    // APPEND
+    // =========================
+
+    assetGrid.appendChild(
+      card
+    );
 
   });
 
 }
+
 
 // =========================
 // CATEGORY FILTERS
 // =========================
 
 filterButtons.forEach(button => {
-  button.addEventListener("click", () => {
 
-    filterButtons.forEach(btn => {
-      btn.classList.remove("active");
-    });
+  button.addEventListener(
+    "click",
+    () => {
 
-    button.classList.add("active");
+      filterButtons.forEach(btn => {
 
-    currentCategory =
-      button.dataset.category || "all";
+        btn.classList.remove(
+          "active"
+        );
 
-    loadAssets();
-  });
+      });
+
+
+      button.classList.add(
+        "active"
+      );
+
+
+      currentCategory =
+        button.dataset.category ||
+        "all";
+
+
+      loadAssets(
+        true
+      );
+
+    }
+  );
+
 });
+
 
 // =========================
 // CATEGORY CARDS
@@ -528,52 +764,92 @@ document
   .querySelectorAll(".category-card")
   .forEach(card => {
 
-    card.addEventListener("click", () => {
+    card.addEventListener(
+      "click",
+      () => {
 
-      const category =
-        card.dataset.category || "all";
+        const category =
+          card.dataset.category ||
+          "all";
 
-      currentCategory = category;
 
-      filterButtons.forEach(button => {
+        /*
+         * دسته‌بندی Minecraft
+         * فعلاً دسته دیتابیسی مستقل ندارد.
+         *
+         * برای جلوگیری از Query اشتباه،
+         * فقط اگر دسته معتبر بود فیلتر می‌کنیم.
+         */
 
-        button.classList.toggle(
-          "active",
-          button.dataset.category === category
+        currentCategory =
+          category;
+
+
+        filterButtons.forEach(
+          button => {
+
+            button.classList.toggle(
+              "active",
+              button.dataset.category === category
+            );
+
+          }
         );
 
-      });
 
-      loadAssets();
+        loadAssets(
+          true
+        );
 
-      document
-        .getElementById("explore")
-        ?.scrollIntoView({
-          behavior: "smooth"
-        });
 
-    });
+        document
+          .getElementById("explore")
+          ?.scrollIntoView({
+            behavior: "smooth"
+          });
+
+      }
+    );
 
   });
+
 
 // =========================
 // SORT
 // =========================
 
 sortButtons.forEach(button => {
-  button.addEventListener("click", () => {
 
-    sortButtons.forEach(btn => {
-      btn.classList.remove("active");
-    });
+  button.addEventListener(
+    "click",
+    () => {
 
-    button.classList.add("active");
+      sortButtons.forEach(btn => {
 
-    currentSort =
-      button.dataset.sort || "latest";
+        btn.classList.remove(
+          "active"
+        );
 
-    loadAssets();
-  });
+      });
+
+
+      button.classList.add(
+        "active"
+      );
+
+
+      currentSort =
+        button.dataset.sort ||
+        "latest";
+
+
+      loadAssets(
+        true
+      );
+
+    }
+  );
+
 });
 
 
@@ -581,22 +857,36 @@ sortButtons.forEach(button => {
 // SEARCH
 // =========================
 
-let searchTimeout;
-
 if (searchInput) {
-  searchInput.addEventListener("input", () => {
 
-    clearTimeout(searchTimeout);
+  searchInput.addEventListener(
+    "input",
+    () => {
 
-    searchTimeout = setTimeout(() => {
+      clearTimeout(
+        searchTimeout
+      );
 
-      currentSearch =
-        searchInput.value.trim();
 
-      loadAssets();
+      searchTimeout =
+        setTimeout(
+          () => {
 
-    }, 350);
-  });
+            currentSearch =
+              searchInput.value.trim();
+
+
+            loadAssets(
+              true
+            );
+
+          },
+          350
+        );
+
+    }
+  );
+
 }
 
 
@@ -605,20 +895,40 @@ if (searchInput) {
 // =========================
 
 function openSearchModal() {
-  if (!searchModal) return;
 
-  searchModal.classList.add("open");
+  if (!searchModal) {
+    return;
+  }
 
-  setTimeout(() => {
-    searchModalInput?.focus();
-  }, 50);
+
+  searchModal.classList.add(
+    "open"
+  );
+
+
+  setTimeout(
+    () => {
+
+      searchModalInput?.focus();
+
+    },
+    50
+  );
+
 }
 
 
 function closeSearchModal() {
-  if (!searchModal) return;
 
-  searchModal.classList.remove("open");
+  if (!searchModal) {
+    return;
+  }
+
+
+  searchModal.classList.remove(
+    "open"
+  );
+
 }
 
 
@@ -647,27 +957,28 @@ document
 
 
 if (searchModal) {
-  searchModal.addEventListener("click", event => {
 
-    if (event.target === searchModal) {
-      closeSearchModal();
+  searchModal.addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target ===
+        searchModal
+      ) {
+
+        closeSearchModal();
+
+      }
+
     }
+  );
 
-  });
 }
 
 
-document.addEventListener("keydown", event => {
-
-  if (event.key === "Escape") {
-    closeSearchModal();
-  }
-
-});
-
-
 // =========================
-// MODAL SEARCH
+// SEARCH MODAL KEYBOARD
 // =========================
 
 if (searchModalInput) {
@@ -676,26 +987,43 @@ if (searchModalInput) {
     "keydown",
     event => {
 
-      if (event.key !== "Enter") {
+      if (
+        event.key !== "Enter"
+      ) {
+
         return;
+
       }
+
 
       const value =
         searchModalInput.value.trim();
+
 
       if (!value) {
         return;
       }
 
+
       if (searchInput) {
-        searchInput.value = value;
+
+        searchInput.value =
+          value;
+
       }
 
-      currentSearch = value;
+
+      currentSearch =
+        value;
+
 
       closeSearchModal();
 
-      loadAssets();
+
+      loadAssets(
+        true
+      );
+
 
       document
         .getElementById("explore")
@@ -705,92 +1033,218 @@ if (searchModalInput) {
 
     }
   );
+
 }
+
+
+// =========================
+// SEARCH KEYBOARD SHORTCUT
+// =========================
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      (event.ctrlKey ||
+       event.metaKey) &&
+      event.key.toLowerCase() === "k"
+    ) {
+
+      event.preventDefault();
+
+      openSearchModal();
+
+    }
+
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      closeSearchModal();
+
+    }
+
+  }
+);
+
 
 // =========================
 // AUTH
 // =========================
 
-const authModal = document.getElementById("authModal");
+const authModal =
+  document.getElementById(
+    "authModal"
+  );
 
-const loginForm = document.getElementById("loginForm");
-const registerForm = document.getElementById("registerForm");
 
-const loginMessage = document.getElementById("loginMessage");
-const registerMessage = document.getElementById("registerMessage");
+const loginForm =
+  document.getElementById(
+    "loginForm"
+  );
 
-const authTitle = document.getElementById("authTitle");
-const authSubtitle = document.getElementById("authSubtitle");
 
-const authSwitch = document.getElementById("authSwitch");
-const authSwitchText = document.getElementById("authSwitchText");
+const registerForm =
+  document.getElementById(
+    "registerForm"
+  );
+
+
+const loginMessage =
+  document.getElementById(
+    "loginMessage"
+  );
+
+
+const registerMessage =
+  document.getElementById(
+    "registerMessage"
+  );
+
+
+const authTitle =
+  document.getElementById(
+    "authTitle"
+  );
+
+
+const authSubtitle =
+  document.getElementById(
+    "authSubtitle"
+  );
+
+
+const authSwitch =
+  document.getElementById(
+    "authSwitch"
+  );
+
+
+const authSwitchText =
+  document.getElementById(
+    "authSwitchText"
+  );
+
 
 const forgotPassword =
-  document.getElementById("forgotPassword");
+  document.getElementById(
+    "forgotPassword"
+  );
 
-let authMode = "login";
+
+const accountButton =
+  document.getElementById(
+    "accountButton"
+  );
+
+
+let authMode =
+  "login";
+
 
 // =========================
 // ACCOUNT BUTTON
 // =========================
 
-const accountButton =
-  document.getElementById("accountButton");
-
 if (accountButton) {
 
-  accountButton.addEventListener("click", async () => {
+  accountButton.addEventListener(
+    "click",
+    async () => {
 
-    accountButton.disabled = true;
+      accountButton.disabled =
+        true;
 
-    try {
 
-      const {
-        data: { user },
-        error
-      } = await supabase.auth.getUser();
+      try {
 
-      if (error) {
-        console.error("Account check error:", error);
-        window.location.href = "auth.html";
-        return;
+        const {
+          data: {
+            user
+          },
+          error
+        } =
+          await supabase.auth.getUser();
+
+
+        if (error) {
+
+          console.error(
+            "Account check error:",
+            error
+          );
+
+          window.location.href =
+            "auth.html";
+
+          return;
+
+        }
+
+
+        if (user) {
+
+          window.location.href =
+            "profile.html";
+
+        }
+
+        else {
+
+          window.location.href =
+            "auth.html";
+
+        }
+
       }
 
-      if (user) {
+      catch (error) {
 
-        // کاربر وارد شده → پروفایل
-        window.location.href = "profile.html";
+        console.error(
+          "Account button error:",
+          error
+        );
 
-      } else {
-
-        // کاربر وارد نشده → صفحه ورود
-        window.location.href = "auth.html";
+        window.location.href =
+          "auth.html";
 
       }
-
-    } catch (error) {
-
-      console.error("Account button error:", error);
-      window.location.href = "auth.html";
 
     }
-
-  });
+  );
 
 }
+
 
 // =========================
 // AUTH MODAL
 // =========================
 
-function openAuthModal(mode = "login") {
+function openAuthModal(
+  mode = "login"
+) {
 
-  if (!authModal) return;
+  if (!authModal) {
+    return;
+  }
 
-  authMode = mode;
 
-  authModal.classList.add("open");
-  authModal.setAttribute("aria-hidden", "false");
+  authMode =
+    mode;
+
+
+  authModal.classList.add(
+    "open"
+  );
+
+
+  authModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
 
   updateAuthMode();
 
@@ -799,10 +1253,21 @@ function openAuthModal(mode = "login") {
 
 function closeAuthModal() {
 
-  if (!authModal) return;
+  if (!authModal) {
+    return;
+  }
 
-  authModal.classList.remove("open");
-  authModal.setAttribute("aria-hidden", "true");
+
+  authModal.classList.remove(
+    "open"
+  );
+
+
+  authModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
 
   clearAuthMessages();
 
@@ -811,67 +1276,107 @@ function closeAuthModal() {
 
 function updateAuthMode() {
 
-  if (!loginForm || !registerForm) return;
+  if (
+    !loginForm ||
+    !registerForm
+  ) {
+
+    return;
+
+  }
+
 
   const isLogin =
     authMode === "login";
 
+
   loginForm.style.display =
-    isLogin ? "" : "none";
+    isLogin
+      ? ""
+      : "none";
+
 
   registerForm.style.display =
-    isLogin ? "none" : "";
+    isLogin
+      ? "none"
+      : "";
+
 
   if (isLogin) {
 
     if (authTitle) {
+
       authTitle.textContent =
         "خوش برگشتی.";
+
     }
 
+
     if (authSubtitle) {
+
       authSubtitle.textContent =
         "برای ادامه وارد حساب کاربری خودت شو.";
+
     }
 
+
     if (authSwitchText) {
+
       authSwitchText.textContent =
         "حساب کاربری نداری؟";
+
     }
 
+
     if (authSwitch) {
+
       authSwitch.textContent =
         "ثبت‌نام کن";
+
     }
 
-  } else {
+  }
+
+  else {
 
     if (authTitle) {
+
       authTitle.textContent =
         "حساب جدید بساز.";
+
     }
+
 
     if (authSubtitle) {
+
       authSubtitle.textContent =
         "برای شروع فعالیت در LoyalForge ثبت‌نام کن.";
+
     }
+
 
     if (authSwitchText) {
+
       authSwitchText.textContent =
         "قبلاً حساب ساختی؟";
+
     }
 
+
     if (authSwitch) {
+
       authSwitch.textContent =
         "وارد شو";
+
     }
 
   }
 
 }
 
+
 // =========================
-// CLOSE AUTH
+// AUTH CLOSE
 // =========================
 
 document
@@ -887,7 +1392,7 @@ document
 
 
 // =========================
-// SWITCH LOGIN / REGISTER
+// AUTH SWITCH
 // =========================
 
 if (authSwitch) {
@@ -901,7 +1406,9 @@ if (authSwitch) {
           ? "register"
           : "login";
 
+
       clearAuthMessages();
+
 
       updateAuthMode();
 
@@ -909,27 +1416,6 @@ if (authSwitch) {
   );
 
 }
-
-
-// =========================
-// ESC CLOSE
-// =========================
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key === "Escape" &&
-      authModal?.classList.contains("open")
-    ) {
-
-      closeAuthModal();
-
-    }
-
-  }
-);
 
 
 // =========================
@@ -942,16 +1428,24 @@ function showAuthMessage(
   type = "error"
 ) {
 
-  if (!element) return;
+  if (!element) {
+    return;
+  }
 
-  element.textContent = message;
+
+  element.textContent =
+    message;
+
 
   element.classList.remove(
     "error",
     "success"
   );
 
-  element.classList.add(type);
+
+  element.classList.add(
+    type
+  );
 
 }
 
@@ -960,7 +1454,8 @@ function clearAuthMessages() {
 
   if (loginMessage) {
 
-    loginMessage.textContent = "";
+    loginMessage.textContent =
+      "";
 
     loginMessage.classList.remove(
       "error",
@@ -969,9 +1464,11 @@ function clearAuthMessages() {
 
   }
 
+
   if (registerMessage) {
 
-    registerMessage.textContent = "";
+    registerMessage.textContent =
+      "";
 
     registerMessage.classList.remove(
       "error",
@@ -995,18 +1492,26 @@ if (loginForm) {
 
       event.preventDefault();
 
+
       clearAuthMessages();
+
 
       const email =
         document
-          .getElementById("loginEmail")
-          .value
+          .getElementById(
+            "loginEmail"
+          )
+          ?.value
           .trim();
+
 
       const password =
         document
-          .getElementById("loginPassword")
-          .value;
+          .getElementById(
+            "loginPassword"
+          )
+          ?.value;
+
 
       const submitButton =
         loginForm.querySelector(
@@ -1016,7 +1521,9 @@ if (loginForm) {
 
       if (submitButton) {
 
-        submitButton.disabled = true;
+        submitButton.disabled =
+          true;
+
 
         submitButton.innerHTML =
           "در حال ورود...";
@@ -1027,10 +1534,12 @@ if (loginForm) {
       const {
         data,
         error
-      } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+      } =
+        await supabase.auth
+          .signInWithPassword({
+            email,
+            password
+          });
 
 
       if (error) {
@@ -1040,20 +1549,25 @@ if (loginForm) {
           error
         );
 
+
         showAuthMessage(
           loginMessage,
           "ایمیل یا رمز عبور اشتباه است.",
           "error"
         );
 
+
         if (submitButton) {
 
-          submitButton.disabled = false;
+          submitButton.disabled =
+            false;
+
 
           submitButton.innerHTML =
             'ورود به حساب <span>←</span>';
 
         }
+
 
         return;
 
@@ -1073,13 +1587,16 @@ if (loginForm) {
       );
 
 
-      setTimeout(() => {
+      setTimeout(
+        () => {
 
-        closeAuthModal();
+          closeAuthModal();
 
-        updateAuthUI();
+          updateAuthUI();
 
-      }, 700);
+        },
+        700
+      );
 
     }
   );
@@ -1099,27 +1616,40 @@ if (registerForm) {
 
       event.preventDefault();
 
+
       clearAuthMessages();
+
 
       const username =
         document
-          .getElementById("registerUsername")
-          .value
+          .getElementById(
+            "registerUsername"
+          )
+          ?.value
           .trim();
+
 
       const email =
         document
-          .getElementById("registerEmail")
-          .value
+          .getElementById(
+            "registerEmail"
+          )
+          ?.value
           .trim();
+
 
       const password =
         document
-          .getElementById("registerPassword")
-          .value;
+          .getElementById(
+            "registerPassword"
+          )
+          ?.value;
 
 
-      if (username.length < 3) {
+      if (
+        !username ||
+        username.length < 3
+      ) {
 
         showAuthMessage(
           registerMessage,
@@ -1132,7 +1662,9 @@ if (registerForm) {
       }
 
 
-      if (password.length < 6) {
+      if (
+        password.length < 6
+      ) {
 
         showAuthMessage(
           registerMessage,
@@ -1153,7 +1685,9 @@ if (registerForm) {
 
       if (submitButton) {
 
-        submitButton.disabled = true;
+        submitButton.disabled =
+          true;
+
 
         submitButton.innerHTML =
           "در حال ساخت حساب...";
@@ -1164,23 +1698,25 @@ if (registerForm) {
       const {
         data,
         error
-      } = await supabase.auth.signUp({
+      } =
+        await supabase.auth
+          .signUp({
 
-        email,
+            email,
 
-        password,
+            password,
 
-        options: {
+            options: {
 
-          data: {
+              data: {
 
-            username
+                username
 
-          }
+              }
 
-        }
+            }
 
-      });
+          });
 
 
       if (error) {
@@ -1190,30 +1726,30 @@ if (registerForm) {
           error
         );
 
+
         showAuthMessage(
           registerMessage,
           error.message,
           "error"
         );
 
+
         if (submitButton) {
 
-          submitButton.disabled = false;
+          submitButton.disabled =
+            false;
+
 
           submitButton.innerHTML =
             'ساخت حساب <span>←</span>';
 
         }
 
+
         return;
 
       }
 
-
-      /*
-       * اگر تأیید ایمیل فعال باشد،
-       * session تا زمان تأیید ایمیل ساخته نمی‌شود.
-       */
 
       if (
         data.user &&
@@ -1226,14 +1762,18 @@ if (registerForm) {
           "success"
         );
 
+
         if (submitButton) {
 
-          submitButton.disabled = false;
+          submitButton.disabled =
+            false;
+
 
           submitButton.innerHTML =
             'ساخت حساب <span>←</span>';
 
         }
+
 
         return;
 
@@ -1247,13 +1787,16 @@ if (registerForm) {
       );
 
 
-      setTimeout(() => {
+      setTimeout(
+        () => {
 
-        closeAuthModal();
+          closeAuthModal();
 
-        updateAuthUI();
+          updateAuthUI();
 
-      }, 700);
+        },
+        700
+      );
 
     }
   );
@@ -1273,10 +1816,12 @@ if (forgotPassword) {
 
       clearAuthMessages();
 
+
       const emailInput =
         document.getElementById(
           "loginEmail"
         );
+
 
       const email =
         emailInput?.value.trim();
@@ -1290,7 +1835,9 @@ if (forgotPassword) {
           "error"
         );
 
+
         emailInput?.focus();
+
 
         return;
 
@@ -1317,11 +1864,13 @@ if (forgotPassword) {
           error
         );
 
+
         showAuthMessage(
           loginMessage,
           "ارسال لینک بازیابی انجام نشد.",
           "error"
         );
+
 
         return;
 
@@ -1346,37 +1895,57 @@ if (forgotPassword) {
 
 async function updateAuthUI() {
 
-  const {
-    data: {
-      user
+  try {
+
+    const {
+      data: {
+        user
+      }
+    } =
+      await supabase.auth.getUser();
+
+
+    const loginButton =
+      document.querySelector(
+        ".nav-login"
+      );
+
+
+    if (!loginButton) {
+      return;
     }
-  } = await supabase.auth.getUser();
 
 
-  const loginButton =
-    document.querySelector(
-      ".nav-login"
+    if (user) {
+
+      loginButton.textContent =
+        "حساب من";
+
+
+      loginButton.dataset.authenticated =
+        "true";
+
+    }
+
+    else {
+
+      loginButton.textContent =
+        "ورود";
+
+
+      loginButton.dataset.authenticated =
+        "false";
+
+    }
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Auth UI error:",
+      error
     );
-
-
-  if (!loginButton) return;
-
-
-  if (user) {
-
-    loginButton.textContent =
-      "حساب من";
-
-    loginButton.dataset.authenticated =
-      "true";
-
-  } else {
-
-    loginButton.textContent =
-      "ورود";
-
-    loginButton.dataset.authenticated =
-      "false";
 
   }
 
@@ -1384,10 +1953,24 @@ async function updateAuthUI() {
 
 
 // =========================
+// AUTH STATE
+// =========================
+
+supabase.auth.onAuthStateChange(
+  () => {
+
+    updateAuthUI();
+
+  }
+);
+
+
+// =========================
 // INITIAL AUTH CHECK
 // =========================
 
 updateAuthUI();
+
 
 // =========================
 // UPLOAD BUTTONS
@@ -1397,23 +1980,22 @@ document
   .querySelectorAll("[data-upload]")
   .forEach(button => {
 
-    button.addEventListener("click", () => {
+    button.addEventListener(
+      "click",
+      () => {
 
-      window.location.href = "upload.html";
+        window.location.href =
+          "upload.html";
 
-    });
+      }
+    );
 
   });
+
 
 // =========================
 // LOAD MORE
 // =========================
-
-const loadMoreBtn =
-  document.getElementById(
-    "loadMoreBtn"
-  );
-
 
 if (loadMoreBtn) {
 
@@ -1421,13 +2003,19 @@ if (loadMoreBtn) {
     "click",
     async () => {
 
-      if (!hasMoreAssets) {
+      if (
+        !hasMoreAssets ||
+        isLoadingAssets
+      ) {
+
         return;
+
       }
 
 
       loadMoreBtn.disabled =
         true;
+
 
       loadMoreBtn.textContent =
         "در حال بارگذاری...";
@@ -1436,11 +2024,14 @@ if (loadMoreBtn) {
       currentPage++;
 
 
-      await loadAssets(false);
+      await loadAssets(
+        false
+      );
 
 
       loadMoreBtn.disabled =
         false;
+
 
       loadMoreBtn.textContent =
         "نمایش بیشتر";
@@ -1450,57 +2041,107 @@ if (loadMoreBtn) {
 
 }
 
+
+// =========================
+// SCROLL MOTION
+// =========================
+
+const scrollSections =
+  document.querySelectorAll(
+    ".section, .creator-cta, .footer"
+  );
+
+
+const scrollGrids =
+  document.querySelectorAll(
+    ".categories-grid, .asset-grid"
+  );
+
+
+scrollSections.forEach(
+  section => {
+
+    section.classList.add(
+      "scroll-reveal"
+    );
+
+  }
+);
+
+
+scrollGrids.forEach(
+  grid => {
+
+    grid.classList.add(
+      "scroll-grid"
+    );
+
+  }
+);
+
+
+const scrollMotionObserver =
+  new IntersectionObserver(
+    entries => {
+
+      entries.forEach(
+        entry => {
+
+          if (
+            entry.isIntersecting
+          ) {
+
+            entry.target.classList.add(
+              "is-visible"
+            );
+
+          }
+
+          else {
+
+            entry.target.classList.remove(
+              "is-visible"
+            );
+
+          }
+
+        }
+      );
+
+    },
+    {
+      threshold: 0.15,
+      rootMargin:
+        "0px 0px -80px 0px"
+    }
+  );
+
+
+document
+  .querySelectorAll(
+    ".scroll-reveal, .scroll-grid"
+  )
+  .forEach(
+    element => {
+
+      scrollMotionObserver.observe(
+        element
+      );
+
+    }
+  );
+
+
 // =========================
 // INITIAL LOAD
 // =========================
 
-loadAssets();
+loadAssets(
+  true
+);
+
 
 console.log(
   "%cLoyalForge",
   "color:#ff6a00;font-size:20px;font-weight:bold"
 );
-
-/* =========================================
-   LOYALFORGE — PREMIUM SCROLL MOTION
-   ========================================= */
-
-const scrollSections = document.querySelectorAll(
-  ".section, .creator-cta, .footer"
-);
-
-const scrollGrids = document.querySelectorAll(
-  ".categories-grid, .asset-grid"
-);
-
-scrollSections.forEach((section) => {
-  section.classList.add("scroll-reveal");
-});
-
-scrollGrids.forEach((grid) => {
-  grid.classList.add("scroll-grid");
-});
-
-
-const scrollMotionObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-      } else {
-        entry.target.classList.remove("is-visible");
-      }
-    });
-  },
-  {
-    threshold: 0.15,
-    rootMargin: "0px 0px -80px 0px"
-  }
-);
-
-
-document
-  .querySelectorAll(".scroll-reveal, .scroll-grid")
-  .forEach((element) => {
-    scrollMotionObserver.observe(element);
-  });
