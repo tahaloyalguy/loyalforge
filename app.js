@@ -734,27 +734,43 @@ let authMode = "login";
 // ACCOUNT BUTTON
 // =========================
 
-const navLogin =
-  document.querySelector(".nav-login");
+const accountButton =
+  document.getElementById("accountButton");
 
-if (navLogin) {
+if (accountButton) {
 
-  navLogin.addEventListener("click", async () => {
+  accountButton.addEventListener("click", async () => {
 
-    const {
-      data: {
-        user
+    accountButton.disabled = true;
+
+    try {
+
+      const {
+        data: { user },
+        error
+      } = await supabase.auth.getUser();
+
+      if (error) {
+        console.error("Account check error:", error);
+        window.location.href = "auth.html";
+        return;
       }
-    } = await supabase.auth.getUser();
 
-    if (user) {
+      if (user) {
 
-      // کاربر وارد شده → پروفایل
-      window.location.href = "profile.html";
+        // کاربر وارد شده → پروفایل
+        window.location.href = "profile.html";
 
-    } else {
+      } else {
 
-      // کاربر وارد نشده → صفحه ورود
+        // کاربر وارد نشده → صفحه ورود
+        window.location.href = "auth.html";
+
+      }
+
+    } catch (error) {
+
+      console.error("Account button error:", error);
       window.location.href = "auth.html";
 
     }
