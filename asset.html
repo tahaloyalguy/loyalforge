@@ -1951,14 +1951,35 @@
        CREATOR
     ======================================================== */
 
-    const creatorElement =
-      document.getElementById(
-        "assetCreator"
-      );
+const creatorElement =
+  document.getElementById("assetCreator");
 
+if (creatorElement) {
 
-    creatorElement.textContent =
-      creatorName;
+  creatorElement.textContent =
+    creatorName;
+
+  creatorElement.style.display =
+    "inline-block";
+
+  creatorElement.style.visibility =
+    "visible";
+
+  creatorElement.style.opacity =
+    "1";
+
+  console.log(
+    "CREATOR DISPLAYED:",
+    creatorName
+  );
+
+} else {
+
+  console.error(
+    "assetCreator element was not found."
+  );
+
+}
 
 
     /*
