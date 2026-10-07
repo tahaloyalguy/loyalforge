@@ -2052,19 +2052,99 @@ let query =
       category;
 
 
-    /* =======================================================
-       PREVIEW
-    ======================================================== */
+/* =======================================================
+   PREVIEW / 3D VIEWER
+======================================================== */
 
-    const preview =
-      document.getElementById(
-        "assetPreview"
-      );
+const imagePreviewWrap =
+  document.getElementById(
+    "imagePreviewWrap"
+  );
+
+const viewer =
+  document.getElementById(
+    "assetViewer"
+  );
+
+const preview =
+  document.getElementById(
+    "assetPreview"
+  );
+
+const fallbackPreview =
+  "https://placehold.co/1200x800/0b1220/8ed8ff?text=LoyalForge";
 
 
-    const fallbackPreview =
-      "https://placehold.co/1200x800/0b1220/8ed8ff?text=LoyalForge";
+const fileUrl =
+  asset.file_url || "";
 
+
+const fileExtension =
+  getFileExtension(
+    fileUrl ||
+    asset.file_name ||
+    ""
+  );
+
+
+const is3D =
+  fileExtension === "gltf" ||
+  fileExtension === "glb";
+
+
+/*
+ * 3D MODEL
+ */
+
+if (
+  is3D &&
+  viewer &&
+  fileUrl
+) {
+
+  if (imagePreviewWrap) {
+
+    imagePreviewWrap.style.display =
+      "none";
+
+  }
+
+
+  viewer.style.display =
+    "block";
+
+
+  loadGLTFViewer(
+    fileUrl
+  );
+
+
+}
+
+
+/*
+ * NORMAL IMAGE PREVIEW
+ */
+
+else {
+
+  if (viewer) {
+
+    viewer.style.display =
+      "none";
+
+  }
+
+
+  if (imagePreviewWrap) {
+
+    imagePreviewWrap.style.display =
+      "grid";
+
+  }
+
+
+  if (preview) {
 
     preview.onerror =
       () => {
@@ -2090,6 +2170,10 @@ let query =
     preview.alt =
       asset.title ||
       "Asset Preview";
+
+  }
+
+}
 
 
     /* =======================================================
