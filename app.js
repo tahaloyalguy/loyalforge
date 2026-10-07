@@ -134,37 +134,46 @@ async function loadAssets() {
     `)
     .eq("status", "published");
 
-// Category
-const categoryMap = {
-  rigs: "Rig",
-  models: "Model",
-  vfx: "VFX",
-  textures: "Texture",
-  thumbnails: "Thumbnail",
-  other: "Other"
-};
+  // =========================
+  // CATEGORY FILTER
+  // =========================
 
-if (currentCategory !== "all") {
-  const databaseCategory =
-    categoryMap[currentCategory] || currentCategory;
+  const categoryMap = {
+    rigs: "Rig",
+    models: "Model",
+    thumbnails: "Thumbnail",
+    other: "Other"
+  };
 
-  query = query.eq(
-    "category",
-    databaseCategory
-  );
-}
+  if (currentCategory !== "all") {
 
-// Search
-if (currentSearch.trim()) {
+    const databaseCategory =
+      categoryMap[currentCategory];
 
-  const searchTerm =
-    currentSearch.trim();
+    if (databaseCategory) {
+      query = query.eq(
+        "category",
+        databaseCategory
+      );
+    }
 
-  query = query.or(
-    `title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,file_format.ilike.%${searchTerm}%`
-  );
+  }
 
-}
+
+  // =========================
+  // SEARCH
+  // =========================
+
+  if (currentSearch.trim()) {
+
+    const searchTerm =
+      currentSearch.trim();
+
+    query = query.or(
+      `title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%,file_format.ilike.%${searchTerm}%`
+    );
+
+  }
 
   // Sorting
   if (currentSort === "popular") {
