@@ -1,6 +1,6 @@
-```html
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
 
   <meta charset="UTF-8">
@@ -49,11 +49,13 @@
         #07090d;
     }
 
+
     .auth-page::before {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
+
       background:
         linear-gradient(
           115deg,
@@ -63,28 +65,39 @@
         );
     }
 
+
     .auth-shell {
       width: min(100% - 32px, 470px);
       position: relative;
       z-index: 2;
     }
 
+
     .auth-card {
       padding: 34px;
+
       border: 1px solid rgba(255,255,255,.09);
       border-radius: 24px;
+
       background:
         linear-gradient(
           145deg,
           rgba(255,255,255,.055),
           rgba(255,255,255,.025)
         );
+
       box-shadow:
         0 30px 90px rgba(0,0,0,.45),
         0 0 50px rgba(142,216,255,.035);
+
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
     }
+
+
+    /* =========================================================
+       LOGO
+    ========================================================= */
 
     .auth-logo {
       display: flex;
@@ -93,180 +106,262 @@
       margin-bottom: 26px;
     }
 
+
     .auth-logo-mark {
       width: 52px;
       height: 52px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       border-radius: 15px;
+
       color: #dff6ff;
+
       font-family: "Inter", sans-serif;
       font-size: 21px;
       font-weight: 800;
+
       background:
         linear-gradient(
           135deg,
           rgba(142,216,255,.16),
           rgba(184,167,255,.12)
         );
+
       border: 1px solid rgba(142,216,255,.18);
+
       box-shadow:
         0 0 35px rgba(142,216,255,.08);
     }
+
+
+    /* =========================================================
+       HEADING
+    ========================================================= */
 
     .auth-heading {
       text-align: center;
       margin-bottom: 28px;
     }
 
+
     .auth-heading h1 {
       margin: 0 0 9px;
+
       color: #f4f8fb;
+
       font-family: "Estedad", sans-serif;
       font-size: 27px;
       font-weight: 800;
     }
 
+
     .auth-heading p {
       margin: 0;
+
       color: rgba(220,230,238,.58);
+
       font-family: "Estedad", sans-serif;
       font-size: 13px;
       line-height: 1.9;
     }
 
+
+    /* =========================================================
+       TABS
+    ========================================================= */
+
     .auth-tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
+
       gap: 6px;
+
       padding: 5px;
       margin-bottom: 24px;
+
       border-radius: 13px;
+
       background: rgba(255,255,255,.035);
+
       border: 1px solid rgba(255,255,255,.06);
     }
 
+
     .auth-tab {
       height: 42px;
+
       border: 0;
       border-radius: 9px;
+
       color: rgba(225,235,242,.55);
+
       background: transparent;
+
       font-family: "Estedad", sans-serif;
       font-size: 13px;
       font-weight: 600;
+
       cursor: pointer;
+
       transition: .25s ease;
     }
+
 
     .auth-tab:hover {
       color: #fff;
     }
 
+
     .auth-tab.active {
       color: #eefaff;
+
       background:
         linear-gradient(
           135deg,
           rgba(142,216,255,.13),
           rgba(184,167,255,.09)
         );
+
       box-shadow:
         inset 0 0 0 1px rgba(142,216,255,.10);
     }
+
+
+    /* =========================================================
+       FORMS
+    ========================================================= */
 
     .auth-form {
       display: none;
     }
 
+
     .auth-form.active {
       display: block;
     }
+
 
     .auth-field {
       margin-bottom: 16px;
     }
 
+
     .auth-field label {
       display: block;
+
       margin-bottom: 8px;
+
       color: rgba(235,242,247,.76);
+
       font-family: "Estedad", sans-serif;
       font-size: 12px;
       font-weight: 600;
     }
 
+
     .auth-input {
       width: 100%;
       height: 48px;
+
       box-sizing: border-box;
+
       padding: 0 15px;
+
       border: 1px solid rgba(255,255,255,.09);
       border-radius: 12px;
+
       outline: none;
+
       color: #f3f8fb;
+
       background: rgba(0,0,0,.18);
+
       font-family: "Inter", "Estedad", sans-serif;
       font-size: 13px;
+
       direction: ltr;
       text-align: left;
+
       transition:
         border-color .2s ease,
         background .2s ease,
         box-shadow .2s ease;
     }
 
+
     .auth-input::placeholder {
       color: rgba(220,230,238,.30);
     }
 
+
     .auth-input:focus {
       border-color: rgba(142,216,255,.34);
+
       background: rgba(0,0,0,.25);
+
       box-shadow:
         0 0 0 4px rgba(142,216,255,.055);
     }
 
+
+    /* =========================================================
+       SUBMIT
+    ========================================================= */
+
     .auth-submit {
       width: 100%;
       height: 50px;
+
       margin-top: 7px;
+
       border: 1px solid rgba(142,216,255,.18);
       border-radius: 13px;
+
       color: #eefaff;
+
       background:
         linear-gradient(
           135deg,
           rgba(142,216,255,.16),
           rgba(184,167,255,.13)
         );
+
       font-family: "Estedad", sans-serif;
       font-size: 13px;
       font-weight: 700;
+
       cursor: pointer;
+
       transition:
         transform .2s ease,
         background .2s ease,
         box-shadow .2s ease;
     }
 
+
     .auth-submit:hover {
       transform: translateY(-2px);
+
       background:
         linear-gradient(
           135deg,
           rgba(142,216,255,.22),
           rgba(184,167,255,.18)
         );
+
       box-shadow:
         0 12px 30px rgba(0,0,0,.25),
         0 0 25px rgba(142,216,255,.06);
     }
 
+
     .auth-submit:active {
       transform: translateY(0);
     }
+
 
     .auth-submit:disabled {
       opacity: .55;
@@ -274,50 +369,98 @@
       transform: none;
     }
 
+
+    /* =========================================================
+       MESSAGE
+    ========================================================= */
+
     .auth-message {
       display: none;
+
       margin-top: 16px;
       padding: 12px 14px;
+
       border-radius: 11px;
+
       font-family: "Estedad", sans-serif;
       font-size: 12px;
       line-height: 1.8;
+
       text-align: center;
     }
+
 
     .auth-message.show {
       display: block;
     }
 
+
     .auth-message.error {
       color: #ffb8c0;
+
       background: rgba(255,80,100,.07);
+
       border: 1px solid rgba(255,80,100,.13);
     }
 
+
     .auth-message.success {
       color: #bcebd8;
+
       background: rgba(80,220,160,.07);
+
       border: 1px solid rgba(80,220,160,.13);
     }
+
+
+    /* =========================================================
+       BACK
+    ========================================================= */
 
     .auth-back {
       display: flex;
       justify-content: center;
+
       margin-top: 23px;
     }
 
+
     .auth-back a {
       color: rgba(220,230,238,.45);
+
       font-family: "Estedad", sans-serif;
       font-size: 12px;
+
       text-decoration: none;
+
       transition: color .2s ease;
     }
+
 
     .auth-back a:hover {
       color: #dff6ff;
     }
+
+
+    /* =========================================================
+       REGISTER HINT
+    ========================================================= */
+
+    .auth-hint {
+      margin-top: 7px;
+
+      color: rgba(220,230,238,.34);
+
+      font-family: "Estedad", sans-serif;
+      font-size: 11px;
+
+      line-height: 1.8;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
 
     @media (max-width: 520px) {
 
@@ -325,10 +468,12 @@
         width: min(100% - 20px, 470px);
       }
 
+
       .auth-card {
         padding: 25px 20px;
         border-radius: 20px;
       }
+
 
       .auth-heading h1 {
         font-size: 24px;
@@ -340,17 +485,31 @@
 
 </head>
 
+
 <body class="auth-page">
+
 
   <main class="auth-shell">
 
     <section class="auth-card">
 
+
+      <!-- =====================================================
+           LOGO
+      ====================================================== -->
+
       <div class="auth-logo">
+
         <div class="auth-logo-mark">
           LF
         </div>
+
       </div>
+
+
+      <!-- =====================================================
+           HEADING
+      ====================================================== -->
 
       <div class="auth-heading">
 
@@ -362,6 +521,11 @@
 
       </div>
 
+
+      <!-- =====================================================
+           TABS
+      ====================================================== -->
+
       <div class="auth-tabs">
 
         <button
@@ -371,6 +535,7 @@
         >
           ورود
         </button>
+
 
         <button
           class="auth-tab"
@@ -435,4 +600,769 @@
         >
           ورود به حساب
         </button>
-```
+
+      </form>
+
+
+      <!-- =====================================================
+           REGISTER
+      ====================================================== -->
+
+      <form
+        class="auth-form"
+        id="registerForm"
+      >
+
+        <div class="auth-field">
+
+          <label for="registerUsername">
+            نام کاربری
+          </label>
+
+          <input
+            class="auth-input"
+            id="registerUsername"
+            type="text"
+            placeholder="مثلاً taha"
+            autocomplete="username"
+            minlength="3"
+            maxlength="24"
+            required
+          >
+
+          <div class="auth-hint">
+            حداقل ۳ و حداکثر ۲۴ کاراکتر
+          </div>
+
+        </div>
+
+
+        <div class="auth-field">
+
+          <label for="registerEmail">
+            ایمیل
+          </label>
+
+          <input
+            class="auth-input"
+            id="registerEmail"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+
+        <div class="auth-field">
+
+          <label for="registerPassword">
+            رمز عبور
+          </label>
+
+          <input
+            class="auth-input"
+            id="registerPassword"
+            type="password"
+            placeholder="حداقل ۶ کاراکتر"
+            autocomplete="new-password"
+            minlength="6"
+            required
+          >
+
+        </div>
+
+
+        <div class="auth-field">
+
+          <label for="registerPasswordConfirm">
+            تکرار رمز عبور
+          </label>
+
+          <input
+            class="auth-input"
+            id="registerPasswordConfirm"
+            type="password"
+            placeholder="رمز عبور را دوباره وارد کن"
+            autocomplete="new-password"
+            minlength="6"
+            required
+          >
+
+        </div>
+
+
+        <button
+          class="auth-submit"
+          id="registerSubmit"
+          type="submit"
+        >
+          ساخت حساب
+        </button>
+
+      </form>
+
+
+      <!-- =====================================================
+           MESSAGE
+      ====================================================== -->
+
+      <div
+        class="auth-message"
+        id="authMessage"
+        role="status"
+        aria-live="polite"
+      ></div>
+
+
+      <!-- =====================================================
+           BACK
+      ====================================================== -->
+
+      <div class="auth-back">
+
+        <a href="index.html">
+          ← بازگشت به صفحه اصلی
+        </a>
+
+      </div>
+
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================================================
+       SUPABASE AUTH
+  ========================================================== -->
+
+  <script type="module">
+
+    import {
+      createClient
+    } from "https://esm.sh/@supabase/supabase-js@2";
+
+
+    /* =========================================================
+       SUPABASE
+    ========================================================= */
+
+    const SUPABASE_URL =
+      "https://ywrbojtzkkygahxqeueg.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
+
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
+
+    const loginTab =
+      document.getElementById("loginTab");
+
+    const registerTab =
+      document.getElementById("registerTab");
+
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const registerForm =
+      document.getElementById("registerForm");
+
+
+    const loginSubmit =
+      document.getElementById("loginSubmit");
+
+    const registerSubmit =
+      document.getElementById("registerSubmit");
+
+
+    const authMessage =
+      document.getElementById("authMessage");
+
+
+    const loginEmail =
+      document.getElementById("loginEmail");
+
+    const loginPassword =
+      document.getElementById("loginPassword");
+
+
+    const registerUsername =
+      document.getElementById("registerUsername");
+
+    const registerEmail =
+      document.getElementById("registerEmail");
+
+    const registerPassword =
+      document.getElementById("registerPassword");
+
+    const registerPasswordConfirm =
+      document.getElementById("registerPasswordConfirm");
+
+
+    /* =========================================================
+       MESSAGE
+    ========================================================= */
+
+    function showMessage(
+      message,
+      type = "error"
+    ) {
+
+      authMessage.textContent = message;
+
+      authMessage.className =
+        "auth-message show " + type;
+
+    }
+
+
+    function clearMessage() {
+
+      authMessage.textContent = "";
+
+      authMessage.className =
+        "auth-message";
+
+    }
+
+
+    /* =========================================================
+       TAB SWITCHING
+    ========================================================= */
+
+    function showLogin() {
+
+      loginTab.classList.add("active");
+      registerTab.classList.remove("active");
+
+      loginForm.classList.add("active");
+      registerForm.classList.remove("active");
+
+      clearMessage();
+
+    }
+
+
+    function showRegister() {
+
+      registerTab.classList.add("active");
+      loginTab.classList.remove("active");
+
+      registerForm.classList.add("active");
+      loginForm.classList.remove("active");
+
+      clearMessage();
+
+    }
+
+
+    loginTab.addEventListener(
+      "click",
+      showLogin
+    );
+
+
+    registerTab.addEventListener(
+      "click",
+      showRegister
+    );
+
+
+    /* =========================================================
+       BUTTON LOADING
+    ========================================================= */
+
+    function setLoading(
+      button,
+      loading,
+      normalText
+    ) {
+
+      button.disabled = loading;
+
+      button.textContent =
+        loading
+          ? "لطفاً صبر کن..."
+          : normalText;
+
+    }
+
+
+    /* =========================================================
+       ERROR TRANSLATION
+    ========================================================= */
+
+    function getAuthErrorMessage(error) {
+
+      if (!error) {
+        return "یک خطای ناشناخته رخ داد.";
+      }
+
+
+      const message =
+        String(error.message || "")
+          .toLowerCase();
+
+
+      if (
+        message.includes("invalid login credentials")
+      ) {
+
+        return "ایمیل یا رمز عبور اشتباه است.";
+
+      }
+
+
+      if (
+        message.includes("email not confirmed")
+      ) {
+
+        return "ایمیل شما هنوز تأیید نشده است.";
+
+      }
+
+
+      if (
+        message.includes("user already registered")
+      ) {
+
+        return "این ایمیل قبلاً ثبت‌نام کرده است.";
+
+      }
+
+
+      if (
+        message.includes("password should be at least")
+      ) {
+
+        return "رمز عبور باید حداقل ۶ کاراکتر باشد.";
+
+      }
+
+
+      if (
+        message.includes("unable to validate email")
+      ) {
+
+        return "فرمت ایمیل صحیح نیست.";
+
+      }
+
+
+      if (
+        message.includes("rate limit")
+      ) {
+
+        return "تعداد درخواست‌ها زیاد شده. کمی بعد دوباره امتحان کن.";
+
+      }
+
+
+      if (
+        message.includes("database error")
+      ) {
+
+        return "ساخت حساب انجام نشد. تنظیمات Profile یا دیتابیس را بررسی کن.";
+
+      }
+
+
+      return error.message ||
+        "عملیات انجام نشد. دوباره امتحان کن.";
+
+    }
+
+
+    /* =========================================================
+       LOGIN
+    ========================================================= */
+
+    loginForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const email =
+          loginEmail.value.trim();
+
+        const password =
+          loginPassword.value;
+
+
+        if (!email || !password) {
+
+          showMessage(
+            "ایمیل و رمز عبور را وارد کن."
+          );
+
+          return;
+
+        }
+
+
+        setLoading(
+          loginSubmit,
+          true,
+          "ورود به حساب"
+        );
+
+
+        try {
+
+          const {
+            data,
+            error
+          } = await supabase.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+          });
+
+
+          if (error) {
+
+            showMessage(
+              getAuthErrorMessage(error)
+            );
+
+            return;
+
+          }
+
+
+          if (!data || !data.user) {
+
+            showMessage(
+              "ورود انجام نشد. دوباره امتحان کن."
+            );
+
+            return;
+
+          }
+
+
+          showMessage(
+            "ورود با موفقیت انجام شد. در حال انتقال...",
+            "success"
+          );
+
+
+          setTimeout(() => {
+
+            window.location.href =
+              "index.html";
+
+          }, 700);
+
+
+        } catch (error) {
+
+          console.error(
+            "Login error:",
+            error
+          );
+
+          showMessage(
+            getAuthErrorMessage(error)
+          );
+
+        } finally {
+
+          setLoading(
+            loginSubmit,
+            false,
+            "ورود به حساب"
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       REGISTER
+    ========================================================= */
+
+    registerForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const username =
+          registerUsername.value.trim();
+
+        const email =
+          registerEmail.value.trim();
+
+        const password =
+          registerPassword.value;
+
+        const passwordConfirm =
+          registerPasswordConfirm.value;
+
+
+        /* -----------------------------------------------------
+           VALIDATION
+        ----------------------------------------------------- */
+
+        if (
+          username.length < 3 ||
+          username.length > 24
+        ) {
+
+          showMessage(
+            "نام کاربری باید بین ۳ تا ۲۴ کاراکتر باشد."
+          );
+
+          registerUsername.focus();
+
+          return;
+
+        }
+
+
+        if (!email) {
+
+          showMessage(
+            "ایمیل را وارد کن."
+          );
+
+          registerEmail.focus();
+
+          return;
+
+        }
+
+
+        if (password.length < 6) {
+
+          showMessage(
+            "رمز عبور باید حداقل ۶ کاراکتر باشد."
+          );
+
+          registerPassword.focus();
+
+          return;
+
+        }
+
+
+        if (
+          password !== passwordConfirm
+        ) {
+
+          showMessage(
+            "تکرار رمز عبور با رمز اصلی یکسان نیست."
+          );
+
+          registerPasswordConfirm.focus();
+
+          return;
+
+        }
+
+
+        /* -----------------------------------------------------
+           LOADING
+        ----------------------------------------------------- */
+
+        setLoading(
+          registerSubmit,
+          true,
+          "ساخت حساب"
+        );
+
+
+        try {
+
+          const {
+            data,
+            error
+          } = await supabase.auth.signUp({
+
+            email: email,
+
+            password: password,
+
+            options: {
+
+              data: {
+
+                username: username
+
+              }
+
+            }
+
+          });
+
+
+          if (error) {
+
+            showMessage(
+              getAuthErrorMessage(error)
+            );
+
+            return;
+
+          }
+
+
+          /* ---------------------------------------------------
+             EMAIL CONFIRMATION
+          --------------------------------------------------- */
+
+          if (
+            data &&
+            data.user &&
+            !data.session
+          ) {
+
+            showMessage(
+              "حساب ساخته شد! ایمیلت را برای تأیید حساب بررسی کن.",
+              "success"
+            );
+
+            registerForm.reset();
+
+            return;
+
+          }
+
+
+          /* ---------------------------------------------------
+             AUTO CONFIRMED
+          --------------------------------------------------- */
+
+          if (
+            data &&
+            data.session
+          ) {
+
+            showMessage(
+              "حساب با موفقیت ساخته شد. در حال انتقال...",
+              "success"
+            );
+
+
+            setTimeout(() => {
+
+              window.location.href =
+                "index.html";
+
+            }, 700);
+
+            return;
+
+          }
+
+
+          showMessage(
+            "ثبت‌نام انجام شد. ایمیلت را بررسی کن.",
+            "success"
+          );
+
+
+        } catch (error) {
+
+          console.error(
+            "Register error:",
+            error
+          );
+
+          showMessage(
+            getAuthErrorMessage(error)
+          );
+
+        } finally {
+
+          setLoading(
+            registerSubmit,
+            false,
+            "ساخت حساب"
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       ALREADY LOGGED IN
+    ========================================================= */
+
+    async function checkExistingSession() {
+
+      try {
+
+        const {
+          data
+        } = await supabase.auth.getSession();
+
+
+        if (
+          data &&
+          data.session &&
+          data.session.user
+        ) {
+
+          showMessage(
+            "شما از قبل وارد حساب هستید. در حال انتقال...",
+            "success"
+          );
+
+
+          setTimeout(() => {
+
+            window.location.href =
+              "index.html";
+
+          }, 700);
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Session check error:",
+          error
+        );
+
+      }
+
+    }
+
+
+    checkExistingSession();
+
+
+  </script>
+
+
+</body>
+
+</html>
