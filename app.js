@@ -102,21 +102,18 @@ async function loadAssets(reset = true) {
 
   if (!assetGrid) return;
 
-  if (reset) {
-    currentPage = 0;
-    hasMoreAssets = true;
+if (reset) {
 
-    assetGrid.innerHTML = `
-      <div style="
-        grid-column: 1 / -1;
-        padding: 60px 20px;
-        text-align: center;
-        color: #777;
-      ">
-        Loading assets...
-      </div>
-    `;
-  }
+  renderAssets(assets);
+
+} else {
+
+  renderAssets(
+    assets,
+    true
+  );
+
+}
 
   let query = supabase
     .from("assets")
