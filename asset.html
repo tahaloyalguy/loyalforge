@@ -1037,16 +1037,60 @@
           ASSET
         </div>
 
-        <div class="asset-preview-image-wrap">
+       <div
+  class="asset-preview-image-wrap"
+  id="imagePreviewWrap"
+>
 
-          <img
-            id="assetPreview"
-            class="asset-preview-image"
-            src=""
-            alt="Asset Preview"
-          >
+  <img
+    id="assetPreview"
+    class="asset-preview-image"
+    src=""
+    alt="Asset Preview"
+  >
 
-        </div>
+</div>
+
+<div
+  class="asset-viewer"
+  id="assetViewer"
+  style="display:none;"
+>
+
+  <div
+    class="viewer-loading"
+    id="viewerLoading"
+  >
+    <div class="viewer-spinner"></div>
+
+    <span>
+      در حال بارگذاری مدل...
+    </span>
+  </div>
+
+  <canvas
+    id="assetCanvas"
+  ></canvas>
+
+  <div
+    class="viewer-error"
+    id="viewerError"
+  >
+    <strong>
+      نمایش مدل ممکن نیست
+    </strong>
+
+    <span>
+      فایل هنوز قابل نمایش نیست؛ می‌تونی فایل رو دانلود کنی.
+    </span>
+  </div>
+
+  <div class="viewer-controls">
+    <span>🖱️ چرخش</span>
+    <span>⚙️ اسکرول برای Zoom</span>
+  </div>
+
+</div>
 
         <div class="preview-overlay"></div>
 
