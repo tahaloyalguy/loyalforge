@@ -1303,14 +1303,18 @@
       }
 
 
-      if (!asset) {
-        throw new Error(
-          "Asset not found."
-        );
-      }
+if (!asset) {
+  throw new Error(
+    "Asset not found."
+  );
+}
 
 
-      renderAsset(asset);
+window.currentAsset = asset;
+
+renderAsset(asset);
+
+await loadLikeState();
 
 
     } catch (error) {
@@ -1638,11 +1642,6 @@
      ACTIONS
   ========================================================= */
 
-
-  /* =========================================================
-     ACTIONS
-  ========================================================= */
-
   function setupActions(asset) {
 
     const downloadButton =
@@ -1736,10 +1735,10 @@ downloadButton.addEventListener(
       ) {
         asset.downloads = newDownloads;
 
-        const downloadsElement =
-          document.getElementById(
-            "downloads"
-          );
+const downloadsElement =
+  document.getElementById(
+    "assetDownloads"
+  );
 
         if (downloadsElement) {
           downloadsElement.textContent =
@@ -1896,10 +1895,10 @@ likeButton.addEventListener(
           "♡";
 
 
-        const likesElement =
-          document.getElementById(
-            "likes"
-          );
+const likesElement =
+  document.getElementById(
+    "assetLikes"
+  );
 
         if (likesElement) {
           likesElement.textContent =
@@ -1965,10 +1964,10 @@ likeButton.addEventListener(
           "♥";
 
 
-        const likesElement =
-          document.getElementById(
-            "likes"
-          );
+const likesElement =
+  document.getElementById(
+    "assetLikes"
+  );
 
         if (likesElement) {
           likesElement.textContent =
