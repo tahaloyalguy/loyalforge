@@ -16,7 +16,21 @@
 
   <link rel="stylesheet" href="style.css">
 
+  <link rel="stylesheet" href="style.css">
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+}
+</script>
+
+<style>
+  
   <style>
+  
     /* =========================================================
        LOYALFORGE — ASSET PAGE
     ========================================================= */
@@ -1316,6 +1330,10 @@
     createClient
   } from "https://esm.sh/@supabase/supabase-js@2";
 
+  import * as THREE from "three";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
 
   /* =========================================================
      SUPABASE
@@ -1657,26 +1675,26 @@
        * from making the whole Asset disappear.
        */
 
-      let query =
-        supabase
-          .from("assets")
-          .select(`
-            id,
-            title,
-            slug,
-            description,
-            category,
-            preview_url,
-            file_name,
-            file_size,
-            file_format,
-            downloads,
-            likes,
-            created_at,
-            user_id,
-            status
-          `);
-
+let query =
+  supabase
+    .from("assets")
+    .select(`
+      id,
+      title,
+      slug,
+      description,
+      category,
+      file_url,
+      preview_url,
+      file_name,
+      file_size,
+      file_format,
+      downloads,
+      likes,
+      created_at,
+      user_id,
+      status
+    `);
 
       if (slug) {
 
