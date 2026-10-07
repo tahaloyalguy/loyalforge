@@ -342,56 +342,89 @@ async function loadAssets(reset = true) {
 // RENDER ASSETS
 // =========================
 
-function renderAssets(assets) {
+// =========================
+// RENDER ASSETS
+// =========================
+
+function renderAssets(
+  assets,
+  append = false
+) {
+
   if (!assetGrid) return;
 
-  assetGrid.innerHTML = "";
 
-  if (!assets.length) {
+  // Clear only when starting fresh
+  if (!append) {
+    assetGrid.innerHTML = "";
+  }
+
+
+  if (!assets.length && !append) {
+
     if (emptyState) {
-      emptyState.style.display = "block";
+      emptyState.style.display =
+        "block";
     }
 
     return;
+
   }
+
 
   if (emptyState) {
-    emptyState.style.display = "none";
+
+    emptyState.style.display =
+      "none";
+
   }
 
+
   assets.forEach(asset => {
-    const card = document.createElement("article");
 
-    card.className = "asset-card";
+    const card =
+      document.createElement("article");
 
-    const profile = asset.profiles || {};
+    card.className =
+      "asset-card";
+
+
+    const profile =
+      asset.profiles || {};
+
 
     const creatorName =
       profile.display_name ||
       profile.username ||
       "Unknown Creator";
 
+
     const category =
       asset.category || "Asset";
 
-    const preview = asset.preview_url
-      ? `
-        <img
-          src="${escapeHTML(asset.preview_url)}"
-          alt="${escapeHTML(asset.title)}"
-          loading="lazy"
-        >
-      `
-      : `
-        <div class="asset-preview-placeholder">
-          NO PREVIEW
-        </div>
-      `;
+
+    const preview =
+      asset.preview_url
+        ? `
+          <img
+            src="${escapeHTML(asset.preview_url)}"
+            alt="${escapeHTML(asset.title)}"
+            loading="lazy"
+          >
+        `
+        : `
+          <div class="asset-preview-placeholder">
+            NO PREVIEW
+          </div>
+        `;
+
 
     card.innerHTML = `
+
       <div class="asset-preview">
         ${preview}
       </div>
+
 
       <div class="asset-info">
 
@@ -399,17 +432,21 @@ function renderAssets(assets) {
           ${escapeHTML(category)}
         </div>
 
+
         <div class="asset-title">
           ${escapeHTML(asset.title)}
         </div>
+
 
         <div class="asset-creator">
           by ${escapeHTML(creatorName)}
         </div>
 
+
         <div class="asset-meta">
 
           <div class="asset-stats">
+
             <span>
               ♥ ${formatNumber(asset.likes)}
             </span>
@@ -417,34 +454,58 @@ function renderAssets(assets) {
             <span>
               ↓ ${formatNumber(asset.downloads)}
             </span>
+
           </div>
 
+
           <div class="asset-download">
+
             ${escapeHTML(
               asset.file_format ||
               formatFileSize(asset.file_size) ||
               "FILE"
             )}
+
           </div>
 
         </div>
 
       </div>
+
     `;
-    card.style.cursor = "pointer";
 
-    card.addEventListener("click", () => {
-      if (asset.slug) {
-        window.location.href = `asset.html?slug=${encodeURIComponent(asset.slug)}`;
-      } else {
-        window.location.href = `asset.html?id=${encodeURIComponent(asset.id)}`;
+
+    card.style.cursor =
+      "pointer";
+
+
+    card.addEventListener(
+      "click",
+      () => {
+
+        if (asset.slug) {
+
+          window.location.href =
+            `asset.html?slug=${encodeURIComponent(asset.slug)}`;
+
+        }
+
+        else {
+
+          window.location.href =
+            `asset.html?id=${encodeURIComponent(asset.id)}`;
+
+        }
+
       }
-    });
-    
-    assetGrid.appendChild(card);
-  });
-}
+    );
 
+
+    assetGrid.appendChild(card);
+
+  });
+
+}
 
 // =========================
 // CATEGORY FILTERS
