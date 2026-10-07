@@ -1,0 +1,2780 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>حساب من | LoyalForge</title>
+
+  <meta
+    name="description"
+    content="پروفایل کاربری در LoyalForge"
+  >
+
+  <style>
+
+    :root {
+      --bg: #08090c;
+      --panel: #101218;
+      --panel-2: #151821;
+      --border: rgba(255,255,255,.08);
+      --text: #f5f7fa;
+      --muted: #9298a6;
+      --accent: #ff6a00;
+      --accent-2: #ff9b4a;
+      --danger: #ff4d67;
+      --success: #35d07f;
+      --radius: 22px;
+    }
+
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 15% 10%,
+          rgba(255,106,0,.10),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(110,80,255,.08),
+          transparent 28%
+        ),
+        var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        Vazirmatn,
+        Inter,
+        Arial,
+        sans-serif;
+
+      line-height: 1.7;
+    }
+
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+
+    button {
+      cursor: pointer;
+    }
+
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    .page {
+      width: min(
+        1180px,
+        calc(100% - 32px)
+      );
+
+      margin: auto;
+    }
+
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .topbar {
+      height: 82px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom: 1px solid var(--border);
+    }
+
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent),
+          var(--accent-2)
+        );
+
+      color: #111;
+
+      font-weight: 1000;
+    }
+
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 10px 16px;
+
+      border: 1px solid var(--border);
+      border-radius: 13px;
+
+      background: rgba(255,255,255,.035);
+
+      color: var(--muted);
+
+      transition: .25s ease;
+    }
+
+
+    .back-btn:hover {
+      color: var(--text);
+
+      border-color:
+        rgba(255,106,0,.4);
+
+      transform:
+        translateY(-2px);
+    }
+
+
+    /* =========================
+       PROFILE HERO
+       ========================= */
+
+    .profile-hero {
+      margin-top: 38px;
+
+      padding: 32px;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.045),
+          rgba(255,255,255,.018)
+        );
+
+      box-shadow:
+        0 30px 90px rgba(0,0,0,.25);
+    }
+
+
+    .profile-main {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+
+    .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+
+    .avatar {
+      width: 108px;
+      height: 108px;
+
+      border-radius: 50%;
+
+      object-fit: cover;
+
+      display: grid;
+      place-items: center;
+
+      border: 3px solid rgba(255,106,0,.35);
+
+      background:
+        linear-gradient(
+          135deg,
+          #191c24,
+          #0e1015
+        );
+
+      color: var(--accent-2);
+
+      font-size: 38px;
+      font-weight: 900;
+
+      overflow: hidden;
+    }
+
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+
+    .profile-info {
+      min-width: 0;
+    }
+
+
+    .profile-name {
+      font-size: 30px;
+      font-weight: 950;
+
+      word-break: break-word;
+    }
+
+
+    .profile-username {
+      margin-top: 2px;
+
+      color: var(--accent-2);
+
+      font-size: 15px;
+      direction: ltr;
+      text-align: right;
+    }
+
+
+    .profile-email {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+
+      direction: ltr;
+      text-align: right;
+    }
+
+
+    .profile-bio {
+      margin-top: 10px;
+
+      color: #c7cbd4;
+
+      max-width: 700px;
+
+      white-space: pre-wrap;
+    }
+
+
+    .profile-actions {
+      margin-right: auto;
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+
+    .btn {
+      border: 0;
+      border-radius: 13px;
+
+      padding: 11px 18px;
+
+      transition: .25s ease;
+
+      font-weight: 800;
+    }
+
+
+    .btn-primary {
+      background:
+        linear-gradient(
+          135deg,
+          var(--accent),
+          var(--accent-2)
+        );
+
+      color: #111;
+
+      box-shadow:
+        0 10px 30px rgba(255,106,0,.15);
+    }
+
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 15px 40px rgba(255,106,0,.25);
+    }
+
+
+    .btn-secondary {
+      background: rgba(255,255,255,.05);
+
+      color: var(--text);
+
+      border: 1px solid var(--border);
+    }
+
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,.09);
+    }
+
+
+    .btn-danger {
+      background: rgba(255,77,103,.08);
+
+      color: #ff7185;
+
+      border: 1px solid rgba(255,77,103,.18);
+    }
+
+
+    .btn-danger:hover {
+      background: rgba(255,77,103,.14);
+    }
+
+
+    /* =========================
+       STATS
+       ========================= */
+
+    .stats {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 14px;
+
+      margin-top: 26px;
+    }
+
+
+    .stat {
+      padding: 20px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 17px;
+
+      background:
+        rgba(255,255,255,.025);
+
+      text-align: center;
+    }
+
+
+    .stat-value {
+      display: block;
+
+      font-size: 26px;
+
+      font-weight: 950;
+    }
+
+
+    .stat-label {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+
+    /* =========================
+       CONTENT
+       ========================= */
+
+    .section {
+      margin-top: 36px;
+    }
+
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 17px;
+    }
+
+
+    .section-title h2 {
+      font-size: 22px;
+      font-weight: 950;
+    }
+
+
+    .assets-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 18px;
+    }
+
+
+    .asset-card {
+      overflow: hidden;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 18px;
+
+      background: var(--panel);
+
+      cursor: pointer;
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+    }
+
+
+    .asset-card:hover {
+      transform:
+        translateY(-5px);
+
+      border-color:
+        rgba(255,106,0,.28);
+
+      box-shadow:
+        0 20px 50px rgba(0,0,0,.25);
+    }
+
+
+    .asset-preview {
+      height: 190px;
+
+      background: #0b0d11;
+
+      overflow: hidden;
+    }
+
+
+    .asset-preview img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+
+      transition:
+        transform .35s ease;
+    }
+
+
+    .asset-card:hover
+    .asset-preview img {
+      transform: scale(1.04);
+    }
+
+
+    .asset-placeholder {
+      width: 100%;
+      height: 100%;
+
+      display: grid;
+      place-items: center;
+
+      color: #686e7a;
+
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+
+    .asset-content {
+      padding: 16px;
+    }
+
+
+    .asset-category {
+      color: var(--accent-2);
+
+      font-size: 11px;
+
+      font-weight: 900;
+
+      text-transform: uppercase;
+    }
+
+
+    .asset-title {
+      margin-top: 5px;
+
+      font-size: 17px;
+
+      font-weight: 900;
+
+      white-space: nowrap;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+
+
+    .asset-meta {
+      display: flex;
+      justify-content: space-between;
+
+      margin-top: 8px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+
+    .empty {
+      padding: 50px 20px;
+
+      border:
+        1px dashed
+        rgba(255,255,255,.12);
+
+      border-radius: 18px;
+
+      color: var(--muted);
+
+      text-align: center;
+    }
+
+
+    /* =========================
+       EDIT MODAL
+       ========================= */
+
+    .modal {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 1000;
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      background:
+        rgba(0,0,0,.75);
+
+      backdrop-filter:
+        blur(12px);
+    }
+
+
+    .modal.open {
+      display: flex;
+    }
+
+
+    .modal-box {
+      width: min(
+        600px,
+        100%
+      );
+
+      max-height: 90vh;
+
+      overflow-y: auto;
+
+      padding: 28px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.1);
+
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #151820,
+          #0d0f14
+        );
+
+      box-shadow:
+        0 40px 100px rgba(0,0,0,.55);
+    }
+
+
+    .modal-header {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 25px;
+    }
+
+
+    .modal-header h2 {
+      font-size: 23px;
+      font-weight: 950;
+    }
+
+
+    .close-btn {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 11px;
+
+      border:
+        1px solid var(--border);
+
+      background:
+        rgba(255,255,255,.04);
+
+      color: var(--muted);
+
+      font-size: 20px;
+    }
+
+
+    .close-btn:hover {
+      color: white;
+
+      background:
+        rgba(255,255,255,.08);
+    }
+
+
+    /* =========================
+       AVATAR EDIT
+       ========================= */
+
+    .avatar-editor {
+      display: flex;
+
+      align-items: center;
+
+      gap: 18px;
+
+      margin-bottom: 25px;
+    }
+
+
+    .edit-avatar {
+      width: 82px;
+      height: 82px;
+
+      flex-shrink: 0;
+
+      overflow: hidden;
+
+      border-radius: 50%;
+
+      display: grid;
+      place-items: center;
+
+      background: #191c24;
+
+      border:
+        2px solid
+        rgba(255,106,0,.3);
+
+      color: var(--accent-2);
+
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+
+    .edit-avatar img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+
+    .avatar-upload {
+      position: relative;
+
+      display: inline-flex;
+    }
+
+
+    .avatar-upload input {
+      position: absolute;
+
+      width: 1px;
+      height: 1px;
+
+      opacity: 0;
+    }
+
+
+    .avatar-label {
+      display: inline-flex;
+
+      padding: 10px 14px;
+
+      border-radius: 11px;
+
+      background:
+        rgba(255,255,255,.06);
+
+      border:
+        1px solid var(--border);
+
+      color: #ddd;
+
+      cursor: pointer;
+
+      font-size: 13px;
+
+      transition: .2s ease;
+    }
+
+
+    .avatar-label:hover {
+      background:
+        rgba(255,255,255,.1);
+    }
+
+
+    .avatar-help {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+
+    /* =========================
+       FORM
+       ========================= */
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+
+    .field label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 13px;
+
+      color: #c9ccd4;
+
+      font-weight: 800;
+    }
+
+
+    .field input,
+    .field textarea {
+      width: 100%;
+
+      border:
+        1px solid
+        rgba(255,255,255,.09);
+
+      outline: none;
+
+      border-radius: 13px;
+
+      background:
+        rgba(0,0,0,.22);
+
+      color: var(--text);
+
+      padding: 13px 14px;
+
+      transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+    }
+
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color:
+        rgba(255,106,0,.55);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(255,106,0,.08);
+    }
+
+
+    .field textarea {
+      min-height: 115px;
+
+      resize: vertical;
+    }
+
+
+    .username-wrap {
+      direction: ltr;
+    }
+
+
+    .username-wrap input {
+      text-align: left;
+    }
+
+
+    .form-actions {
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 25px;
+    }
+
+
+    .form-actions .btn {
+      flex: 1;
+    }
+
+
+    .message {
+      display: none;
+
+      margin-bottom: 17px;
+
+      padding: 11px 13px;
+
+      border-radius: 11px;
+
+      font-size: 13px;
+    }
+
+
+    .message.show {
+      display: block;
+    }
+
+
+    .message.error {
+      color: #ff8998;
+
+      background:
+        rgba(255,77,103,.08);
+
+      border:
+        1px solid
+        rgba(255,77,103,.15);
+    }
+
+
+    .message.success {
+      color: #6ee3a2;
+
+      background:
+        rgba(53,208,127,.08);
+
+      border:
+        1px solid
+        rgba(53,208,127,.15);
+    }
+
+
+    .loading {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 2000;
+
+      display: grid;
+
+      place-items: center;
+
+      background: var(--bg);
+    }
+
+
+    .loading.hidden {
+      display: none;
+    }
+
+
+    .loader-box {
+      text-align: center;
+    }
+
+
+    .loader {
+      width: 42px;
+      height: 42px;
+
+      margin: 0 auto 15px;
+
+      border-radius: 50%;
+
+      border:
+        3px solid
+        rgba(255,255,255,.1);
+
+      border-top-color:
+        var(--accent);
+
+      animation:
+        spin .8s linear infinite;
+    }
+
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+
+    @media (max-width: 850px) {
+
+      .profile-main {
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+      }
+
+
+      .profile-actions {
+        width: 100%;
+
+        margin-right: 0;
+
+        flex-direction: row;
+      }
+
+
+      .profile-actions .btn {
+        flex: 1;
+      }
+
+
+      .assets-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+    }
+
+
+    @media (max-width: 560px) {
+
+      .page {
+        width:
+          min(
+            100% - 20px,
+            1180px
+          );
+      }
+
+
+      .topbar {
+        height: 70px;
+      }
+
+
+      .profile-hero {
+        padding: 22px;
+      }
+
+
+      .profile-main {
+        flex-direction: column;
+
+        align-items: center;
+
+        text-align: center;
+      }
+
+
+      .profile-info {
+        width: 100%;
+      }
+
+
+      .profile-username,
+      .profile-email {
+        text-align: center;
+      }
+
+
+      .profile-actions {
+        width: 100%;
+      }
+
+
+      .stats {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .assets-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+
+      .avatar-editor {
+        align-items: flex-start;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- =========================
+       LOADING
+       ========================= -->
+
+  <div
+    class="loading"
+    id="loading"
+  >
+
+    <div class="loader-box">
+
+      <div class="loader"></div>
+
+      <div>
+        در حال بارگذاری پروفایل...
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="page">
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header class="topbar">
+
+      <a
+        href="index.html"
+        class="brand"
+      >
+
+        <div class="brand-mark">
+          LF
+        </div>
+
+        <span>
+          LoyalForge
+        </span>
+
+      </a>
+
+
+      <a
+        href="index.html"
+        class="back-btn"
+      >
+        ← بازگشت
+      </a>
+
+    </header>
+
+
+    <!-- =========================
+         PROFILE
+         ========================= -->
+
+    <main>
+
+      <section class="profile-hero">
+
+        <div class="profile-main">
+
+          <div class="avatar-wrap">
+
+            <div
+              class="avatar"
+              id="profileAvatar"
+            >
+              ?
+            </div>
+
+          </div>
+
+
+          <div class="profile-info">
+
+            <h1
+              class="profile-name"
+              id="profileName"
+            >
+              -
+            </h1>
+
+            <div
+              class="profile-username"
+              id="profileUsername"
+            >
+              @-
+            </div>
+
+            <div
+              class="profile-email"
+              id="profileEmail"
+            >
+              -
+            </div>
+
+            <div
+              class="profile-bio"
+              id="profileBio"
+            >
+              هنوز بیویی نوشته نشده.
+            </div>
+
+          </div>
+
+
+          <div class="profile-actions">
+
+            <button
+              class="btn btn-primary"
+              id="editProfileBtn"
+            >
+              ✏️ ویرایش پروفایل
+            </button>
+
+            <button
+              class="btn btn-danger"
+              id="logoutBtn"
+            >
+              خروج از حساب
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             STATS
+             ========================= -->
+
+        <div class="stats">
+
+          <div class="stat">
+
+            <span
+              class="stat-value"
+              id="assetCount"
+            >
+              0
+            </span>
+
+            <span class="stat-label">
+              محتوای منتشرشده
+            </span>
+
+          </div>
+
+
+          <div class="stat">
+
+            <span
+              class="stat-value"
+              id="downloadCount"
+            >
+              0
+            </span>
+
+            <span class="stat-label">
+              دانلود
+            </span>
+
+          </div>
+
+
+          <div class="stat">
+
+            <span
+              class="stat-value"
+              id="likeCount"
+            >
+              0
+            </span>
+
+            <span class="stat-label">
+              لایک
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           USER CONTENT
+           ========================= -->
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <h2>
+            محتوای من
+          </h2>
+
+        </div>
+
+
+        <div
+          class="assets-grid"
+          id="assetsGrid"
+        ></div>
+
+
+        <div
+          class="empty"
+          id="emptyState"
+          style="display:none"
+        >
+
+          هنوز محتوایی منتشر نکردی.
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- =========================
+       EDIT PROFILE MODAL
+       ========================= -->
+
+  <div
+    class="modal"
+    id="editModal"
+    aria-hidden="true"
+  >
+
+    <div class="modal-box">
+
+      <div class="modal-header">
+
+        <h2>
+          ویرایش پروفایل
+        </h2>
+
+        <button
+          class="close-btn"
+          id="closeEditBtn"
+          type="button"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div
+        class="message"
+        id="editMessage"
+      ></div>
+
+
+      <!-- AVATAR -->
+
+      <div class="avatar-editor">
+
+        <div
+          class="edit-avatar"
+          id="editAvatar"
+        >
+          ?
+        </div>
+
+
+        <div>
+
+          <div class="avatar-upload">
+
+            <label
+              class="avatar-label"
+              for="avatarInput"
+            >
+              🖼️ انتخاب عکس پروفایل
+            </label>
+
+            <input
+              type="file"
+              id="avatarInput"
+              accept="image/png,image/jpeg,image/webp"
+            >
+
+          </div>
+
+
+          <div class="avatar-help">
+            PNG / JPG / WEBP — حداکثر 5MB
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DISPLAY NAME -->
+
+      <div class="field">
+
+        <label for="displayNameInput">
+          نام نمایشی
+        </label>
+
+        <input
+          type="text"
+          id="displayNameInput"
+          maxlength="40"
+          placeholder="مثلاً Taha Loyal Guy"
+        >
+
+      </div>
+
+
+      <!-- USERNAME -->
+
+      <div class="field">
+
+        <label for="usernameInput">
+          نام کاربری
+        </label>
+
+        <div class="username-wrap">
+
+          <input
+            type="text"
+            id="usernameInput"
+            maxlength="30"
+            placeholder="tahaloyalguy"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- BIO -->
+
+      <div class="field">
+
+        <label for="bioInput">
+          درباره من
+        </label>
+
+        <textarea
+          id="bioInput"
+          maxlength="180"
+          placeholder="مثلاً Minecraft Designer & Creator"
+        ></textarea>
+
+      </div>
+
+
+      <!-- ACTIONS -->
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-secondary"
+          id="cancelEditBtn"
+          type="button"
+        >
+          لغو
+        </button>
+
+        <button
+          class="btn btn-primary"
+          id="saveProfileBtn"
+          type="button"
+        >
+          ذخیره تغییرات
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script type="module">
+
+    import {
+      createClient
+    } from "https://esm.sh/@supabase/supabase-js@2";
+
+
+    // =========================
+    // SUPABASE
+    // =========================
+
+    const SUPABASE_URL =
+      "https://ywrbojtzkkygahxqeueg.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
+
+
+    const supabase =
+      createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    // =========================
+    // DOM
+    // =========================
+
+    const loading =
+      document.getElementById(
+        "loading"
+      );
+
+
+    const profileAvatar =
+      document.getElementById(
+        "profileAvatar"
+      );
+
+
+    const editAvatar =
+      document.getElementById(
+        "editAvatar"
+      );
+
+
+    const profileName =
+      document.getElementById(
+        "profileName"
+      );
+
+
+    const profileUsername =
+      document.getElementById(
+        "profileUsername"
+      );
+
+
+    const profileEmail =
+      document.getElementById(
+        "profileEmail"
+      );
+
+
+    const profileBio =
+      document.getElementById(
+        "profileBio"
+      );
+
+
+    const assetCount =
+      document.getElementById(
+        "assetCount"
+      );
+
+
+    const downloadCount =
+      document.getElementById(
+        "downloadCount"
+      );
+
+
+    const likeCount =
+      document.getElementById(
+        "likeCount"
+      );
+
+
+    const assetsGrid =
+      document.getElementById(
+        "assetsGrid"
+      );
+
+
+    const emptyState =
+      document.getElementById(
+        "emptyState"
+      );
+
+
+    // =========================
+    // EDIT DOM
+    // =========================
+
+    const editModal =
+      document.getElementById(
+        "editModal"
+      );
+
+
+    const editProfileBtn =
+      document.getElementById(
+        "editProfileBtn"
+      );
+
+
+    const closeEditBtn =
+      document.getElementById(
+        "closeEditBtn"
+      );
+
+
+    const cancelEditBtn =
+      document.getElementById(
+        "cancelEditBtn"
+      );
+
+
+    const saveProfileBtn =
+      document.getElementById(
+        "saveProfileBtn"
+      );
+
+
+    const avatarInput =
+      document.getElementById(
+        "avatarInput"
+      );
+
+
+    const displayNameInput =
+      document.getElementById(
+        "displayNameInput"
+      );
+
+
+    const usernameInput =
+      document.getElementById(
+        "usernameInput"
+      );
+
+
+    const bioInput =
+      document.getElementById(
+        "bioInput"
+      );
+
+
+    const editMessage =
+      document.getElementById(
+        "editMessage"
+      );
+
+
+    // =========================
+    // STATE
+    // =========================
+
+    let currentUser = null;
+
+    let currentProfile = null;
+
+    let selectedAvatarFile = null;
+
+
+    // =========================
+    // HELPERS
+    // =========================
+
+    function escapeHTML(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+        return "";
+      }
+
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    }
+
+
+    function formatNumber(value) {
+
+      const number =
+        Number(value || 0);
+
+      if (
+        number >= 1000000
+      ) {
+
+        return (
+          (number / 1000000)
+            .toFixed(1)
+          + "M"
+        );
+
+      }
+
+
+      if (
+        number >= 1000
+      ) {
+
+        return (
+          (number / 1000)
+            .toFixed(1)
+          + "K"
+        );
+
+      }
+
+
+      return number.toString();
+
+    }
+
+
+    function getInitial(name) {
+
+      const value =
+        String(name || "?")
+          .trim();
+
+      return (
+        value.charAt(0)
+          .toUpperCase()
+      );
+
+    }
+
+
+    function setAvatar(
+      element,
+      avatarUrl,
+      name
+    ) {
+
+      if (!element) return;
+
+
+      if (avatarUrl) {
+
+        element.innerHTML = `
+          <img
+            src="${escapeHTML(avatarUrl)}"
+            alt="Avatar"
+          >
+        `;
+
+      }
+
+      else {
+
+        element.textContent =
+          getInitial(name);
+
+      }
+
+    }
+
+
+    function showEditMessage(
+      message,
+      type = "error"
+    ) {
+
+      if (!editMessage) {
+        return;
+      }
+
+
+      editMessage.textContent =
+        message;
+
+
+      editMessage.classList.remove(
+        "error",
+        "success"
+      );
+
+
+      editMessage.classList.add(
+        type,
+        "show"
+      );
+
+    }
+
+
+    function clearEditMessage() {
+
+      if (!editMessage) {
+        return;
+      }
+
+
+      editMessage.textContent =
+        "";
+
+
+      editMessage.classList.remove(
+        "error",
+        "success",
+        "show"
+      );
+
+    }
+
+
+    // =========================
+    // LOAD USER
+    // =========================
+
+    async function loadProfile() {
+
+      const {
+        data,
+        error
+      } =
+        await supabase.auth.getUser();
+
+
+      if (
+        error ||
+        !data?.user
+      ) {
+
+        window.location.href =
+          "auth.html";
+
+        return;
+
+      }
+
+
+      currentUser =
+        data.user;
+
+
+      await loadProfileData();
+
+      await loadUserAssets();
+
+
+      if (loading) {
+
+        loading.classList.add(
+          "hidden"
+        );
+
+      }
+
+    }
+
+
+    // =========================
+    // LOAD PROFILE DATA
+    // =========================
+
+    async function loadProfileData() {
+
+      const {
+        data,
+        error
+      } =
+        await supabase
+          .from("profiles")
+          .select(`
+            id,
+            username,
+            display_name,
+            avatar_url,
+            bio
+          `)
+          .eq(
+            "id",
+            currentUser.id
+          )
+          .maybeSingle();
+
+
+      if (error) {
+
+        console.error(
+          "Profile load error:",
+          error
+        );
+
+      }
+
+
+      currentProfile =
+        data || {};
+
+
+      const username =
+        currentProfile.username ||
+        currentUser.user_metadata?.username ||
+        currentUser.email
+          ?.split("@")[0] ||
+        "user";
+
+
+      const displayName =
+        currentProfile.display_name ||
+        currentUser.user_metadata?.display_name ||
+        username;
+
+
+      const bio =
+        currentProfile.bio ||
+        "";
+
+
+      profileName.textContent =
+        displayName;
+
+
+      profileUsername.textContent =
+        "@" + username;
+
+
+      profileEmail.textContent =
+        currentUser.email || "";
+
+
+      profileBio.textContent =
+        bio ||
+        "هنوز بیویی نوشته نشده.";
+
+
+      setAvatar(
+        profileAvatar,
+        currentProfile.avatar_url,
+        displayName
+      );
+
+
+      // Fill edit form
+
+      displayNameInput.value =
+        displayName;
+
+
+      usernameInput.value =
+        username;
+
+
+      bioInput.value =
+        bio;
+
+
+      setAvatar(
+        editAvatar,
+        currentProfile.avatar_url,
+        displayName
+      );
+
+    }
+
+
+    // =========================
+    // LOAD USER ASSETS
+    // =========================
+
+    async function loadUserAssets() {
+
+      const {
+        data,
+        error
+      } =
+        await supabase
+          .from("assets")
+          .select(`
+            id,
+            title,
+            slug,
+            category,
+            preview_url,
+            downloads,
+            likes,
+            created_at
+          `)
+          .eq(
+            "user_id",
+            currentUser.id
+          )
+          .eq(
+            "status",
+            "published"
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Assets load error:",
+          error
+        );
+
+        return;
+
+      }
+
+
+      const assets =
+        data || [];
+
+
+      // =========================
+      // STATS
+      // =========================
+
+      const totalDownloads =
+        assets.reduce(
+          (
+            total,
+            asset
+          ) =>
+            total +
+            Number(
+              asset.downloads || 0
+            ),
+          0
+        );
+
+
+      const totalLikes =
+        assets.reduce(
+          (
+            total,
+            asset
+          ) =>
+            total +
+            Number(
+              asset.likes || 0
+            ),
+          0
+        );
+
+
+      assetCount.textContent =
+        formatNumber(
+          assets.length
+        );
+
+
+      downloadCount.textContent =
+        formatNumber(
+          totalDownloads
+        );
+
+
+      likeCount.textContent =
+        formatNumber(
+          totalLikes
+        );
+
+
+      // =========================
+      // EMPTY
+      // =========================
+
+      if (!assets.length) {
+
+        assetsGrid.innerHTML = "";
+
+        emptyState.style.display =
+          "block";
+
+        return;
+
+      }
+
+
+      emptyState.style.display =
+        "none";
+
+
+      // =========================
+      // RENDER
+      // =========================
+
+      assetsGrid.innerHTML =
+        assets
+          .map(asset => {
+
+            const preview =
+              asset.preview_url
+                ? `
+                  <img
+                    src="${escapeHTML(asset.preview_url)}"
+                    alt="${escapeHTML(asset.title)}"
+                    loading="lazy"
+                  >
+                `
+                : `
+                  <div class="asset-placeholder">
+                    NO PREVIEW
+                  </div>
+                `;
+
+
+            return `
+
+              <article
+                class="asset-card"
+                data-id="${escapeHTML(asset.id)}"
+                data-slug="${escapeHTML(asset.slug || "")}"
+              >
+
+                <div class="asset-preview">
+                  ${preview}
+                </div>
+
+                <div class="asset-content">
+
+                  <div class="asset-category">
+                    ${escapeHTML(
+                      asset.category || "Other"
+                    )}
+                  </div>
+
+                  <div class="asset-title">
+                    ${escapeHTML(
+                      asset.title
+                    )}
+                  </div>
+
+                  <div class="asset-meta">
+
+                    <span>
+                      ♥ ${formatNumber(
+                        asset.likes
+                      )}
+                    </span>
+
+                    <span>
+                      ↓ ${formatNumber(
+                        asset.downloads
+                      )}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            `;
+
+          })
+          .join("");
+
+
+      // =========================
+      // ASSET CLICK
+      // =========================
+
+      assetsGrid
+        .querySelectorAll(
+          ".asset-card"
+        )
+        .forEach(card => {
+
+          card.addEventListener(
+            "click",
+            () => {
+
+              const slug =
+                card.dataset.slug;
+
+              const id =
+                card.dataset.id;
+
+
+              if (slug) {
+
+                window.location.href =
+                  `asset.html?slug=${encodeURIComponent(slug)}`;
+
+              }
+
+              else {
+
+                window.location.href =
+                  `asset.html?id=${encodeURIComponent(id)}`;
+
+              }
+
+            }
+          );
+
+        });
+
+    }
+
+
+    // =========================
+    // OPEN EDIT
+    // =========================
+
+    function openEditModal() {
+
+      clearEditMessage();
+
+      selectedAvatarFile =
+        null;
+
+      avatarInput.value = "";
+
+
+      editModal.classList.add(
+        "open"
+      );
+
+
+      editModal.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+    }
+
+
+    // =========================
+    // CLOSE EDIT
+    // =========================
+
+    function closeEditModal() {
+
+      editModal.classList.remove(
+        "open"
+      );
+
+
+      editModal.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+      clearEditMessage();
+
+    }
+
+
+    editProfileBtn.addEventListener(
+      "click",
+      openEditModal
+    );
+
+
+    closeEditBtn.addEventListener(
+      "click",
+      closeEditModal
+    );
+
+
+    cancelEditBtn.addEventListener(
+      "click",
+      closeEditModal
+    );
+
+
+    editModal.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target === editModal
+        ) {
+
+          closeEditModal();
+
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Escape" &&
+          editModal.classList.contains("open")
+        ) {
+
+          closeEditModal();
+
+        }
+
+      }
+    );
+
+
+    // =========================
+    // AVATAR SELECT
+    // =========================
+
+    avatarInput.addEventListener(
+      "change",
+      event => {
+
+        const file =
+          event.target.files?.[0];
+
+
+        if (!file) {
+          return;
+        }
+
+
+        // Max 5 MB
+
+        if (
+          file.size >
+          5 * 1024 * 1024
+        ) {
+
+          showEditMessage(
+            "حجم عکس نباید بیشتر از 5MB باشد.",
+            "error"
+          );
+
+          avatarInput.value =
+            "";
+
+          selectedAvatarFile =
+            null;
+
+          return;
+
+        }
+
+
+        const allowedTypes = [
+          "image/jpeg",
+          "image/png",
+          "image/webp"
+        ];
+
+
+        if (
+          !allowedTypes.includes(
+            file.type
+          )
+        ) {
+
+          showEditMessage(
+            "فرمت عکس باید PNG، JPG یا WEBP باشد.",
+            "error"
+          );
+
+          avatarInput.value =
+            "";
+
+          selectedAvatarFile =
+            null;
+
+          return;
+
+        }
+
+
+        selectedAvatarFile =
+          file;
+
+
+        // Preview selected image
+
+        const previewUrl =
+          URL.createObjectURL(
+            file
+          );
+
+
+        editAvatar.innerHTML = `
+          <img
+            src="${previewUrl}"
+            alt="Preview"
+          >
+        `;
+
+
+        clearEditMessage();
+
+      }
+    );
+
+
+    // =========================
+    // SAVE PROFILE
+    // =========================
+
+    saveProfileBtn.addEventListener(
+      "click",
+      saveProfile
+    );
+
+
+    async function saveProfile() {
+
+      clearEditMessage();
+
+
+      const displayName =
+        displayNameInput.value.trim();
+
+
+      const username =
+        usernameInput.value
+          .trim()
+          .toLowerCase();
+
+
+      const bio =
+        bioInput.value.trim();
+
+
+      // =========================
+      // VALIDATION
+      // =========================
+
+      if (
+        username.length < 3
+      ) {
+
+        showEditMessage(
+          "نام کاربری باید حداقل 3 کاراکتر باشد.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        username.length > 30
+      ) {
+
+        showEditMessage(
+          "نام کاربری نباید بیشتر از 30 کاراکتر باشد.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !/^[a-z0-9_.-]+$/.test(
+          username
+        )
+      ) {
+
+        showEditMessage(
+          "نام کاربری فقط می‌تواند شامل حروف انگلیسی، عدد، نقطه، خط تیره و _ باشد.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        displayName.length > 40
+      ) {
+
+        showEditMessage(
+          "نام نمایشی نباید بیشتر از 40 کاراکتر باشد.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (
+        bio.length > 180
+      ) {
+
+        showEditMessage(
+          "بیو نباید بیشتر از 180 کاراکتر باشد.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      saveProfileBtn.disabled =
+        true;
+
+
+      saveProfileBtn.textContent =
+        "در حال ذخیره...";
+
+
+      try {
+
+        let avatarUrl =
+          currentProfile?.avatar_url ||
+          null;
+
+
+        // =========================
+        // UPLOAD AVATAR
+        // =========================
+
+        if (
+          selectedAvatarFile
+        ) {
+
+          const extension =
+            selectedAvatarFile.name
+              .split(".")
+              .pop()
+              .toLowerCase();
+
+
+          const filePath =
+            `${currentUser.id}/avatar.${extension}`;
+
+
+          const {
+            error:
+              uploadError
+          } =
+            await supabase
+              .storage
+              .from("avatars")
+              .upload(
+                filePath,
+                selectedAvatarFile,
+                {
+                  cacheControl:
+                    "3600",
+
+                  upsert:
+                    true,
+
+                  contentType:
+                    selectedAvatarFile.type
+                }
+              );
+
+
+          if (
+            uploadError
+          ) {
+
+            console.error(
+              "Avatar upload error:",
+              uploadError
+            );
+
+            throw new Error(
+              "آپلود عکس پروفایل انجام نشد."
+            );
+
+          }
+
+
+          const {
+            data:
+              publicData
+          } =
+            supabase
+              .storage
+              .from("avatars")
+              .getPublicUrl(
+                filePath
+              );
+
+
+          avatarUrl =
+            publicData?.publicUrl ||
+            null;
+
+        }
+
+
+        // =========================
+        // UPDATE PROFILE TABLE
+        // =========================
+
+        const {
+          error:
+            profileError
+        } =
+          await supabase
+            .from("profiles")
+            .upsert(
+              {
+                id:
+                  currentUser.id,
+
+                username:
+                  username,
+
+                display_name:
+                  displayName ||
+                  username,
+
+                avatar_url:
+                  avatarUrl,
+
+                bio:
+                  bio
+
+              },
+              {
+                onConflict:
+                  "id"
+              }
+            );
+
+
+        if (
+          profileError
+        ) {
+
+          console.error(
+            "Profile update error:",
+            profileError
+          );
+
+          throw new Error(
+            profileError.message ||
+            "ذخیره پروفایل انجام نشد."
+          );
+
+        }
+
+
+        // =========================
+        // UPDATE AUTH METADATA
+        // =========================
+
+        const {
+          error:
+            authUpdateError
+        } =
+          await supabase.auth.updateUser(
+            {
+              data: {
+
+                username:
+                  username,
+
+                display_name:
+                  displayName ||
+                  username
+
+              }
+
+            }
+          );
+
+
+        if (
+          authUpdateError
+        ) {
+
+          console.warn(
+            "Auth metadata update warning:",
+            authUpdateError
+          );
+
+        }
+
+
+        // =========================
+        // SUCCESS
+        // =========================
+
+        showEditMessage(
+          "پروفایل با موفقیت بروزرسانی شد ✓",
+          "success"
+        );
+
+
+        await loadProfileData();
+
+
+        setTimeout(
+          () => {
+
+            closeEditModal();
+
+          },
+          800
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Save profile error:",
+          error
+        );
+
+
+        showEditMessage(
+          error.message ||
+          "ذخیره تغییرات انجام نشد.",
+          "error"
+        );
+
+      }
+
+      finally {
+
+        saveProfileBtn.disabled =
+          false;
+
+        saveProfileBtn.textContent =
+          "ذخیره تغییرات";
+
+      }
+
+    }
+
+
+    // =========================
+    // LOGOUT
+    // =========================
+
+    document
+      .getElementById("logoutBtn")
+      .addEventListener(
+        "click",
+        async () => {
+
+          const {
+            error
+          } =
+            await supabase.auth.signOut({
+              scope: "local"
+            });
+
+
+          if (error) {
+
+            console.error(
+              "Logout error:",
+              error
+            );
+
+            alert(
+              "خروج از حساب انجام نشد."
+            );
+
+            return;
+
+          }
+
+
+          window.location.href =
+            "index.html";
+
+        }
+      );
+
+
+    // =========================
+    // START
+    // =========================
+
+    loadProfile();
+
+  </script>
+
+</body>
+
+</html>
