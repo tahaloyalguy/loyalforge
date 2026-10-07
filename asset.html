@@ -1542,6 +1542,104 @@
 
 
   /* =========================================================
+     LOAD LIKE STATE
+  ========================================================= */
+
+  async function loadLikeState() {
+
+    const likeButton =
+      document.getElementById(
+        "likeButton"
+      );
+
+    if (!likeButton || !window.currentAsset) {
+      return;
+    }
+
+
+    const {
+      data: {
+        user
+      }
+    } = await supabase.auth.getUser();
+
+
+    /*
+     * User is not logged in
+     */
+    if (!user) {
+
+      likeButton.classList.remove(
+        "liked"
+      );
+
+      likeButton.textContent =
+        "♡";
+
+      return;
+    }
+
+
+    /*
+     * Check existing like
+     */
+    const {
+      data,
+      error
+    } = await supabase
+      .from("asset_likes")
+      .select("id")
+      .eq(
+        "asset_id",
+        window.currentAsset.id
+      )
+      .eq(
+        "user_id",
+        user.id
+      )
+      .maybeSingle();
+
+
+    if (error) {
+
+      console.error(
+        "Like state error:",
+        error
+      );
+
+      return;
+    }
+
+
+    if (data) {
+
+      likeButton.classList.add(
+        "liked"
+      );
+
+      likeButton.textContent =
+        "♥";
+
+    } else {
+
+      likeButton.classList.remove(
+        "liked"
+      );
+
+      likeButton.textContent =
+        "♡";
+
+    }
+
+  }
+
+
+  /* =========================================================
+     ACTIONS
+  ========================================================= */
+
+
+  /* =========================================================
      ACTIONS
   ========================================================= */
 
