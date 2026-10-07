@@ -26,7 +26,9 @@ const searchModalInput = document.getElementById("searchModalInput");
 let currentCategory = "all";
 let currentSort = "latest";
 let currentSearch = "";
-
+let currentPage = 0;
+const assetsPerPage = 30;
+let hasMoreAssets = true;
 
 // =========================
 // HELPERS
@@ -96,19 +98,25 @@ function showToast(message) {
 // LOAD ASSETS
 // =========================
 
-async function loadAssets() {
+async function loadAssets(reset = true) {
+
   if (!assetGrid) return;
 
-  assetGrid.innerHTML = `
-    <div style="
-      grid-column: 1 / -1;
-      padding: 60px 20px;
-      text-align: center;
-      color: #777;
-    ">
-      Loading assets...
-    </div>
-  `;
+  if (reset) {
+    currentPage = 0;
+    hasMoreAssets = true;
+
+    assetGrid.innerHTML = `
+      <div style="
+        grid-column: 1 / -1;
+        padding: 60px 20px;
+        text-align: center;
+        color: #777;
+      ">
+        Loading assets...
+      </div>
+    `;
+  }
 
   let query = supabase
     .from("assets")
@@ -134,6 +142,7 @@ async function loadAssets() {
     `)
     .eq("status", "published");
 
+
   // =========================
   // CATEGORY FILTER
   // =========================
@@ -151,10 +160,12 @@ async function loadAssets() {
       categoryMap[currentCategory];
 
     if (databaseCategory) {
+
       query = query.eq(
         "category",
         databaseCategory
       );
+
     }
 
   }
@@ -175,56 +186,157 @@ async function loadAssets() {
 
   }
 
-  // Sorting
+
+  // =========================
+  // SORT
+  // =========================
+
   if (currentSort === "popular") {
-    query = query.order("likes", {
-      ascending: false
-    });
+
+    query = query.order(
+      "likes",
+      {
+        ascending: false
+      }
+    );
+
   }
 
   else if (currentSort === "downloads") {
-    query = query.order("downloads", {
-      ascending: false
-    });
+
+    query = query.order(
+      "downloads",
+      {
+        ascending: false
+      }
+    );
+
   }
 
   else {
-    query = query.order("created_at", {
-      ascending: false
-    });
+
+    query = query.order(
+      "created_at",
+      {
+        ascending: false
+      }
+    );
+
   }
 
-  query = query.limit(30);
 
-  const { data, error } = await query;
+  // =========================
+  // PAGINATION
+  // =========================
+
+  const from =
+    currentPage * assetsPerPage;
+
+  const to =
+    from + assetsPerPage - 1;
+
+  query = query.range(from, to);
+
+
+  const {
+    data,
+    error
+  } = await query;
+
+
+  // =========================
+  // ERROR
+  // =========================
 
   if (error) {
-    console.error("LoyalForge Supabase error:", error);
+
+    console.error(
+      "LoyalForge Supabase error:",
+      error
+    );
 
     assetGrid.innerHTML = "";
 
     if (emptyState) {
-      emptyState.style.display = "block";
 
-      const title = emptyState.querySelector("h3");
-      const text = emptyState.querySelector("p");
+      emptyState.style.display =
+        "block";
+
+      const title =
+        emptyState.querySelector("h3");
+
+      const text =
+        emptyState.querySelector("p");
 
       if (title) {
-        title.textContent = "Couldn't load assets";
+        title.textContent =
+          "Couldn't load assets";
       }
 
       if (text) {
         text.textContent =
           "There was a problem connecting to the asset database.";
       }
+
     }
 
     return;
+
   }
 
-  renderAssets(data || []);
-}
 
+  const assets =
+    data || [];
+
+
+  // =========================
+  // CHECK MORE
+  // =========================
+
+  if (assets.length < assetsPerPage) {
+
+    hasMoreAssets = false;
+
+  }
+
+
+  // =========================
+  // RENDER
+  // =========================
+
+  if (reset) {
+
+    renderAssets(assets);
+
+  } else {
+
+    renderAssets(
+      assets,
+      false
+    );
+
+  }
+
+
+  // =========================
+  // LOAD MORE BUTTON
+  // =========================
+
+  const loadMoreBtn =
+    document.getElementById(
+      "loadMoreBtn"
+    );
+
+  if (loadMoreBtn) {
+
+    loadMoreBtn.style.display =
+      hasMoreAssets
+        ? "block"
+        : "none";
+
+  }
+
+}
 
 // =========================
 // RENDER ASSETS
