@@ -1563,7 +1563,7 @@
 
 downloadButton.addEventListener(
   "click",
-  () => {
+  async () => {
 
     if (!asset.file_name) {
       alert(
@@ -1572,24 +1572,104 @@ downloadButton.addEventListener(
       return;
     }
 
-    const { data } = supabase
-      .storage
-      .from("assets")
-      .getPublicUrl(
-        asset.file_name,
-        {
-          download: true
-        }
-      );
-
-    if (!data || !data.publicUrl) {
-      alert(
-        "Download link could not be created."
-      );
+    if (downloadButton.disabled) {
       return;
     }
 
-    window.location.href = data.publicUrl;
+    downloadButton.disabled = true;
+
+    const originalText =
+      downloadButton.textContent;
+
+    downloadButton.textContent =
+      "Preparing download...";
+
+    try {
+
+      const {
+        data,
+        error
+      } = supabase
+        .storage
+        .from("assets")
+        .getPublicUrl(
+          asset.file_name,
+          {
+            download: true
+          }
+        );
+
+      if (
+        error ||
+        !data ||
+        !data.publicUrl
+      ) {
+        throw new Error(
+          "Download URL could not be created."
+        );
+      }
+
+      /*
+       * Increase download count
+       */
+      const {
+        data: newDownloads,
+        error: countError
+      } = await supabase.rpc(
+        "increment_asset_download",
+        {
+          asset_id: asset.id
+        }
+      );
+
+      if (countError) {
+        console.error(
+          "Download counter error:",
+          countError
+        );
+      }
+
+      /*
+       * Update visible counter immediately
+       */
+      if (
+        !countError &&
+        typeof newDownloads === "number"
+      ) {
+        asset.downloads = newDownloads;
+
+        const downloadsElement =
+          document.getElementById(
+            "downloads"
+          );
+
+        if (downloadsElement) {
+          downloadsElement.textContent =
+            newDownloads;
+        }
+      }
+
+      /*
+       * Start actual download
+       */
+      window.location.href =
+        data.publicUrl;
+
+    } catch (error) {
+
+      console.error(
+        "Download error:",
+        error
+      );
+
+      alert(
+        "The download could not be started. Please try again."
+      );
+
+      downloadButton.disabled = false;
+      downloadButton.textContent =
+        originalText;
+    }
 
   }
 );
