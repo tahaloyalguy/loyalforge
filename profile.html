@@ -508,7 +508,7 @@ a {
   color:
     #c9ced8;
 
-  font-size: 14px;
+  font-size: 14px;ب
 
   white-space: pre-wrap;
 }
@@ -518,12 +518,23 @@ a {
    CREATOR BADGE
    ========================= */
 
-.profile-info::before {
-  content: "LOYALFORGE CREATOR";
+.profile-name-row {
+  display: flex;
 
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+
+.creator-badge {
   display: inline-flex;
 
-  margin-bottom: 8px;
+  align-items: center;
+
+  gap: 5px;
 
   padding: 4px 9px;
 
@@ -543,7 +554,23 @@ a {
 
   font-weight: 950;
 
-  letter-spacing: .7px;
+  letter-spacing: .6px;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 5px 20px
+    rgba(255,106,0,.06);
+}
+
+
+.creator-badge::before {
+  content: "✦";
+
+  color:
+    var(--accent);
+
+  font-size: 10px;
 }
 
 
@@ -1611,7 +1638,9 @@ a {
 
 
 @media (max-width: 600px) {
-
+.profile-name-row {
+  justify-content: center;
+}
   .page {
     width:
       calc(100% - 20px);
