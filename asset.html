@@ -37,7 +37,17 @@
       --asset-radius: 24px;
     }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
+      margin: 0;
+
       background:
         radial-gradient(
           circle at 50% -10%,
@@ -45,6 +55,14 @@
           transparent 35%
         ),
         var(--asset-bg);
+
+      color: var(--asset-text);
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
     }
 
     .asset-page {
@@ -95,9 +113,12 @@
 
     .asset-brand-mini {
       color: #71859d;
+
       font-family: "Space Grotesk", sans-serif;
+
       font-size: 11px;
       font-weight: 700;
+
       letter-spacing: .12em;
       text-transform: uppercase;
     }
@@ -157,7 +178,7 @@
     }
 
     .error-card {
-      width: min(480px, 100%);
+      width: min(500px, 100%);
       padding: 35px;
 
       border: 1px solid rgba(255,100,100,.12);
@@ -201,6 +222,57 @@
       line-height: 1.8;
     }
 
+    .error-debug {
+      margin-top: 15px;
+
+      padding: 10px 12px;
+
+      overflow-wrap: anywhere;
+
+      border: 1px solid rgba(255,255,255,.05);
+      border-radius: 10px;
+
+      color: #7f90a4;
+      background: rgba(255,255,255,.018);
+
+      font-family: "Space Grotesk", monospace;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .error-actions {
+      display: flex;
+      justify-content: center;
+      gap: 9px;
+
+      margin-top: 18px;
+    }
+
+    .error-action {
+      padding: 9px 13px;
+
+      border: 1px solid rgba(180,215,255,.09);
+      border-radius: 10px;
+
+      color: #c8d6e5;
+      background: rgba(255,255,255,.025);
+
+      text-decoration: none;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition: .2s ease;
+    }
+
+    .error-action:hover {
+      color: var(--asset-text);
+      border-color: rgba(142,216,255,.18);
+      background: rgba(142,216,255,.05);
+    }
+
     /* =========================================================
        MAIN ASSET
     ========================================================= */
@@ -211,8 +283,12 @@
 
     .asset-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.18fr) minmax(340px, .82fr);
+      grid-template-columns:
+        minmax(0, 1.18fr)
+        minmax(340px, .82fr);
+
       gap: 25px;
+
       align-items: start;
     }
 
@@ -261,6 +337,8 @@
         );
 
       pointer-events: none;
+
+      z-index: 2;
     }
 
     .asset-preview-image-wrap {
@@ -271,6 +349,8 @@
       place-items: center;
 
       padding: 28px;
+
+      z-index: 1;
     }
 
     .asset-preview-image {
@@ -281,7 +361,9 @@
 
       border-radius: 15px;
 
-      transition: transform .45s cubic-bezier(.22,1,.36,1);
+      transition:
+        transform .45s cubic-bezier(.22,1,.36,1),
+        opacity .25s ease;
     }
 
     .asset-preview-card:hover .asset-preview-image {
@@ -292,16 +374,18 @@
       position: absolute;
       inset: auto 0 0 0;
 
-      height: 130px;
+      height: 150px;
 
       background:
         linear-gradient(
           to top,
-          rgba(5,9,16,.75),
+          rgba(5,9,16,.78),
           transparent
         );
 
       pointer-events: none;
+
+      z-index: 3;
     }
 
     .preview-category {
@@ -324,8 +408,11 @@
 
       font-size: 9px;
       font-weight: 800;
+
       letter-spacing: .08em;
       text-transform: uppercase;
+
+      z-index: 5;
     }
 
     .preview-format {
@@ -347,6 +434,8 @@
       font-family: "Space Grotesk", sans-serif;
       font-size: 9px;
       font-weight: 700;
+
+      z-index: 5;
     }
 
     /* =========================================================
@@ -403,6 +492,8 @@
       line-height: 1.02;
 
       letter-spacing: -.025em;
+
+      overflow-wrap: anywhere;
     }
 
     .asset-description {
@@ -412,6 +503,8 @@
 
       font-size: 13px;
       line-height: 1.9;
+
+      overflow-wrap: anywhere;
     }
 
     /* =========================================================
@@ -459,6 +552,7 @@
     .creator-avatar img {
       width: 100%;
       height: 100%;
+
       object-fit: cover;
     }
 
@@ -470,17 +564,28 @@
       color: var(--asset-dim);
 
       font-size: 9px;
+
       text-transform: uppercase;
       letter-spacing: .08em;
     }
 
     .creator-name {
+      display: inline-block;
+
       margin-top: 3px;
 
       color: var(--asset-text);
 
       font-size: 13px;
       font-weight: 700;
+
+      text-decoration: none;
+
+      transition: color .2s ease;
+    }
+
+    .creator-name:hover {
+      color: var(--asset-blue);
     }
 
     /* =========================================================
@@ -555,7 +660,8 @@
         transform .25s ease,
         background .25s ease,
         border-color .25s ease,
-        box-shadow .25s ease;
+        box-shadow .25s ease,
+        opacity .2s ease;
     }
 
     .download-btn {
@@ -567,13 +673,19 @@
       font-size: 12px;
     }
 
-    .download-btn:hover {
+    .download-btn:hover:not(:disabled) {
       transform: translateY(-2px);
 
       background: #b8eaff;
 
       box-shadow:
         0 13px 35px rgba(142,216,255,.16);
+    }
+
+    .download-btn:disabled,
+    .like-btn:disabled {
+      cursor: wait;
+      opacity: .65;
     }
 
     .like-btn {
@@ -588,8 +700,9 @@
       font-size: 18px;
     }
 
-    .like-btn:hover {
+    .like-btn:hover:not(:disabled) {
       color: #ff8ca8;
+
       border-color: rgba(255,140,168,.20);
       background: rgba(255,140,168,.06);
 
@@ -598,6 +711,7 @@
 
     .like-btn.liked {
       color: #ff7f9d;
+
       border-color: rgba(255,127,157,.22);
       background: rgba(255,127,157,.07);
     }
@@ -616,6 +730,8 @@
     }
 
     .meta-item {
+      min-width: 0;
+
       padding: 12px;
 
       border: 1px solid rgba(180,215,255,.055);
@@ -687,7 +803,9 @@
 
       font-size: 12px;
       line-height: 2;
+
       white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
     .asset-note {
@@ -701,15 +819,19 @@
     }
 
     .note-icon {
+      flex: 0 0 auto;
+
       color: var(--asset-blue);
+
       font-size: 15px;
     }
 
     /* =========================================================
-       RESPONSIVE
+       MOBILE
     ========================================================= */
 
     @media (max-width: 900px) {
+
       .asset-layout {
         grid-template-columns: 1fr;
       }
@@ -721,11 +843,14 @@
       .asset-bottom {
         grid-template-columns: 1fr;
       }
+
     }
 
     @media (max-width: 560px) {
+
       .asset-page {
         width: min(100% - 20px, 1180px);
+
         padding-top: 92px;
       }
 
@@ -739,6 +864,7 @@
 
       .asset-preview-card {
         min-height: 350px;
+
         border-radius: 18px;
       }
 
@@ -748,6 +874,7 @@
 
       .asset-info-card {
         padding: 21px;
+
         border-radius: 18px;
       }
 
@@ -766,6 +893,11 @@
       .asset-section-card {
         padding: 20px;
       }
+
+      .error-card {
+        padding: 26px 20px;
+      }
+
     }
   </style>
 </head>
@@ -774,7 +906,10 @@
 
 <main class="asset-page">
 
-  <!-- TOP -->
+  <!-- =======================================================
+       TOP
+  ======================================================== -->
+
   <div class="asset-topbar">
 
     <a href="index.html" class="asset-back">
@@ -789,8 +924,14 @@
   </div>
 
 
-  <!-- LOADING -->
-  <section id="loading" class="asset-loading">
+  <!-- =======================================================
+       LOADING
+  ======================================================== -->
+
+  <section
+    id="loading"
+    class="asset-loading"
+  >
 
     <div class="loading-inner">
 
@@ -803,8 +944,15 @@
   </section>
 
 
-  <!-- ERROR -->
-  <section id="error" class="asset-error" style="display:none;">
+  <!-- =======================================================
+       ERROR
+  ======================================================== -->
+
+  <section
+    id="error"
+    class="asset-error"
+    style="display:none;"
+  >
 
     <div class="error-card">
 
@@ -812,27 +960,66 @@
         !
       </div>
 
-      <h2>Asset not found</h2>
+      <h2>
+        Asset not found
+      </h2>
 
       <p id="errorMessage">
         We couldn't load this asset.
       </p>
+
+      <div
+        id="errorDebug"
+        class="error-debug"
+        style="display:none;"
+      ></div>
+
+      <div class="error-actions">
+
+        <a
+          href="index.html"
+          class="error-action"
+        >
+          Back to Explore
+        </a>
+
+        <button
+          id="retryButton"
+          class="error-action"
+          type="button"
+        >
+          Try Again
+        </button>
+
+      </div>
 
     </div>
 
   </section>
 
 
-  <!-- CONTENT -->
-  <section id="assetContent" class="asset-content">
+  <!-- =======================================================
+       CONTENT
+  ======================================================== -->
+
+  <section
+    id="assetContent"
+    class="asset-content"
+  >
 
     <div class="asset-layout">
 
 
-      <!-- PREVIEW -->
+      <!-- ===================================================
+           PREVIEW
+      ==================================================== -->
+
       <div class="asset-preview-card">
 
-        <div class="preview-category" id="assetCategory">
+        <div
+          class="preview-category"
+          id="assetCategory"
+        >
           ASSET
         </div>
 
@@ -849,14 +1036,20 @@
 
         <div class="preview-overlay"></div>
 
-        <div class="preview-format" id="previewFormat">
+        <div
+          class="preview-format"
+          id="previewFormat"
+        >
           FILE
         </div>
 
       </div>
 
 
-      <!-- INFO -->
+      <!-- ===================================================
+           INFO
+      ==================================================== -->
+
       <div class="asset-info-card">
 
         <div
@@ -884,6 +1077,7 @@
 
 
         <!-- CREATOR -->
+
         <div class="creator-card">
 
           <div
@@ -899,12 +1093,14 @@
               Created by
             </div>
 
-            <div
+            <a
               id="assetCreator"
               class="creator-name"
+              href="#"
+              style="pointer-events:none;"
             >
               Unknown Creator
-            </div>
+            </a>
 
           </div>
 
@@ -912,6 +1108,7 @@
 
 
         <!-- STATS -->
+
         <div class="asset-stats">
 
           <div class="asset-stat">
@@ -965,6 +1162,7 @@
 
 
         <!-- ACTIONS -->
+
         <div class="asset-actions">
 
           <button
@@ -988,6 +1186,7 @@
 
 
         <!-- FILE META -->
+
         <div class="asset-meta">
 
           <div class="meta-item">
@@ -1060,7 +1259,10 @@
     </div>
 
 
-    <!-- LOWER -->
+    <!-- =====================================================
+         LOWER INFORMATION
+    ====================================================== -->
+
     <div class="asset-bottom">
 
 
@@ -1093,8 +1295,8 @@
           </span>
 
           <span>
-            Downloadable assets, rigs, models, textures,
-            VFX and other creative resources — all in one place.
+            Minecraft content, rigs, models, thumbnails
+            and other creative resources — all in one place.
           </span>
 
         </div>
@@ -1126,10 +1328,11 @@
     "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
 
 
-  const supabase = createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const supabase =
+    createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
 
   /* =========================================================
@@ -1137,16 +1340,34 @@
   ========================================================= */
 
   const loading =
-    document.getElementById("loading");
+    document.getElementById(
+      "loading"
+    );
 
   const content =
-    document.getElementById("assetContent");
+    document.getElementById(
+      "assetContent"
+    );
 
   const errorBox =
-    document.getElementById("error");
+    document.getElementById(
+      "error"
+    );
 
   const errorMessage =
-    document.getElementById("errorMessage");
+    document.getElementById(
+      "errorMessage"
+    );
+
+  const errorDebug =
+    document.getElementById(
+      "errorDebug"
+    );
+
+  const retryButton =
+    document.getElementById(
+      "retryButton"
+    );
 
 
   /* =========================================================
@@ -1166,29 +1387,53 @@
 
 
   /* =========================================================
+     GLOBAL STATE
+  ========================================================= */
+
+  window.currentAsset = null;
+
+
+  /* =========================================================
      HELPERS
   ========================================================= */
 
   function formatFileSize(bytes) {
 
-    if (!bytes) {
+    if (
+      bytes === null ||
+      bytes === undefined ||
+      bytes === "" ||
+      Number.isNaN(Number(bytes))
+    ) {
       return "Unknown";
     }
 
-    if (bytes < 1024) {
-      return `${bytes} B`;
+    const size =
+      Number(bytes);
+
+
+    if (size < 1024) {
+      return `${size} B`;
     }
 
-    if (bytes < 1024 * 1024) {
-      return `${(bytes / 1024).toFixed(1)} KB`;
+
+    if (size < 1024 * 1024) {
+      return `${(
+        size / 1024
+      ).toFixed(1)} KB`;
     }
 
-    if (bytes < 1024 * 1024 * 1024) {
-      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+
+    if (size < 1024 * 1024 * 1024) {
+      return `${(
+        size /
+        (1024 * 1024)
+      ).toFixed(1)} MB`;
     }
+
 
     return `${(
-      bytes /
+      size /
       (1024 * 1024 * 1024)
     ).toFixed(1)} GB`;
 
@@ -1201,7 +1446,21 @@
       return "Unknown";
     }
 
-    return new Date(date).toLocaleDateString(
+
+    const parsed =
+      new Date(date);
+
+
+    if (
+      Number.isNaN(
+        parsed.getTime()
+      )
+    ) {
+      return "Unknown";
+    }
+
+
+    return parsed.toLocaleDateString(
       "en-US",
       {
         year: "numeric",
@@ -1219,12 +1478,159 @@
       return "LF";
     }
 
+
     return name
-      .split(" ")
+      .trim()
+      .split(/\s+/)
       .slice(0, 2)
-      .map(word => word[0])
+      .map(
+        word =>
+          word[0]
+      )
       .join("")
       .toUpperCase();
+
+  }
+
+
+  function escapeHtml(value) {
+
+    return String(value || "")
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+  function showError(
+    message,
+    debug = ""
+  ) {
+
+    loading.style.display =
+      "none";
+
+    content.style.display =
+      "none";
+
+    errorBox.style.display =
+      "grid";
+
+
+    errorMessage.textContent =
+      message ||
+      "Something went wrong while loading this asset.";
+
+
+    if (debug) {
+
+      errorDebug.style.display =
+        "block";
+
+      errorDebug.textContent =
+        debug;
+
+    } else {
+
+      errorDebug.style.display =
+        "none";
+
+      errorDebug.textContent =
+        "";
+
+    }
+
+  }
+
+
+  function showLoading() {
+
+    loading.style.display =
+      "grid";
+
+    content.style.display =
+      "none";
+
+    errorBox.style.display =
+      "none";
+
+  }
+
+
+  /* =========================================================
+     LOAD CREATOR PROFILE
+     
+     IMPORTANT:
+     Asset loading does NOT depend on this query.
+     If profiles has an issue, the Asset still loads.
+  ========================================================= */
+
+  async function loadCreatorProfile(
+    userId
+  ) {
+
+    if (!userId) {
+      return null;
+    }
+
+
+    try {
+
+      const {
+        data,
+        error
+      } = await supabase
+        .from("profiles")
+        .select(
+          "username, display_name, avatar_url"
+        )
+        .eq(
+          "id",
+          userId
+        )
+        .maybeSingle();
+
+
+      if (error) {
+
+        console.warn(
+          "Creator profile could not be loaded:",
+          error
+        );
+
+        return null;
+      }
+
+
+      return data || null;
+
+    } catch (error) {
+
+      console.warn(
+        "Creator profile error:",
+        error
+      );
+
+      return null;
+    }
 
   }
 
@@ -1235,14 +1641,28 @@
 
   async function loadAsset() {
 
+    showLoading();
+
+
     try {
 
       if (!slug && !id) {
+
         throw new Error(
           "No asset was specified."
         );
+
       }
 
+
+      /*
+       * IMPORTANT:
+       * We intentionally DO NOT join profiles here.
+       *
+       * First we load the asset itself.
+       * This prevents a profiles relationship/RLS problem
+       * from making the whole Asset disappear.
+       */
 
       let query =
         supabase
@@ -1261,16 +1681,8 @@
             likes,
             created_at,
             user_id,
-            profiles (
-              username,
-              display_name,
-              avatar_url
-            )
-          `)
-          .eq(
-            "status",
-            "published"
-          );
+            status
+          `);
 
 
       if (slug) {
@@ -1292,29 +1704,78 @@
       }
 
 
+      /*
+       * Asset must be published.
+       */
+      query =
+        query.eq(
+          "status",
+          "published"
+        );
+
+
       const {
         data: asset,
         error
-      } = await query.single();
+      } = await query.maybeSingle();
 
 
       if (error) {
-        throw error;
+
+        console.error(
+          "Asset query error:",
+          error
+        );
+
+        throw new Error(
+          error.message ||
+          "Could not load the asset."
+        );
+
       }
 
 
-if (!asset) {
-  throw new Error(
-    "Asset not found."
-  );
-}
+      if (!asset) {
+
+        throw new Error(
+          "This asset does not exist, is not published, or is not accessible."
+        );
+
+      }
 
 
-window.currentAsset = asset;
+      /*
+       * Save globally.
+       */
+      window.currentAsset =
+        asset;
 
-renderAsset(asset);
 
-await loadLikeState();
+      /*
+       * Load creator separately.
+       */
+      const profile =
+        await loadCreatorProfile(
+          asset.user_id
+        );
+
+
+      asset.profiles =
+        profile;
+
+
+      /*
+       * Render.
+       */
+      renderAsset(
+        asset
+      );
+
+
+      /*
+       * Load current user's like state.
+       */
+      await loadLikeState();
 
 
     } catch (error) {
@@ -1324,18 +1785,14 @@ await loadLikeState();
         error
       );
 
-      loading.style.display =
-        "none";
 
-      content.style.display =
-        "none";
-
-      errorBox.style.display =
-        "grid";
-
-      errorMessage.textContent =
+      showError(
         error.message ||
-        "Something went wrong while loading this asset.";
+        "Something went wrong while loading this asset.",
+        slug
+          ? `Slug: ${slug}`
+          : `ID: ${id}`
+      );
 
     }
 
@@ -1359,9 +1816,8 @@ await loadLikeState();
 
 
     const profile =
-      Array.isArray(asset.profiles)
-        ? asset.profiles[0]
-        : asset.profiles;
+      asset.profiles ||
+      null;
 
 
     const creatorName =
@@ -1370,13 +1826,17 @@ await loadLikeState();
       "Unknown Creator";
 
 
-    /* PAGE TITLE */
+    /* =======================================================
+       PAGE TITLE
+    ======================================================== */
 
     document.title =
       `${asset.title || "Asset"} — LoyalForge`;
 
 
-    /* TITLE */
+    /* =======================================================
+       TITLE
+    ======================================================== */
 
     document.getElementById(
       "assetTitle"
@@ -1385,11 +1845,14 @@ await loadLikeState();
       "Untitled Asset";
 
 
-    /* DESCRIPTION */
+    /* =======================================================
+       DESCRIPTION
+    ======================================================== */
 
     const description =
       asset.description ||
       "No description provided.";
+
 
     document.getElementById(
       "assetDescription"
@@ -1403,7 +1866,9 @@ await loadLikeState();
       description;
 
 
-    /* CATEGORY */
+    /* =======================================================
+       CATEGORY
+    ======================================================== */
 
     const category =
       asset.category ||
@@ -1428,7 +1893,9 @@ await loadLikeState();
       category;
 
 
-    /* PREVIEW */
+    /* =======================================================
+       PREVIEW
+    ======================================================== */
 
     const preview =
       document.getElementById(
@@ -1436,9 +1903,29 @@ await loadLikeState();
       );
 
 
+    const fallbackPreview =
+      "https://placehold.co/1200x800/0b1220/8ed8ff?text=LoyalForge";
+
+
+    preview.onerror =
+      () => {
+
+        if (
+          preview.src !==
+          fallbackPreview
+        ) {
+
+          preview.src =
+            fallbackPreview;
+
+        }
+
+      };
+
+
     preview.src =
       asset.preview_url ||
-      "https://placehold.co/1200x800/0b1220/8ed8ff?text=LoyalForge";
+      fallbackPreview;
 
 
     preview.alt =
@@ -1446,7 +1933,9 @@ await loadLikeState();
       "Asset Preview";
 
 
-    /* FORMAT */
+    /* =======================================================
+       FORMAT
+    ======================================================== */
 
     const format =
       asset.file_format ||
@@ -1465,13 +1954,52 @@ await loadLikeState();
       format;
 
 
-    /* CREATOR */
+    /* =======================================================
+       CREATOR
+    ======================================================== */
 
-    document.getElementById(
-      "assetCreator"
-    ).textContent =
+    const creatorElement =
+      document.getElementById(
+        "assetCreator"
+      );
+
+
+    creatorElement.textContent =
       creatorName;
 
+
+    /*
+     * Creator profile link.
+     *
+     * We use username when available.
+     * The profile page can later read ?username=...
+     */
+
+    if (profile?.username) {
+
+      creatorElement.href =
+        `profile.html?username=${encodeURIComponent(
+          profile.username
+        )}`;
+
+      creatorElement.style.pointerEvents =
+        "auto";
+
+    } else {
+
+      creatorElement.removeAttribute(
+        "href"
+      );
+
+      creatorElement.style.pointerEvents =
+        "none";
+
+    }
+
+
+    /* =======================================================
+       AVATAR
+    ======================================================== */
 
     const avatar =
       document.getElementById(
@@ -1479,13 +2007,40 @@ await loadLikeState();
       );
 
 
+    avatar.innerHTML =
+      "";
+
+
     if (profile?.avatar_url) {
 
-      avatar.innerHTML =
-        `<img
-          src="${profile.avatar_url}"
-          alt="${creatorName}"
-        >`;
+      const img =
+        document.createElement(
+          "img"
+        );
+
+
+      img.src =
+        profile.avatar_url;
+
+
+      img.alt =
+        creatorName;
+
+
+      img.onerror =
+        () => {
+
+          avatar.textContent =
+            creatorInitials(
+              creatorName
+            );
+
+        };
+
+
+      avatar.appendChild(
+        img
+      );
 
     } else {
 
@@ -1497,21 +2052,29 @@ await loadLikeState();
     }
 
 
-    /* STATS */
+    /* =======================================================
+       STATS
+    ======================================================== */
 
     document.getElementById(
       "assetLikes"
     ).textContent =
-      asset.likes || 0;
+      Number(
+        asset.likes || 0
+      );
 
 
     document.getElementById(
       "assetDownloads"
     ).textContent =
-      asset.downloads || 0;
+      Number(
+        asset.downloads || 0
+      );
 
 
-    /* FILE SIZE */
+    /* =======================================================
+       FILE SIZE
+    ======================================================== */
 
     document.getElementById(
       "assetSize"
@@ -1521,7 +2084,9 @@ await loadLikeState();
       );
 
 
-    /* FILE NAME */
+    /* =======================================================
+       FILE NAME
+    ======================================================== */
 
     document.getElementById(
       "assetFileName"
@@ -1530,7 +2095,9 @@ await loadLikeState();
       "Unknown";
 
 
-    /* DATE */
+    /* =======================================================
+       DATE
+    ======================================================== */
 
     document.getElementById(
       "assetDate"
@@ -1540,7 +2107,13 @@ await loadLikeState();
       );
 
 
-    setupActions(asset);
+    /* =======================================================
+       ACTIONS
+    ======================================================== */
+
+    setupActions(
+      asset
+    );
 
   }
 
@@ -1556,82 +2129,530 @@ await loadLikeState();
         "likeButton"
       );
 
-    if (!likeButton || !window.currentAsset) {
+
+    if (
+      !likeButton ||
+      !window.currentAsset
+    ) {
       return;
     }
 
 
-    const {
-      data: {
-        user
+    try {
+
+      const {
+        data: {
+          user
+        }
+      } =
+        await supabase.auth.getUser();
+
+
+      /*
+       * User is not logged in.
+       */
+      if (!user) {
+
+        likeButton.classList.remove(
+          "liked"
+        );
+
+        likeButton.textContent =
+          "♡";
+
+        return;
+
       }
-    } = await supabase.auth.getUser();
 
 
-    /*
-     * User is not logged in
-     */
-    if (!user) {
-
-      likeButton.classList.remove(
-        "liked"
-      );
-
-      likeButton.textContent =
-        "♡";
-
-      return;
-    }
-
-
-    /*
-     * Check existing like
-     */
-    const {
-      data,
-      error
-    } = await supabase
-      .from("asset_likes")
-      .select("id")
-      .eq(
-        "asset_id",
-        window.currentAsset.id
-      )
-      .eq(
-        "user_id",
-        user.id
-      )
-      .maybeSingle();
+      /*
+       * Check existing like.
+       */
+      const {
+        data,
+        error
+      } =
+        await supabase
+          .from("asset_likes")
+          .select("id")
+          .eq(
+            "asset_id",
+            window.currentAsset.id
+          )
+          .eq(
+            "user_id",
+            user.id
+          )
+          .maybeSingle();
 
 
-    if (error) {
+      if (error) {
+
+        console.error(
+          "Like state error:",
+          error
+        );
+
+        return;
+
+      }
+
+
+      if (data) {
+
+        likeButton.classList.add(
+          "liked"
+        );
+
+        likeButton.textContent =
+          "♥";
+
+      } else {
+
+        likeButton.classList.remove(
+          "liked"
+        );
+
+        likeButton.textContent =
+          "♡";
+
+      }
+
+    } catch (error) {
 
       console.error(
         "Like state error:",
         error
       );
 
+    }
+
+  }
+
+
+  /* =========================================================
+     DOWNLOAD
+  ========================================================= */
+
+  async function handleDownload(
+    asset,
+    downloadButton
+  ) {
+
+    if (!asset?.file_name) {
+
+      alert(
+        "This asset doesn't have a downloadable file yet."
+      );
+
+      return;
+
+    }
+
+
+    if (downloadButton.disabled) {
       return;
     }
 
 
-    if (data) {
+    downloadButton.disabled =
+      true;
 
-      likeButton.classList.add(
-        "liked"
+
+    const originalText =
+      downloadButton.textContent;
+
+
+    downloadButton.textContent =
+      "Preparing download...";
+
+
+    try {
+
+      /*
+       * Create public download URL.
+       *
+       * IMPORTANT:
+       * file_name must contain the complete Storage path,
+       * for example:
+       *
+       * files/example.zip
+       */
+
+      const {
+        data,
+        error
+      } =
+        supabase
+          .storage
+          .from("assets")
+          .getPublicUrl(
+            asset.file_name,
+            {
+              download: true
+            }
+          );
+
+
+      if (
+        error ||
+        !data?.publicUrl
+      ) {
+
+        throw new Error(
+          "Download URL could not be created."
+        );
+
+      }
+
+
+      /*
+       * Open the file first.
+       *
+       * The counter is updated only after
+       * the download URL has been successfully created.
+       */
+
+      const downloadUrl =
+        data.publicUrl;
+
+
+      /*
+       * Increase database counter.
+       */
+
+      const {
+        data: newDownloads,
+        error: countError
+      } =
+        await supabase.rpc(
+          "increment_asset_download",
+          {
+            asset_id:
+              asset.id
+          }
+        );
+
+
+      if (countError) {
+
+        console.error(
+          "Download counter error:",
+          countError
+        );
+
+      }
+
+
+      /*
+       * Update visible counter.
+       */
+
+      if (
+        !countError &&
+        typeof newDownloads ===
+          "number"
+      ) {
+
+        asset.downloads =
+          newDownloads;
+
+
+        const downloadsElement =
+          document.getElementById(
+            "assetDownloads"
+          );
+
+
+        if (downloadsElement) {
+
+          downloadsElement.textContent =
+            newDownloads;
+
+        }
+
+      }
+
+
+      /*
+       * Actual download.
+       */
+
+      window.location.href =
+        downloadUrl;
+
+
+    } catch (error) {
+
+      console.error(
+        "Download error:",
+        error
       );
 
-      likeButton.textContent =
-        "♥";
 
-    } else {
-
-      likeButton.classList.remove(
-        "liked"
+      alert(
+        "The download could not be started. Please try again."
       );
 
-      likeButton.textContent =
-        "♡";
+
+      downloadButton.disabled =
+        false;
+
+
+      downloadButton.textContent =
+        originalText;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     LIKE
+  ========================================================= */
+
+  async function handleLike(
+    asset,
+    likeButton
+  ) {
+
+    if (
+      !asset ||
+      !likeButton
+    ) {
+      return;
+    }
+
+
+    if (likeButton.disabled) {
+      return;
+    }
+
+
+    try {
+
+      /*
+       * Check logged-in user.
+       */
+
+      const {
+        data: {
+          user
+        }
+      } =
+        await supabase.auth.getUser();
+
+
+      /*
+       * User must be logged in.
+       */
+
+      if (!user) {
+
+        alert(
+          "Please log in to like this asset."
+        );
+
+        window.location.href =
+          "auth.html";
+
+        return;
+
+      }
+
+
+      likeButton.disabled =
+        true;
+
+
+      /*
+       * Check current like.
+       */
+
+      const {
+        data: existingLike,
+        error: checkError
+      } =
+        await supabase
+          .from("asset_likes")
+          .select("id")
+          .eq(
+            "asset_id",
+            asset.id
+          )
+          .eq(
+            "user_id",
+            user.id
+          )
+          .maybeSingle();
+
+
+      if (checkError) {
+        throw checkError;
+      }
+
+
+      /* =====================================================
+         REMOVE LIKE
+      ====================================================== */
+
+      if (existingLike) {
+
+        const {
+          error: deleteError
+        } =
+          await supabase
+            .from("asset_likes")
+            .delete()
+            .eq(
+              "id",
+              existingLike.id
+            );
+
+
+        if (deleteError) {
+          throw deleteError;
+        }
+
+
+        const {
+          data: newLikes,
+          error: countError
+        } =
+          await supabase.rpc(
+            "decrement_asset_likes",
+            {
+              asset_id:
+                asset.id
+            }
+          );
+
+
+        if (countError) {
+          throw countError;
+        }
+
+
+        asset.likes =
+          Number(
+            newLikes || 0
+          );
+
+
+        likeButton.classList.remove(
+          "liked"
+        );
+
+
+        likeButton.textContent =
+          "♡";
+
+
+        const likesElement =
+          document.getElementById(
+            "assetLikes"
+          );
+
+
+        if (likesElement) {
+
+          likesElement.textContent =
+            asset.likes;
+
+        }
+
+      }
+
+
+      /* =====================================================
+         ADD LIKE
+      ====================================================== */
+
+      else {
+
+        const {
+          error: insertError
+        } =
+          await supabase
+            .from("asset_likes")
+            .insert({
+              asset_id:
+                asset.id,
+
+              user_id:
+                user.id
+            });
+
+
+        if (insertError) {
+          throw insertError;
+        }
+
+
+        const {
+          data: newLikes,
+          error: countError
+        } =
+          await supabase.rpc(
+            "increment_asset_likes",
+            {
+              asset_id:
+                asset.id
+            }
+          );
+
+
+        if (countError) {
+          throw countError;
+        }
+
+
+        asset.likes =
+          Number(
+            newLikes || 0
+          );
+
+
+        likeButton.classList.add(
+          "liked"
+        );
+
+
+        likeButton.textContent =
+          "♥";
+
+
+        const likesElement =
+          document.getElementById(
+            "assetLikes"
+          );
+
+
+        if (likesElement) {
+
+          likesElement.textContent =
+            asset.likes;
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Like error:",
+        error
+      );
+
+
+      alert(
+        "Something went wrong while updating the like."
+      );
+
+    } finally {
+
+      likeButton.disabled =
+        false;
 
     }
 
@@ -1642,7 +2663,9 @@ await loadLikeState();
      ACTIONS
   ========================================================= */
 
-  function setupActions(asset) {
+  function setupActions(
+    asset
+  ) {
 
     const downloadButton =
       document.getElementById(
@@ -1656,348 +2679,54 @@ await loadLikeState();
       );
 
 
-/* DOWNLOAD */
-
-downloadButton.addEventListener(
-  "click",
-  async () => {
-
-    if (!asset.file_name) {
-      alert(
-        "This asset doesn't have a downloadable file yet."
-      );
+    if (
+      !downloadButton ||
+      !likeButton
+    ) {
       return;
     }
 
-    if (downloadButton.disabled) {
-      return;
-    }
 
-    downloadButton.disabled = true;
+    /*
+     * Prevent duplicate listeners
+     * if renderAsset() is called again.
+     */
 
-    const originalText =
-      downloadButton.textContent;
-
-    downloadButton.textContent =
-      "Preparing download...";
-
-    try {
-
-      const {
-        data,
-        error
-      } = supabase
-        .storage
-        .from("assets")
-        .getPublicUrl(
-          asset.file_name,
-          {
-            download: true
-          }
+    downloadButton.onclick =
+      () =>
+        handleDownload(
+          asset,
+          downloadButton
         );
 
-      if (
-        error ||
-        !data ||
-        !data.publicUrl
-      ) {
-        throw new Error(
-          "Download URL could not be created."
+
+    likeButton.onclick =
+      () =>
+        handleLike(
+          asset,
+          likeButton
         );
-      }
-
-      /*
-       * Increase download count
-       */
-      const {
-        data: newDownloads,
-        error: countError
-      } = await supabase.rpc(
-        "increment_asset_download",
-        {
-          asset_id: asset.id
-        }
-      );
-
-      if (countError) {
-        console.error(
-          "Download counter error:",
-          countError
-        );
-      }
-
-      /*
-       * Update visible counter immediately
-       */
-      if (
-        !countError &&
-        typeof newDownloads === "number"
-      ) {
-        asset.downloads = newDownloads;
-
-const downloadsElement =
-  document.getElementById(
-    "assetDownloads"
-  );
-
-        if (downloadsElement) {
-          downloadsElement.textContent =
-            newDownloads;
-        }
-      }
-
-      /*
-       * Start actual download
-       */
-      window.location.href =
-        data.publicUrl;
-
-    } catch (error) {
-
-      console.error(
-        "Download error:",
-        error
-      );
-
-      alert(
-        "The download could not be started. Please try again."
-      );
-
-      downloadButton.disabled = false;
-      downloadButton.textContent =
-        originalText;
-    }
 
   }
-);
 
 
-/* LIKE */
+  /* =========================================================
+     RETRY
+  ========================================================= */
 
-likeButton.addEventListener(
-  "click",
-  async () => {
+  if (retryButton) {
 
-    try {
+    retryButton.addEventListener(
+      "click",
+      () => {
 
-      /*
-       * Check logged-in user
-       */
-      const {
-        data: {
-          user
-        }
-      } = await supabase.auth.getUser();
-
-
-      /*
-       * User must be logged in
-       */
-      if (!user) {
-
-        alert(
-          "Please log in to like this asset."
-        );
-
-        window.location.href =
-          "auth.html";
-
-        return;
-      }
-
-
-      /*
-       * Prevent double clicking
-       */
-      if (likeButton.disabled) {
-        return;
-      }
-
-      likeButton.disabled = true;
-
-
-      /*
-       * Check whether this user
-       * already liked this asset
-       */
-      const {
-        data: existingLike,
-        error: checkError
-      } = await supabase
-        .from("asset_likes")
-        .select("id")
-        .eq(
-          "asset_id",
-          asset.id
-        )
-        .eq(
-          "user_id",
-          user.id
-        )
-        .maybeSingle();
-
-
-      if (checkError) {
-        throw checkError;
-      }
-
-
-      /*
-       * REMOVE LIKE
-       */
-      if (existingLike) {
-
-        const {
-          error: deleteError
-        } = await supabase
-          .from("asset_likes")
-          .delete()
-          .eq(
-            "id",
-            existingLike.id
-          );
-
-        if (deleteError) {
-          throw deleteError;
-        }
-
-
-        /*
-         * Decrease database count
-         */
-        const {
-          data: newLikes,
-          error: countError
-        } = await supabase.rpc(
-          "decrement_asset_likes",
-          {
-            asset_id: asset.id
-          }
-        );
-
-
-        if (countError) {
-          throw countError;
-        }
-
-
-        /*
-         * Update UI
-         */
-        asset.likes =
-          newLikes;
-
-        likeButton.classList.remove(
-          "liked"
-        );
-
-        likeButton.textContent =
-          "♡";
-
-
-const likesElement =
-  document.getElementById(
-    "assetLikes"
-  );
-
-        if (likesElement) {
-          likesElement.textContent =
-            newLikes;
-        }
+        loadAsset();
 
       }
-
-
-      /*
-       * ADD LIKE
-       */
-      else {
-
-        const {
-          error: insertError
-        } = await supabase
-          .from("asset_likes")
-          .insert({
-            asset_id:
-              asset.id,
-
-            user_id:
-              user.id
-          });
-
-
-        if (insertError) {
-          throw insertError;
-        }
-
-
-        /*
-         * Increase database count
-         */
-        const {
-          data: newLikes,
-          error: countError
-        } = await supabase.rpc(
-          "increment_asset_likes",
-          {
-            asset_id: asset.id
-          }
-        );
-
-
-        if (countError) {
-          throw countError;
-        }
-
-
-        /*
-         * Update UI
-         */
-        asset.likes =
-          newLikes;
-
-        likeButton.classList.add(
-          "liked"
-        );
-
-        likeButton.textContent =
-          "♥";
-
-
-const likesElement =
-  document.getElementById(
-    "assetLikes"
-  );
-
-        if (likesElement) {
-          likesElement.textContent =
-            newLikes;
-        }
-
-      }
-
-    } catch (error) {
-
-      console.error(
-        "Like error:",
-        error
-      );
-
-      alert(
-        "Something went wrong. Please try again."
-      );
-
-    } finally {
-
-      likeButton.disabled =
-        false;
-
-    }
+    );
 
   }
-);
 
-}
 
   /* =========================================================
      START
