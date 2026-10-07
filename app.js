@@ -730,6 +730,38 @@ const forgotPassword =
 
 let authMode = "login";
 
+// =========================
+// ACCOUNT BUTTON
+// =========================
+
+const navLogin =
+  document.querySelector(".nav-login");
+
+if (navLogin) {
+
+  navLogin.addEventListener("click", async () => {
+
+    const {
+      data: {
+        user
+      }
+    } = await supabase.auth.getUser();
+
+    if (user) {
+
+      // کاربر وارد شده → پروفایل
+      window.location.href = "profile.html";
+
+    } else {
+
+      // کاربر وارد نشده → صفحه ورود
+      window.location.href = "auth.html";
+
+    }
+
+  });
+
+}
 
 // =========================
 // AUTH MODAL
@@ -821,27 +853,6 @@ function updateAuthMode() {
   }
 
 }
-
-
-// =========================
-// OPEN AUTH
-// =========================
-
-document
-  .querySelectorAll("[data-auth-open]")
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        openAuthModal("login");
-
-      }
-    );
-
-  });
-
 
 // =========================
 // CLOSE AUTH
@@ -1357,48 +1368,6 @@ async function updateAuthUI() {
 
 
 // =========================
-// NAV LOGIN BUTTON
-// =========================
-
-const navLogin =
-  document.querySelector(
-    ".nav-login"
-  );
-
-
-if (navLogin) {
-
-  navLogin.addEventListener(
-    "click",
-    async () => {
-
-      const {
-        data: {
-          user
-        }
-      } = await supabase.auth.getUser();
-
-
-      if (user) {
-
-        showToast(
-          `وارد حساب ${user.email} هستی`
-        );
-
-        return;
-
-      }
-
-
-      openAuthModal("login");
-
-    }
-  );
-
-}
-
-
-// =========================
 // INITIAL AUTH CHECK
 // =========================
 
@@ -1415,22 +1384,6 @@ document
     button.addEventListener("click", () => {
 
       window.location.href = "upload.html";
-
-    });
-
-  });
-
-// =========================
-// LOGIN BUTTON
-// =========================
-
-document
-  .querySelectorAll("[data-auth-open]")
-  .forEach(button => {
-
-    button.addEventListener("click", () => {
-
-      window.location.href = "auth.html";
 
     });
 
