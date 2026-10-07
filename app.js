@@ -342,10 +342,6 @@ async function loadAssets(reset = true) {
 // RENDER ASSETS
 // =========================
 
-// =========================
-// RENDER ASSETS
-// =========================
-
 function renderAssets(
   assets,
   append = false
