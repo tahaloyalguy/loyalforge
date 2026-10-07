@@ -1424,6 +1424,22 @@ document
   });
 
 // =========================
+// LOGIN BUTTON
+// =========================
+
+document
+  .querySelectorAll("[data-auth-open]")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      window.location.href = "auth.html";
+
+    });
+
+  });
+
+// =========================
 // LOAD MORE
 // =========================
 
