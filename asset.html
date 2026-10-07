@@ -1,61 +1,135 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#070b13"
+  >
+
+  <meta
+    name="color-scheme"
+    content="dark"
+  >
 
   <title>Asset — LoyalForge</title>
 
+  <!-- =====================================================
+       FONTS
+  ====================================================== -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet"
   >
 
-  <link rel="stylesheet" href="style.css">
 
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  <!-- =====================================================
+       THREE.JS IMPORT MAP
+  ====================================================== -->
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+    }
   }
-}
-</script>
+  </script>
 
-<style>
-    
-    /* =========================================================
-       LOYALFORGE — ASSET PAGE
-    ========================================================= */
+
+  <!-- =====================================================
+       ASSET PAGE STYLE
+  ====================================================== -->
+
+  <style>
+
+    /* =====================================================
+       ROOT
+    ====================================================== */
 
     :root {
+
       --asset-bg: #070b13;
+      --asset-bg-2: #09111e;
+
       --asset-panel: rgba(13, 21, 36, .82);
       --asset-panel-strong: #0c1525;
-      --asset-border: rgba(180, 215, 255, .10);
 
-      --asset-text: #eef6ff;
-      --asset-muted: #8da1b8;
-      --asset-dim: #60748c;
+      --asset-border:
+        rgba(180, 215, 255, .10);
 
-      --asset-blue: #8ed8ff;
-      --asset-purple: #b9a7ff;
+      --asset-text:
+        #eef6ff;
 
-      --asset-radius: 24px;
+      --asset-muted:
+        #8da1b8;
+
+      --asset-dim:
+        #60748c;
+
+      --asset-blue:
+        #8ed8ff;
+
+      --asset-blue-strong:
+        #b8eaff;
+
+      --asset-purple:
+        #b9a7ff;
+
+      --asset-radius:
+        24px;
+
     }
 
-    * {
+
+    /* =====================================================
+       GLOBAL RESET
+    ====================================================== */
+
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
 
+
     html {
+
+      width: 100%;
+      min-height: 100%;
+
       scroll-behavior: smooth;
+
+      background:
+        #070b13 !important;
+
+      color-scheme: dark;
+
     }
 
+
     body {
+
+      width: 100%;
+      min-height: 100vh;
+
       margin: 0;
 
       background:
@@ -64,257 +138,540 @@
           rgba(92, 150, 255, .08),
           transparent 35%
         ),
-        var(--asset-bg);
+        #070b13 !important;
 
-      color: var(--asset-text);
+      color:
+        var(--asset-text) !important;
+
+      font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+      overflow-x: hidden;
+
     }
+
+
+    body::before {
+
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: -10;
+
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(92, 150, 255, .045),
+          transparent 38%
+        );
+
+    }
+
 
     button,
     input,
-    textarea {
+    textarea,
+    select {
+
       font: inherit;
+
     }
+
+
+    img,
+    canvas {
+
+      max-width: 100%;
+
+    }
+
+
+    button {
+
+      -webkit-tap-highlight-color:
+        transparent;
+
+    }
+
+
+    a {
+
+      -webkit-tap-highlight-color:
+        transparent;
+
+    }
+
+
+    /* =====================================================
+       PAGE
+    ====================================================== */
 
     .asset-page {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 115px 0 90px;
+
+      width:
+        min(
+          1180px,
+          calc(100% - 32px)
+        );
+
+      margin:
+        0 auto;
+
+      padding:
+        115px 0 90px;
+
     }
 
-    /* =========================================================
+
+    /* =====================================================
        TOP BAR
-    ========================================================= */
+    ====================================================== */
 
     .asset-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 26px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        15px;
+
+      margin-bottom:
+        26px;
+
     }
+
 
     .asset-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
 
-      padding: 9px 13px;
+      display:
+        inline-flex;
 
-      color: var(--asset-muted);
-      text-decoration: none;
+      align-items:
+        center;
 
-      border: 1px solid rgba(180, 215, 255, .07);
-      border-radius: 10px;
+      gap:
+        9px;
 
-      background: rgba(255,255,255,.015);
+      padding:
+        9px 13px;
 
-      font-size: 12px;
-      font-weight: 600;
+      color:
+        var(--asset-muted);
 
-      transition: .25s ease;
+      text-decoration:
+        none;
+
+      border:
+        1px solid rgba(180,215,255,.07);
+
+      border-radius:
+        10px;
+
+      background:
+        rgba(255,255,255,.015);
+
+      font-size:
+        12px;
+
+      font-weight:
+        600;
+
+      transition:
+        .25s ease;
+
     }
+
 
     .asset-back:hover {
-      color: var(--asset-text);
-      border-color: rgba(142,216,255,.20);
-      background: rgba(142,216,255,.05);
-      transform: translateX(-3px);
+
+      color:
+        var(--asset-text);
+
+      border-color:
+        rgba(142,216,255,.20);
+
+      background:
+        rgba(142,216,255,.05);
+
+      transform:
+        translateX(-3px);
+
     }
+
 
     .asset-brand-mini {
-      color: #71859d;
 
-      font-family: "Space Grotesk", sans-serif;
+      color:
+        #71859d;
 
-      font-size: 11px;
-      font-weight: 700;
+      font-family:
+        "Space Grotesk",
+        sans-serif;
 
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      font-size:
+        11px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .12em;
+
+      text-transform:
+        uppercase;
+
     }
 
-    /* =========================================================
+
+    /* =====================================================
        LOADING
-    ========================================================= */
+    ====================================================== */
 
     .asset-loading {
-      min-height: 65vh;
 
-      display: grid;
-      place-items: center;
+      min-height:
+        65vh;
 
-      color: var(--asset-muted);
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      color:
+        var(--asset-muted);
+
     }
+
 
     .loading-inner {
-      text-align: center;
+
+      text-align:
+        center;
+
     }
+
 
     .loading-spinner {
-      width: 38px;
-      height: 38px;
 
-      margin: 0 auto 15px;
+      width:
+        38px;
 
-      border: 2px solid rgba(142,216,255,.12);
-      border-top-color: var(--asset-blue);
+      height:
+        38px;
 
-      border-radius: 50%;
+      margin:
+        0 auto 15px;
 
-      animation: assetSpin .8s linear infinite;
+      border:
+        2px solid rgba(142,216,255,.12);
+
+      border-top-color:
+        var(--asset-blue);
+
+      border-radius:
+        50%;
+
+      animation:
+        assetSpin .8s linear infinite;
+
     }
+
 
     @keyframes assetSpin {
+
       to {
-        transform: rotate(360deg);
+        transform:
+          rotate(360deg);
       }
+
     }
+
 
     .loading-inner span {
-      font-size: 12px;
+
+      font-size:
+        12px;
+
     }
 
-    /* =========================================================
+
+    /* =====================================================
        ERROR
-    ========================================================= */
+    ====================================================== */
 
     .asset-error {
-      min-height: 60vh;
 
-      display: grid;
-      place-items: center;
+      min-height:
+        60vh;
 
-      text-align: center;
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      text-align:
+        center;
+
     }
+
 
     .error-card {
-      width: min(500px, 100%);
-      padding: 35px;
 
-      border: 1px solid rgba(255,100,100,.12);
-      border-radius: 20px;
+      width:
+        min(
+          500px,
+          100%
+        );
 
-      background: rgba(255,80,80,.025);
+      padding:
+        35px;
+
+      border:
+        1px solid rgba(255,100,100,.12);
+
+      border-radius:
+        20px;
+
+      background:
+        rgba(255,80,80,.025);
+
     }
+
 
     .error-icon {
-      width: 50px;
-      height: 50px;
 
-      display: grid;
-      place-items: center;
+      width:
+        50px;
 
-      margin: 0 auto 17px;
+      height:
+        50px;
 
-      border-radius: 15px;
+      display:
+        grid;
 
-      color: #ff9d9d;
-      background: rgba(255,90,90,.08);
+      place-items:
+        center;
 
-      font-size: 22px;
+      margin:
+        0 auto 17px;
+
+      border-radius:
+        15px;
+
+      color:
+        #ff9d9d;
+
+      background:
+        rgba(255,90,90,.08);
+
+      font-size:
+        22px;
+
     }
+
 
     .error-card h2 {
-      margin: 0 0 8px;
 
-      color: var(--asset-text);
+      margin:
+        0 0 8px;
 
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 22px;
+      color:
+        var(--asset-text);
+
+      font-family:
+        "Space Grotesk",
+        sans-serif;
+
+      font-size:
+        22px;
+
     }
+
 
     .error-card p {
-      margin: 0;
 
-      color: var(--asset-muted);
+      margin:
+        0;
 
-      font-size: 12px;
-      line-height: 1.8;
+      color:
+        var(--asset-muted);
+
+      font-size:
+        12px;
+
+      line-height:
+        1.8;
+
     }
+
 
     .error-debug {
-      margin-top: 15px;
 
-      padding: 10px 12px;
+      margin-top:
+        15px;
 
-      overflow-wrap: anywhere;
+      padding:
+        10px 12px;
 
-      border: 1px solid rgba(255,255,255,.05);
-      border-radius: 10px;
+      overflow-wrap:
+        anywhere;
 
-      color: #7f90a4;
-      background: rgba(255,255,255,.018);
+      border:
+        1px solid rgba(255,255,255,.05);
 
-      font-family: "Space Grotesk", monospace;
-      font-size: 10px;
-      line-height: 1.7;
+      border-radius:
+        10px;
+
+      color:
+        #7f90a4;
+
+      background:
+        rgba(255,255,255,.018);
+
+      font-family:
+        "Space Grotesk",
+        monospace;
+
+      font-size:
+        10px;
+
+      line-height:
+        1.7;
+
     }
+
 
     .error-actions {
-      display: flex;
-      justify-content: center;
-      gap: 9px;
 
-      margin-top: 18px;
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      gap:
+        9px;
+
+      margin-top:
+        18px;
+
     }
+
 
     .error-action {
-      padding: 9px 13px;
 
-      border: 1px solid rgba(180,215,255,.09);
-      border-radius: 10px;
+      padding:
+        9px 13px;
 
-      color: #c8d6e5;
-      background: rgba(255,255,255,.025);
+      border:
+        1px solid rgba(180,215,255,.09);
 
-      text-decoration: none;
+      border-radius:
+        10px;
 
-      font-size: 11px;
-      font-weight: 700;
+      color:
+        #c8d6e5;
 
-      cursor: pointer;
+      background:
+        rgba(255,255,255,.025);
 
-      transition: .2s ease;
+      text-decoration:
+        none;
+
+      font-size:
+        11px;
+
+      font-weight:
+        700;
+
+      cursor:
+        pointer;
+
+      transition:
+        .2s ease;
+
     }
+
 
     .error-action:hover {
-      color: var(--asset-text);
-      border-color: rgba(142,216,255,.18);
-      background: rgba(142,216,255,.05);
+
+      color:
+        var(--asset-text);
+
+      border-color:
+        rgba(142,216,255,.18);
+
+      background:
+        rgba(142,216,255,.05);
+
     }
 
-    /* =========================================================
-       MAIN ASSET
-    ========================================================= */
+
+    /* =====================================================
+       CONTENT
+    ====================================================== */
 
     .asset-content {
-      display: none;
+
+      display:
+        none;
+
     }
 
+
     .asset-layout {
-      display: grid;
+
+      display:
+        grid;
+
       grid-template-columns:
         minmax(0, 1.18fr)
         minmax(340px, .82fr);
 
-      gap: 25px;
+      gap:
+        25px;
 
-      align-items: start;
+      align-items:
+        start;
+
     }
 
-    /* =========================================================
-       PREVIEW
-    ========================================================= */
+
+    /* =====================================================
+       PREVIEW CARD
+    ====================================================== */
 
     .asset-preview-card {
-      position: relative;
 
-      overflow: hidden;
+      position:
+        relative;
 
-      min-height: 590px;
+      overflow:
+        hidden;
 
-      border: 1px solid var(--asset-border);
-      border-radius: var(--asset-radius);
+      min-height:
+        590px;
+
+      border:
+        1px solid var(--asset-border);
+
+      border-radius:
+        var(--asset-radius);
 
       background:
         radial-gradient(
@@ -331,13 +688,29 @@
 
       box-shadow:
         0 30px 90px rgba(0,0,0,.30);
+
+      isolation:
+        isolate;
+
     }
 
-    .asset-preview-card::before {
-      content: "";
 
-      position: absolute;
-      inset: 0;
+    .asset-preview-card::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      z-index:
+        2;
+
+      pointer-events:
+        none;
 
       background:
         linear-gradient(
@@ -346,45 +719,323 @@
           transparent 30%
         );
 
-      pointer-events: none;
-
-      z-index: 2;
     }
+
+
+    /* =====================================================
+       IMAGE PREVIEW
+    ====================================================== */
 
     .asset-preview-image-wrap {
-      position: absolute;
-      inset: 0;
 
-      display: grid;
-      place-items: center;
+      position:
+        absolute;
 
-      padding: 28px;
+      inset:
+        0;
 
-      z-index: 1;
+      z-index:
+        1;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      padding:
+        28px;
+
+      background:
+        #09111e;
+
     }
 
+
     .asset-preview-image {
-      width: 100%;
-      height: 100%;
 
-      object-fit: contain;
+      display:
+        block;
 
-      border-radius: 15px;
+      width:
+        100%;
+
+      height:
+        100%;
+
+      object-fit:
+        contain;
+
+      border-radius:
+        15px;
 
       transition:
         transform .45s cubic-bezier(.22,1,.36,1),
         opacity .25s ease;
+
     }
 
-    .asset-preview-card:hover .asset-preview-image {
-      transform: scale(1.018);
+
+    .asset-preview-card:hover
+    .asset-preview-image {
+
+      transform:
+        scale(1.018);
+
     }
+
+
+    /* =====================================================
+       3D VIEWER
+    ====================================================== */
+
+    .asset-viewer {
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      z-index:
+        1;
+
+      overflow:
+        hidden;
+
+      background:
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(142,216,255,.10),
+          transparent 42%
+        ),
+        radial-gradient(
+          circle at 70% 80%,
+          rgba(185,167,255,.07),
+          transparent 40%
+        ),
+        #09111e;
+
+    }
+
+
+    #assetCanvas {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      outline:
+        none;
+
+      cursor:
+        grab;
+
+    }
+
+
+    #assetCanvas:active {
+
+      cursor:
+        grabbing;
+
+    }
+
+
+    .viewer-loading,
+    .viewer-error {
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      flex-direction:
+        column;
+
+      gap:
+        10px;
+
+      z-index:
+        5;
+
+      color:
+        #cbd5e1;
+
+      background:
+        rgba(7,11,19,.84);
+
+      backdrop-filter:
+        blur(8px);
+
+    }
+
+
+    .viewer-error {
+
+      display:
+        none;
+
+      text-align:
+        center;
+
+      padding:
+        25px;
+
+    }
+
+
+    .viewer-error strong {
+
+      color:
+        #fff;
+
+      font-size:
+        16px;
+
+    }
+
+
+    .viewer-error span {
+
+      max-width:
+        360px;
+
+      color:
+        #8e96a6;
+
+      font-size:
+        13px;
+
+      line-height:
+        1.7;
+
+    }
+
+
+    .viewer-spinner {
+
+      width:
+        32px;
+
+      height:
+        32px;
+
+      border-radius:
+        50%;
+
+      border:
+        3px solid rgba(255,255,255,.12);
+
+      border-top-color:
+        var(--asset-blue);
+
+      animation:
+        viewerSpin .8s linear infinite;
+
+    }
+
+
+    @keyframes viewerSpin {
+
+      to {
+        transform:
+          rotate(360deg);
+      }
+
+    }
+
+
+    .viewer-controls {
+
+      position:
+        absolute;
+
+      left:
+        16px;
+
+      bottom:
+        16px;
+
+      z-index:
+        6;
+
+      display:
+        flex;
+
+      gap:
+        8px;
+
+      flex-wrap:
+        wrap;
+
+      pointer-events:
+        none;
+
+    }
+
+
+    .viewer-controls span {
+
+      padding:
+        7px 10px;
+
+      border-radius:
+        10px;
+
+      background:
+        rgba(5,8,14,.72);
+
+      border:
+        1px solid rgba(255,255,255,.08);
+
+      color:
+        #9ba5b5;
+
+      font-size:
+        11px;
+
+      backdrop-filter:
+        blur(10px);
+
+    }
+
+
+    /* =====================================================
+       PREVIEW OVERLAY
+    ====================================================== */
 
     .preview-overlay {
-      position: absolute;
-      inset: auto 0 0 0;
 
-      height: 150px;
+      position:
+        absolute;
+
+      inset:
+        auto 0 0 0;
+
+      height:
+        150px;
+
+      z-index:
+        3;
+
+      pointer-events:
+        none;
 
       background:
         linear-gradient(
@@ -393,70 +1044,121 @@
           transparent
         );
 
-      pointer-events: none;
-
-      z-index: 3;
     }
+
 
     .preview-category {
-      position: absolute;
-      top: 20px;
-      left: 20px;
 
-      display: inline-flex;
-      align-items: center;
+      position:
+        absolute;
 
-      padding: 7px 11px;
+      top:
+        20px;
 
-      border: 1px solid rgba(142,216,255,.16);
-      border-radius: 9px;
+      left:
+        20px;
 
-      color: var(--asset-blue);
-      background: rgba(7,14,25,.72);
+      display:
+        inline-flex;
 
-      backdrop-filter: blur(12px);
+      align-items:
+        center;
 
-      font-size: 9px;
-      font-weight: 800;
+      padding:
+        7px 11px;
 
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      z-index:
+        7;
 
-      z-index: 5;
+      border:
+        1px solid rgba(142,216,255,.16);
+
+      border-radius:
+        9px;
+
+      color:
+        var(--asset-blue);
+
+      background:
+        rgba(7,14,25,.72);
+
+      backdrop-filter:
+        blur(12px);
+
+      font-size:
+        9px;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+
     }
+
 
     .preview-format {
-      position: absolute;
-      right: 20px;
-      bottom: 20px;
 
-      padding: 7px 10px;
+      position:
+        absolute;
 
-      color: #c6d3e2;
+      right:
+        20px;
 
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 8px;
+      bottom:
+        20px;
 
-      background: rgba(7,14,25,.68);
+      z-index:
+        7;
 
-      backdrop-filter: blur(12px);
+      padding:
+        7px 10px;
 
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 9px;
-      font-weight: 700;
+      color:
+        #c6d3e2;
 
-      z-index: 5;
+      border:
+        1px solid rgba(255,255,255,.08);
+
+      border-radius:
+        8px;
+
+      background:
+        rgba(7,14,25,.68);
+
+      backdrop-filter:
+        blur(12px);
+
+      font-family:
+        "Space Grotesk",
+        sans-serif;
+
+      font-size:
+        9px;
+
+      font-weight:
+        700;
+
     }
 
-    /* =========================================================
-       INFO PANEL
-    ========================================================= */
+
+    /* =====================================================
+       INFO CARD
+    ====================================================== */
 
     .asset-info-card {
-      padding: 28px;
 
-      border: 1px solid var(--asset-border);
-      border-radius: var(--asset-radius);
+      padding:
+        28px;
+
+      border:
+        1px solid var(--asset-border);
+
+      border-radius:
+        var(--asset-radius);
 
       background:
         linear-gradient(
@@ -467,86 +1169,148 @@
 
       box-shadow:
         0 25px 70px rgba(0,0,0,.20);
+
     }
+
 
     .asset-category-badge {
-      display: inline-flex;
 
-      padding: 7px 10px;
+      display:
+        inline-flex;
 
-      color: var(--asset-blue);
+      padding:
+        7px 10px;
 
-      border: 1px solid rgba(142,216,255,.14);
-      border-radius: 8px;
+      color:
+        var(--asset-blue);
 
-      background: rgba(142,216,255,.055);
+      border:
+        1px solid rgba(142,216,255,.14);
 
-      font-size: 9px;
-      font-weight: 800;
+      border-radius:
+        8px;
 
-      text-transform: uppercase;
-      letter-spacing: .09em;
+      background:
+        rgba(142,216,255,.055);
+
+      font-size:
+        9px;
+
+      font-weight:
+        800;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing:
+        .09em;
+
     }
 
-    .asset-title {
-      margin: 17px 0 11px;
 
-      color: var(--asset-text);
+    .asset-title {
+
+      margin:
+        17px 0 11px;
+
+      color:
+        var(--asset-text);
 
       font-family:
         "Space Grotesk",
         Inter,
         sans-serif;
 
-      font-size: clamp(31px, 4vw, 48px);
-      line-height: 1.02;
+      font-size:
+        clamp(31px, 4vw, 48px);
 
-      letter-spacing: -.025em;
+      line-height:
+        1.02;
 
-      overflow-wrap: anywhere;
+      letter-spacing:
+        -.025em;
+
+      overflow-wrap:
+        anywhere;
+
     }
+
 
     .asset-description {
-      margin: 0;
 
-      color: var(--asset-muted);
+      margin:
+        0;
 
-      font-size: 13px;
-      line-height: 1.9;
+      color:
+        var(--asset-muted);
 
-      overflow-wrap: anywhere;
+      font-size:
+        13px;
+
+      line-height:
+        1.9;
+
+      overflow-wrap:
+        anywhere;
+
     }
 
-    /* =========================================================
+
+    /* =====================================================
        CREATOR
-    ========================================================= */
+    ====================================================== */
 
     .creator-card {
-      display: flex;
-      align-items: center;
-      gap: 12px;
 
-      margin-top: 25px;
-      padding-top: 21px;
+      display:
+        flex;
 
-      border-top: 1px solid rgba(180,215,255,.07);
+      align-items:
+        center;
+
+      gap:
+        12px;
+
+      margin-top:
+        25px;
+
+      padding-top:
+        21px;
+
+      border-top:
+        1px solid rgba(180,215,255,.07);
+
     }
 
+
     .creator-avatar {
-      width: 44px;
-      height: 44px;
 
-      flex: 0 0 44px;
+      width:
+        44px;
 
-      overflow: hidden;
+      height:
+        44px;
 
-      display: grid;
-      place-items: center;
+      flex:
+        0 0 44px;
 
-      border: 1px solid rgba(180,215,255,.10);
-      border-radius: 50%;
+      overflow:
+        hidden;
 
-      color: var(--asset-blue);
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid rgba(180,215,255,.10);
+
+      border-radius:
+        50%;
+
+      color:
+        var(--asset-blue);
 
       background:
         linear-gradient(
@@ -555,116 +1319,206 @@
           rgba(185,167,255,.14)
         );
 
-      font-family: "Space Grotesk", sans-serif;
-      font-weight: 800;
+      font-family:
+        "Space Grotesk",
+        sans-serif;
+
+      font-weight:
+        800;
+
     }
+
 
     .creator-avatar img {
-      width: 100%;
-      height: 100%;
 
-      object-fit: cover;
+      width:
+        100%;
+
+      height:
+        100%;
+
+      object-fit:
+        cover;
+
     }
+
 
     .creator-details {
-      min-width: 0;
+
+      min-width:
+        0;
+
     }
+
 
     .creator-label {
-      color: var(--asset-dim);
 
-      font-size: 9px;
+      color:
+        var(--asset-dim);
 
-      text-transform: uppercase;
-      letter-spacing: .08em;
+      font-size:
+        9px;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing:
+        .08em;
+
     }
+
 
     .creator-name {
-      display: inline-block;
 
-      margin-top: 3px;
+      display:
+        inline-block;
 
-      color: var(--asset-text);
+      margin-top:
+        3px;
 
-      font-size: 13px;
-      font-weight: 700;
+      color:
+        var(--asset-text);
 
-      text-decoration: none;
+      font-size:
+        13px;
 
-      transition: color .2s ease;
+      font-weight:
+        700;
+
+      text-decoration:
+        none;
+
+      transition:
+        color .2s ease;
+
     }
+
 
     .creator-name:hover {
-      color: var(--asset-blue);
+
+      color:
+        var(--asset-blue);
+
     }
 
-    /* =========================================================
+
+    /* =====================================================
        STATS
-    ========================================================= */
+    ====================================================== */
 
     .asset-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
 
-      gap: 8px;
+      display:
+        grid;
 
-      margin-top: 23px;
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap:
+        8px;
+
+      margin-top:
+        23px;
+
     }
+
 
     .asset-stat {
-      padding: 13px 10px;
 
-      border: 1px solid rgba(180,215,255,.055);
-      border-radius: 12px;
+      padding:
+        13px 10px;
 
-      background: rgba(255,255,255,.016);
+      border:
+        1px solid rgba(180,215,255,.055);
 
-      text-align: center;
+      border-radius:
+        12px;
+
+      background:
+        rgba(255,255,255,.016);
+
+      text-align:
+        center;
+
     }
+
 
     .asset-stat-value {
-      display: block;
 
-      color: var(--asset-text);
+      display:
+        block;
 
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 16px;
-      font-weight: 700;
+      color:
+        var(--asset-text);
+
+      font-family:
+        "Space Grotesk",
+        sans-serif;
+
+      font-size:
+        16px;
+
+      font-weight:
+        700;
+
     }
+
 
     .asset-stat-label {
-      display: block;
 
-      margin-top: 4px;
+      display:
+        block;
 
-      color: var(--asset-dim);
+      margin-top:
+        4px;
 
-      font-size: 9px;
+      color:
+        var(--asset-dim);
+
+      font-size:
+        9px;
+
     }
 
-    /* =========================================================
+
+    /* =====================================================
        ACTIONS
-    ========================================================= */
+    ====================================================== */
 
     .asset-actions {
-      display: grid;
-      grid-template-columns: 1fr 48px;
 
-      gap: 9px;
+      display:
+        grid;
 
-      margin-top: 20px;
+      grid-template-columns:
+        1fr 48px;
+
+      gap:
+        9px;
+
+      margin-top:
+        20px;
+
     }
+
 
     .download-btn,
     .like-btn {
-      min-height: 48px;
 
-      border-radius: 12px;
+      min-height:
+        48px;
 
-      font-family: inherit;
-      font-weight: 800;
+      border-radius:
+        12px;
 
-      cursor: pointer;
+      font-family:
+        inherit;
+
+      font-weight:
+        800;
+
+      cursor:
+        pointer;
 
       transition:
         transform .25s ease,
@@ -672,2144 +1526,3488 @@
         border-color .25s ease,
         box-shadow .25s ease,
         opacity .2s ease;
+
     }
+
 
     .download-btn {
-      border: 0;
 
-      color: #06101a;
-      background: var(--asset-blue);
+      border:
+        0;
 
-      font-size: 12px;
+      color:
+        #06101a;
+
+      background:
+        var(--asset-blue);
+
+      font-size:
+        12px;
+
     }
 
-    .download-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
 
-      background: #b8eaff;
+    .download-btn:hover:not(:disabled) {
+
+      transform:
+        translateY(-2px);
+
+      background:
+        var(--asset-blue-strong);
 
       box-shadow:
         0 13px 35px rgba(142,216,255,.16);
+
     }
+
 
     .download-btn:disabled,
     .like-btn:disabled {
-      cursor: wait;
-      opacity: .65;
+
+      cursor:
+        wait;
+
+      opacity:
+        .65;
+
     }
+
 
     .like-btn {
-      display: grid;
-      place-items: center;
 
-      border: 1px solid rgba(180,215,255,.09);
+      display:
+        grid;
 
-      color: #9db1c7;
-      background: rgba(255,255,255,.025);
+      place-items:
+        center;
 
-      font-size: 18px;
+      border:
+        1px solid rgba(180,215,255,.09);
+
+      color:
+        #9db1c7;
+
+      background:
+        rgba(255,255,255,.025);
+
+      font-size:
+        18px;
+
     }
+
 
     .like-btn:hover:not(:disabled) {
-      color: #ff8ca8;
 
-      border-color: rgba(255,140,168,.20);
-      background: rgba(255,140,168,.06);
+      color:
+        #ff8ca8;
 
-      transform: translateY(-2px);
+      border-color:
+        rgba(255,140,168,.20);
+
+      background:
+        rgba(255,140,168,.06);
+
+      transform:
+        translateY(-2px);
+
     }
+
 
     .like-btn.liked {
-      color: #ff7f9d;
 
-      border-color: rgba(255,127,157,.22);
-      background: rgba(255,127,157,.07);
+      color:
+        #ff7f9d;
+
+      border-color:
+        rgba(255,127,157,.22);
+
+      background:
+        rgba(255,127,157,.07);
+
     }
 
-    /* =========================================================
-       FILE DETAILS
-    ========================================================= */
+
+    /* =====================================================
+       FILE META
+    ====================================================== */
 
     .asset-meta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
 
-      gap: 8px;
+      display:
+        grid;
 
-      margin-top: 15px;
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        8px;
+
+      margin-top:
+        15px;
+
     }
+
 
     .meta-item {
-      min-width: 0;
 
-      padding: 12px;
+      min-width:
+        0;
 
-      border: 1px solid rgba(180,215,255,.055);
-      border-radius: 10px;
+      padding:
+        12px;
 
-      background: rgba(255,255,255,.012);
+      border:
+        1px solid rgba(180,215,255,.055);
+
+      border-radius:
+        10px;
+
+      background:
+        rgba(255,255,255,.012);
+
     }
+
 
     .meta-label {
-      display: block;
 
-      color: var(--asset-dim);
+      display:
+        block;
 
-      font-size: 9px;
+      color:
+        var(--asset-dim);
+
+      font-size:
+        9px;
+
     }
+
 
     .meta-value {
-      display: block;
 
-      margin-top: 5px;
+      display:
+        block;
 
-      overflow: hidden;
+      margin-top:
+        5px;
 
-      color: #b9c8d9;
+      overflow:
+        hidden;
 
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 11px;
+      color:
+        #b9c8d9;
 
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      font-family:
+        "Space Grotesk",
+        sans-serif;
+
+      font-size:
+        11px;
+
+      text-overflow:
+        ellipsis;
+
+      white-space:
+        nowrap;
+
     }
 
-    /* =========================================================
+
+    /* =====================================================
        LOWER INFORMATION
-    ========================================================= */
+    ====================================================== */
 
     .asset-bottom {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
 
-      gap: 18px;
+      display:
+        grid;
 
-      margin-top: 20px;
+      grid-template-columns:
+        1.2fr .8fr;
+
+      gap:
+        18px;
+
+      margin-top:
+        20px;
+
     }
+
 
     .asset-section-card {
-      padding: 24px;
 
-      border: 1px solid var(--asset-border);
-      border-radius: 20px;
+      padding:
+        24px;
 
-      background: rgba(12,20,34,.72);
+      border:
+        1px solid var(--asset-border);
+
+      border-radius:
+        20px;
+
+      background:
+        rgba(12,20,34,.72);
+
     }
+
 
     .section-label {
-      margin-bottom: 12px;
 
-      color: var(--asset-blue);
+      margin-bottom:
+        12px;
 
-      font-size: 9px;
-      font-weight: 800;
+      color:
+        var(--asset-blue);
 
-      letter-spacing: .1em;
-      text-transform: uppercase;
+      font-size:
+        9px;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        .1em;
+
+      text-transform:
+        uppercase;
+
     }
+
 
     .asset-long-description {
-      color: var(--asset-muted);
 
-      font-size: 12px;
-      line-height: 2;
+      color:
+        var(--asset-muted);
 
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
+      font-size:
+        12px;
+
+      line-height:
+        2;
+
+      white-space:
+        pre-wrap;
+
+      overflow-wrap:
+        anywhere;
+
     }
+
 
     .asset-note {
-      display: flex;
-      gap: 11px;
 
-      color: var(--asset-muted);
+      display:
+        flex;
 
-      font-size: 11px;
-      line-height: 1.8;
+      gap:
+        11px;
+
+      color:
+        var(--asset-muted);
+
+      font-size:
+        11px;
+
+      line-height:
+        1.8;
+
     }
+
 
     .note-icon {
-      flex: 0 0 auto;
 
-      color: var(--asset-blue);
+      flex:
+        0 0 auto;
 
-      font-size: 15px;
+      color:
+        var(--asset-blue);
+
+      font-size:
+        15px;
+
     }
 
-    /* =========================================================
+
+    /* =====================================================
        MOBILE
-    ========================================================= */
+    ====================================================== */
 
     @media (max-width: 900px) {
 
       .asset-layout {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
+
 
       .asset-preview-card {
-        min-height: 500px;
+
+        min-height:
+          500px;
+
       }
 
+
       .asset-bottom {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
 
     }
+
 
     @media (max-width: 560px) {
 
       .asset-page {
-        width: min(100% - 20px, 1180px);
 
-        padding-top: 92px;
+        width:
+          min(
+            calc(100% - 20px),
+            1180px
+          );
+
+        padding:
+          92px 0 60px;
+
       }
+
 
       .asset-topbar {
-        margin-bottom: 17px;
+
+        margin-bottom:
+          17px;
+
       }
+
 
       .asset-brand-mini {
-        display: none;
+
+        display:
+          none;
+
       }
+
 
       .asset-preview-card {
-        min-height: 350px;
 
-        border-radius: 18px;
+        min-height:
+          350px;
+
+        border-radius:
+          18px;
+
       }
+
 
       .asset-preview-image-wrap {
-        padding: 16px;
+
+        padding:
+          16px;
+
       }
+
 
       .asset-info-card {
-        padding: 21px;
 
-        border-radius: 18px;
+        padding:
+          21px;
+
+        border-radius:
+          18px;
+
       }
+
 
       .asset-title {
-        font-size: 32px;
+
+        font-size:
+          32px;
+
       }
 
-      .asset-stats {
-        grid-template-columns: repeat(3, 1fr);
-      }
 
       .asset-bottom {
-        margin-top: 14px;
+
+        margin-top:
+          14px;
+
       }
+
 
       .asset-section-card {
-        padding: 20px;
+
+        padding:
+          20px;
+
       }
 
+
       .error-card {
-        padding: 26px 20px;
+
+        padding:
+          26px 20px;
+
+      }
+
+
+      .viewer-controls {
+
+        left:
+          10px;
+
+        bottom:
+          10px;
+
+      }
+
+
+      .viewer-controls span {
+
+        font-size:
+          10px;
+
+        padding:
+          6px 8px;
+
       }
 
     }
 
-  /* =========================================================
-   3D ASSET VIEWER
-========================================================= */
-
-.asset-viewer {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 50% 35%,
-      rgba(142,216,255,.08),
-      transparent 42%
-    ),
-    #09111e;
-}
-
-#assetCanvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  outline: none;
-}
-
-.viewer-loading,
-.viewer-error {
-  position: absolute;
-  inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  gap: 10px;
-  z-index: 5;
-
-  color: #cbd5e1;
-
-  background: rgba(7,11,19,.82);
-  backdrop-filter: blur(8px);
-}
-
-.viewer-error {
-  display: none;
-  text-align: center;
-}
-
-.viewer-error strong {
-  color: #fff;
-  font-size: 16px;
-}
-
-.viewer-error span {
-  color: #8e96a6;
-  font-size: 13px;
-}
-
-.viewer-spinner {
-  width: 32px;
-  height: 32px;
-
-  border-radius: 50%;
-
-  border: 3px solid rgba(255,255,255,.12);
-  border-top-color: var(--asset-blue);
-
-  animation: viewerSpin .8s linear infinite;
-}
-
-@keyframes viewerSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.viewer-controls {
-  position: absolute;
-
-  left: 16px;
-  bottom: 16px;
-
-  z-index: 6;
-
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-
-  pointer-events: none;
-}
-
-.viewer-controls span {
-  padding: 7px 10px;
-
-  border-radius: 10px;
-
-  background: rgba(5,8,14,.72);
-  border: 1px solid rgba(255,255,255,.08);
-
-  color: #9ba5b5;
-  font-size: 11px;
-
-  backdrop-filter: blur(10px);
-}
-  
   </style>
+
 </head>
+
 
 <body>
 
-<main class="asset-page">
 
-  <!-- =======================================================
-       TOP
-  ======================================================== -->
-
-  <div class="asset-topbar">
-
-    <a href="index.html" class="asset-back">
-      <span>←</span>
-      <span>Back to Explore</span>
-    </a>
-
-    <div class="asset-brand-mini">
-      LOYALFORGE / ASSET
-    </div>
-
-  </div>
+  <main class="asset-page">
 
 
-  <!-- =======================================================
-       LOADING
-  ======================================================== -->
+    <!-- ===================================================
+         TOP
+    ==================================================== -->
 
-  <section
-    id="loading"
-    class="asset-loading"
-  >
+    <div class="asset-topbar">
 
-    <div class="loading-inner">
+      <a
+        href="index.html"
+        class="asset-back"
+      >
 
-      <div class="loading-spinner"></div>
+        <span>←</span>
 
-      <span>Loading asset...</span>
-
-    </div>
-
-  </section>
-
-
-  <!-- =======================================================
-       ERROR
-  ======================================================== -->
-
-  <section
-    id="error"
-    class="asset-error"
-    style="display:none;"
-  >
-
-    <div class="error-card">
-
-      <div class="error-icon">
-        !
-      </div>
-
-      <h2>
-        Asset not found
-      </h2>
-
-      <p id="errorMessage">
-        We couldn't load this asset.
-      </p>
-
-      <div
-        id="errorDebug"
-        class="error-debug"
-        style="display:none;"
-      ></div>
-
-      <div class="error-actions">
-
-        <a
-          href="index.html"
-          class="error-action"
-        >
+        <span>
           Back to Explore
-        </a>
+        </span>
 
-        <button
-          id="retryButton"
-          class="error-action"
-          type="button"
-        >
-          Try Again
-        </button>
+      </a>
 
+
+      <div class="asset-brand-mini">
+        LOYALFORGE / ASSET
       </div>
 
     </div>
 
-  </section>
 
+    <!-- ===================================================
+         LOADING
+    ==================================================== -->
 
-  <!-- =======================================================
-       CONTENT
-  ======================================================== -->
+    <section
+      id="loading"
+      class="asset-loading"
+    >
 
-  <section
-    id="assetContent"
-    class="asset-content"
-  >
-
-    <div class="asset-layout">
-
-
-      <!-- ===================================================
-           PREVIEW
-      ==================================================== -->
-
-      <div class="asset-preview-card">
+      <div class="loading-inner">
 
         <div
-          class="preview-category"
-          id="assetCategory"
-        >
-          ASSET
-        </div>
+          class="loading-spinner"
+        ></div>
 
-       <div
-  class="asset-preview-image-wrap"
-  id="imagePreviewWrap"
->
-
-  <img
-    id="assetPreview"
-    class="asset-preview-image"
-    src=""
-    alt="Asset Preview"
-  >
-
-</div>
-
-<div
-  class="asset-viewer"
-  id="assetViewer"
-  style="display:none;"
->
-
-  <div
-    class="viewer-loading"
-    id="viewerLoading"
-  >
-    <div class="viewer-spinner"></div>
-
-    <span>
-      در حال بارگذاری مدل...
-    </span>
-  </div>
-
-  <canvas
-    id="assetCanvas"
-  ></canvas>
-
-  <div
-    class="viewer-error"
-    id="viewerError"
-  >
-    <strong>
-      نمایش مدل ممکن نیست
-    </strong>
-
-    <span>
-      فایل هنوز قابل نمایش نیست؛ می‌تونی فایل رو دانلود کنی.
-    </span>
-  </div>
-
-  <div class="viewer-controls">
-    <span>🖱️ چرخش</span>
-    <span>⚙️ اسکرول برای Zoom</span>
-  </div>
-
-</div>
-
-        <div class="preview-overlay"></div>
-
-        <div
-          class="preview-format"
-          id="previewFormat"
-        >
-          FILE
-        </div>
+        <span>
+          Loading asset...
+        </span>
 
       </div>
 
+    </section>
 
-      <!-- ===================================================
-           INFO
-      ==================================================== -->
 
-      <div class="asset-info-card">
+    <!-- ===================================================
+         ERROR
+    ==================================================== -->
 
-        <div
-          id="assetCategoryBadge"
-          class="asset-category-badge"
-        >
-          ASSET
+    <section
+      id="error"
+      class="asset-error"
+      style="display:none;"
+    >
+
+      <div class="error-card">
+
+        <div class="error-icon">
+          !
         </div>
 
 
-        <h1
-          id="assetTitle"
-          class="asset-title"
-        >
-          Asset
-        </h1>
+        <h2>
+          Asset not found
+        </h2>
 
 
-        <p
-          id="assetDescription"
-          class="asset-description"
-        >
-          Loading description...
+        <p id="errorMessage">
+          We couldn't load this asset.
         </p>
 
 
-        <!-- CREATOR -->
+        <div
+          id="errorDebug"
+          class="error-debug"
+          style="display:none;"
+        ></div>
 
-        <div class="creator-card">
+
+        <div class="error-actions">
+
+          <a
+            href="index.html"
+            class="error-action"
+          >
+            Back to Explore
+          </a>
+
+
+          <button
+            id="retryButton"
+            class="error-action"
+            type="button"
+          >
+            Try Again
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         CONTENT
+    ==================================================== -->
+
+    <section
+      id="assetContent"
+      class="asset-content"
+    >
+
+
+      <div class="asset-layout">
+
+
+        <!-- =================================================
+             PREVIEW
+        ================================================== -->
+
+        <div class="asset-preview-card">
+
 
           <div
-            id="creatorAvatar"
-            class="creator-avatar"
+            class="preview-category"
+            id="assetCategory"
           >
-            LF
+            ASSET
           </div>
 
-          <div class="creator-details">
 
-            <div class="creator-label">
-              Created by
+          <!-- IMAGE PREVIEW -->
+
+          <div
+            class="asset-preview-image-wrap"
+            id="imagePreviewWrap"
+          >
+
+            <img
+              id="assetPreview"
+              class="asset-preview-image"
+              src=""
+              alt="Asset Preview"
+            >
+
+          </div>
+
+
+          <!-- 3D VIEWER -->
+
+          <div
+            class="asset-viewer"
+            id="assetViewer"
+            style="display:none;"
+          >
+
+
+            <div
+              class="viewer-loading"
+              id="viewerLoading"
+            >
+
+              <div
+                class="viewer-spinner"
+              ></div>
+
+
+              <span>
+                در حال بارگذاری مدل...
+              </span>
+
             </div>
 
-            <a
-              id="assetCreator"
-              class="creator-name"
-              href="#"
-              style="pointer-events:none;"
+
+            <canvas
+              id="assetCanvas"
+            ></canvas>
+
+
+            <div
+              class="viewer-error"
+              id="viewerError"
             >
-              Unknown Creator
-            </a>
 
-          </div>
-
-        </div>
+              <strong>
+                نمایش مدل ممکن نیست
+              </strong>
 
 
-        <!-- STATS -->
+              <span id="viewerErrorText">
+                فایل مدل قابل نمایش نیست.
+              </span>
 
-        <div class="asset-stats">
+            </div>
 
-          <div class="asset-stat">
 
-            <span
-              id="assetLikes"
-              class="asset-stat-value"
+            <div
+              class="viewer-controls"
             >
-              0
-            </span>
 
-            <span class="asset-stat-label">
-              Likes
-            </span>
+              <span>
+                🖱️ چرخش
+              </span>
 
-          </div>
+              <span>
+                ⚙️ اسکرول برای Zoom
+              </span>
 
+            </div>
 
-          <div class="asset-stat">
-
-            <span
-              id="assetDownloads"
-              class="asset-stat-value"
-            >
-              0
-            </span>
-
-            <span class="asset-stat-label">
-              Downloads
-            </span>
 
           </div>
 
 
-          <div class="asset-stat">
-
-            <span
-              id="assetFormat"
-              class="asset-stat-value"
-            >
-              —
-            </span>
-
-            <span class="asset-stat-label">
-              Format
-            </span>
-
-          </div>
-
-        </div>
+          <div
+            class="preview-overlay"
+          ></div>
 
 
-        <!-- ACTIONS -->
-
-        <div class="asset-actions">
-
-          <button
-            id="downloadButton"
-            class="download-btn"
-            type="button"
+          <div
+            class="preview-format"
+            id="previewFormat"
           >
-            Download Asset
-          </button>
+            FILE
+          </div>
 
-          <button
-            id="likeButton"
-            class="like-btn"
-            type="button"
-            aria-label="Like asset"
+
+        </div>
+
+
+        <!-- =================================================
+             INFO
+        ================================================== -->
+
+        <div class="asset-info-card">
+
+
+          <div
+            id="assetCategoryBadge"
+            class="asset-category-badge"
           >
-            ♡
-          </button>
+            ASSET
+          </div>
+
+
+          <h1
+            id="assetTitle"
+            class="asset-title"
+          >
+            Asset
+          </h1>
+
+
+          <p
+            id="assetDescription"
+            class="asset-description"
+          >
+            Loading description...
+          </p>
+
+
+          <!-- CREATOR -->
+
+          <div class="creator-card">
+
+
+            <div
+              id="creatorAvatar"
+              class="creator-avatar"
+            >
+              LF
+            </div>
+
+
+            <div class="creator-details">
+
+
+              <div class="creator-label">
+                Created by
+              </div>
+
+
+              <a
+                id="assetCreator"
+                class="creator-name"
+                href="#"
+                style="pointer-events:none;"
+              >
+                Unknown Creator
+              </a>
+
+
+            </div>
+
+          </div>
+
+
+          <!-- STATS -->
+
+          <div class="asset-stats">
+
+
+            <div class="asset-stat">
+
+              <span
+                id="assetLikes"
+                class="asset-stat-value"
+              >
+                0
+              </span>
+
+              <span
+                class="asset-stat-label"
+              >
+                Likes
+              </span>
+
+            </div>
+
+
+            <div class="asset-stat">
+
+              <span
+                id="assetDownloads"
+                class="asset-stat-value"
+              >
+                0
+              </span>
+
+              <span
+                class="asset-stat-label"
+              >
+                Downloads
+              </span>
+
+            </div>
+
+
+            <div class="asset-stat">
+
+              <span
+                id="assetFormat"
+                class="asset-stat-value"
+              >
+                —
+              </span>
+
+              <span
+                class="asset-stat-label"
+              >
+                Format
+              </span>
+
+            </div>
+
+
+          </div>
+
+
+          <!-- ACTIONS -->
+
+          <div class="asset-actions">
+
+
+            <button
+              id="downloadButton"
+              class="download-btn"
+              type="button"
+            >
+              Download Asset
+            </button>
+
+
+            <button
+              id="likeButton"
+              class="like-btn"
+              type="button"
+              aria-label="Like asset"
+            >
+              ♡
+            </button>
+
+
+          </div>
+
+
+          <!-- FILE META -->
+
+          <div class="asset-meta">
+
+
+            <div class="meta-item">
+
+              <span class="meta-label">
+                File size
+              </span>
+
+              <strong
+                id="assetSize"
+                class="meta-value"
+              >
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="meta-item">
+
+              <span class="meta-label">
+                File name
+              </span>
+
+              <strong
+                id="assetFileName"
+                class="meta-value"
+              >
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="meta-item">
+
+              <span class="meta-label">
+                Category
+              </span>
+
+              <strong
+                id="assetMetaCategory"
+                class="meta-value"
+              >
+                —
+              </strong>
+
+            </div>
+
+
+            <div class="meta-item">
+
+              <span class="meta-label">
+                Published
+              </span>
+
+              <strong
+                id="assetDate"
+                class="meta-value"
+              >
+                —
+              </strong>
+
+            </div>
+
+
+          </div>
+
 
         </div>
 
-
-        <!-- FILE META -->
-
-        <div class="asset-meta">
-
-          <div class="meta-item">
-
-            <span class="meta-label">
-              File size
-            </span>
-
-            <strong
-              id="assetSize"
-              class="meta-value"
-            >
-              —
-            </strong>
-
-          </div>
-
-
-          <div class="meta-item">
-
-            <span class="meta-label">
-              File name
-            </span>
-
-            <strong
-              id="assetFileName"
-              class="meta-value"
-            >
-              —
-            </strong>
-
-          </div>
-
-
-          <div class="meta-item">
-
-            <span class="meta-label">
-              Category
-            </span>
-
-            <strong
-              id="assetMetaCategory"
-              class="meta-value"
-            >
-              —
-            </strong>
-
-          </div>
-
-
-          <div class="meta-item">
-
-            <span class="meta-label">
-              Published
-            </span>
-
-            <strong
-              id="assetDate"
-              class="meta-value"
-            >
-              —
-            </strong>
-
-          </div>
-
-        </div>
 
       </div>
 
-    </div>
+
+      <!-- =================================================
+           LOWER INFORMATION
+      ================================================== -->
+
+      <div class="asset-bottom">
 
 
-    <!-- =====================================================
-         LOWER INFORMATION
-    ====================================================== -->
+        <div class="asset-section-card">
 
-    <div class="asset-bottom">
+          <div class="section-label">
+            About this asset
+          </div>
 
 
-      <div class="asset-section-card">
+          <div
+            id="assetLongDescription"
+            class="asset-long-description"
+          >
+            No additional description.
+          </div>
 
-        <div class="section-label">
-          About this asset
         </div>
 
-        <div
-          id="assetLongDescription"
-          class="asset-long-description"
-        >
-          No additional description.
+
+        <div class="asset-section-card">
+
+          <div class="section-label">
+            LoyalForge
+          </div>
+
+
+          <div class="asset-note">
+
+            <span class="note-icon">
+              ✦
+            </span>
+
+
+            <span>
+              Minecraft content, rigs, models,
+              thumbnails and other creative
+              resources — all in one place.
+            </span>
+
+          </div>
+
         </div>
+
 
       </div>
 
 
-      <div class="asset-section-card">
+    </section>
 
-        <div class="section-label">
-          LoyalForge
-        </div>
 
-        <div class="asset-note">
+  </main>
 
-          <span class="note-icon">
-            ✦
-          </span>
 
-          <span>
-            Minecraft content, rigs, models, thumbnails
-            and other creative resources — all in one place.
-          </span>
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
 
-        </div>
+  <script type="module">
 
-      </div>
 
-    </div>
+    /* =====================================================
+       IMPORTS
+    ====================================================== */
 
-  </section>
+    import {
+      createClient
+    } from "https://esm.sh/@supabase/supabase-js@2";
 
-</main>
 
+    import * as THREE
+      from "three";
 
-<script type="module">
 
-  import {
-    createClient
-  } from "https://esm.sh/@supabase/supabase-js@2";
+    import {
+      OrbitControls
+    } from "three/addons/controls/OrbitControls.js";
 
-  import * as THREE from "three";
-  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-  import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
+    import {
+      GLTFLoader
+    } from "three/addons/loaders/GLTFLoader.js";
 
-  /* =========================================================
-     SUPABASE
-  ========================================================= */
 
-  const SUPABASE_URL =
-    "https://ywrbojtzkkygahxqeueg.supabase.co";
+    /* =====================================================
+       SUPABASE
+    ====================================================== */
 
-  const SUPABASE_KEY =
-    "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
+    const SUPABASE_URL =
+      "https://ywrbojtzkkygahxqeueg.supabase.co";
 
 
-  const supabase =
-    createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+    const SUPABASE_KEY =
+      "sb_publishable_bs-iScKh5LNlPhoCUfZybQ_yMVR0OmL";
 
 
-  /* =========================================================
-     ELEMENTS
-  ========================================================= */
-
-  const loading =
-    document.getElementById(
-      "loading"
-    );
-
-  const content =
-    document.getElementById(
-      "assetContent"
-    );
-
-  const errorBox =
-    document.getElementById(
-      "error"
-    );
-
-  const errorMessage =
-    document.getElementById(
-      "errorMessage"
-    );
-
-  const errorDebug =
-    document.getElementById(
-      "errorDebug"
-    );
-
-  const retryButton =
-    document.getElementById(
-      "retryButton"
-    );
-
-
-  /* =========================================================
-     URL
-  ========================================================= */
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-  const slug =
-    params.get("slug");
-
-  const id =
-    params.get("id");
-
-
-  /* =========================================================
-     GLOBAL STATE
-  ========================================================= */
-
-  window.currentAsset = null;
-
-
-  /* =========================================================
-     HELPERS
-  ========================================================= */
-
-  function formatFileSize(bytes) {
-
-    if (
-      bytes === null ||
-      bytes === undefined ||
-      bytes === "" ||
-      Number.isNaN(Number(bytes))
-    ) {
-      return "Unknown";
-    }
-
-    const size =
-      Number(bytes);
-
-
-    if (size < 1024) {
-      return `${size} B`;
-    }
-
-
-    if (size < 1024 * 1024) {
-      return `${(
-        size / 1024
-      ).toFixed(1)} KB`;
-    }
-
-
-    if (size < 1024 * 1024 * 1024) {
-      return `${(
-        size /
-        (1024 * 1024)
-      ).toFixed(1)} MB`;
-    }
-
-
-    return `${(
-      size /
-      (1024 * 1024 * 1024)
-    ).toFixed(1)} GB`;
-
-  }
-
-
-  function formatDate(date) {
-
-    if (!date) {
-      return "Unknown";
-    }
-
-
-    const parsed =
-      new Date(date);
-
-
-    if (
-      Number.isNaN(
-        parsed.getTime()
-      )
-    ) {
-      return "Unknown";
-    }
-
-
-    return parsed.toLocaleDateString(
-      "en-US",
-      {
-        year: "numeric",
-        month: "short",
-        day: "numeric"
-      }
-    );
-
-  }
-
-
-  function creatorInitials(name) {
-
-    if (!name) {
-      return "LF";
-    }
-
-
-    return name
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .map(
-        word =>
-          word[0]
-      )
-      .join("")
-      .toUpperCase();
-
-  }
-
-
-  function escapeHtml(value) {
-
-    return String(value || "")
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
-  }
-
-
-  function showError(
-    message,
-    debug = ""
-  ) {
-
-    loading.style.display =
-      "none";
-
-    content.style.display =
-      "none";
-
-    errorBox.style.display =
-      "grid";
-
-
-    errorMessage.textContent =
-      message ||
-      "Something went wrong while loading this asset.";
-
-
-    if (debug) {
-
-      errorDebug.style.display =
-        "block";
-
-      errorDebug.textContent =
-        debug;
-
-    } else {
-
-      errorDebug.style.display =
-        "none";
-
-      errorDebug.textContent =
-        "";
-
-    }
-
-  }
-
-
-  function showLoading() {
-
-    loading.style.display =
-      "grid";
-
-    content.style.display =
-      "none";
-
-    errorBox.style.display =
-      "none";
-
-  }
-
-
-  /* =========================================================
-     LOAD CREATOR PROFILE
-     
-     IMPORTANT:
-     Asset loading does NOT depend on this query.
-     If profiles has an issue, the Asset still loads.
-  ========================================================= */
-
-  async function loadCreatorProfile(userId) {
-
-  console.log("CREATOR USER ID:", userId);
-
-  if (!userId) {
-    console.warn("CREATOR USER ID IS EMPTY");
-    return null;
-  }
-
-  try {
-
-    const {
-      data,
-      error
-    } = await supabase
-      .from("profiles")
-      .select("id, username, display_name, avatar_url")
-      .eq("id", userId)
-      .maybeSingle();
-
-    console.log("CREATOR PROFILE DATA:", data);
-    console.log("CREATOR PROFILE ERROR:", error);
-
-    if (error) {
-      console.warn(
-        "Creator profile could not be loaded:",
-        error
-      );
-
-      return null;
-    }
-
-    return data || null;
-
-  } catch (error) {
-
-    console.error(
-      "Creator profile error:",
-      error
-    );
-
-    return null;
-  }
-}
-
-  /* =========================================================
-     LOAD ASSET
-  ========================================================= */
-
-  async function loadAsset() {
-
-    showLoading();
-
-
-    try {
-
-      if (!slug && !id) {
-
-        throw new Error(
-          "No asset was specified."
-        );
-
-      }
-
-
-      /*
-       * IMPORTANT:
-       * We intentionally DO NOT join profiles here.
-       *
-       * First we load the asset itself.
-       * This prevents a profiles relationship/RLS problem
-       * from making the whole Asset disappear.
-       */
-
-let query =
-  supabase
-    .from("assets")
-    .select(`
-      id,
-      title,
-      slug,
-      description,
-      category,
-      file_url,
-      preview_url,
-      file_name,
-      file_size,
-      file_format,
-      downloads,
-      likes,
-      created_at,
-      user_id,
-      status
-    `);
-
-      if (slug) {
-
-        query =
-          query.eq(
-            "slug",
-            slug
-          );
-
-      } else {
-
-        query =
-          query.eq(
-            "id",
-            id
-          );
-
-      }
-
-
-      /*
-       * Asset must be published.
-       */
-      query =
-        query.eq(
-          "status",
-          "published"
-        );
-
-
-      const {
-        data: asset,
-        error
-      } = await query.maybeSingle();
-
-
-      if (error) {
-
-        console.error(
-          "Asset query error:",
-          error
-        );
-
-        throw new Error(
-          error.message ||
-          "Could not load the asset."
-        );
-
-      }
-
-
-      if (!asset) {
-
-        throw new Error(
-          "This asset does not exist, is not published, or is not accessible."
-        );
-
-      }
-
-
-      /*
-       * Save globally.
-       */
-      window.currentAsset =
-        asset;
-
-
-      /*
-       * Load creator separately.
-       */
-      const profile =
-        await loadCreatorProfile(
-          asset.user_id
-        );
-
-
-      asset.profiles =
-        profile;
-
-
-      /*
-       * Render.
-       */
-      renderAsset(
-        asset
+    const supabase =
+      createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
       );
 
 
-      /*
-       * Load current user's like state.
-       */
-      await loadLikeState();
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
 
-
-    } catch (error) {
-
-      console.error(
-        "Asset loading error:",
-        error
+    const loading =
+      document.getElementById(
+        "loading"
       );
 
 
-      showError(
-        error.message ||
-        "Something went wrong while loading this asset.",
-        slug
-          ? `Slug: ${slug}`
-          : `ID: ${id}`
+    const content =
+      document.getElementById(
+        "assetContent"
       );
 
-    }
 
-  }
-
-
-  /* =========================================================
-     RENDER
-  ========================================================= */
-
-  function renderAsset(asset) {
-
-    loading.style.display =
-      "none";
-
-    errorBox.style.display =
-      "none";
-
-    content.style.display =
-      "block";
+    const errorBox =
+      document.getElementById(
+        "error"
+      );
 
 
-    const profile =
-      asset.profiles ||
+    const errorMessage =
+      document.getElementById(
+        "errorMessage"
+      );
+
+
+    const errorDebug =
+      document.getElementById(
+        "errorDebug"
+      );
+
+
+    const retryButton =
+      document.getElementById(
+        "retryButton"
+      );
+
+
+    /* =====================================================
+       URL PARAMETERS
+    ====================================================== */
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const slug =
+      params.get("slug");
+
+
+    const id =
+      params.get("id");
+
+
+    /* =====================================================
+       GLOBAL STATE
+    ====================================================== */
+
+    window.currentAsset =
       null;
 
 
-    const creatorName =
-      profile?.display_name ||
-      profile?.username ||
-      "Unknown Creator";
+    let viewerRenderer =
+      null;
 
 
-    /* =======================================================
-       PAGE TITLE
-    ======================================================== */
-
-    document.title =
-      `${asset.title || "Asset"} — LoyalForge`;
+    let viewerScene =
+      null;
 
 
-    /* =======================================================
-       TITLE
-    ======================================================== */
-
-    document.getElementById(
-      "assetTitle"
-    ).textContent =
-      asset.title ||
-      "Untitled Asset";
+    let viewerCamera =
+      null;
 
 
-    /* =======================================================
-       DESCRIPTION
-    ======================================================== */
-
-    const description =
-      asset.description ||
-      "No description provided.";
+    let viewerControls =
+      null;
 
 
-    document.getElementById(
-      "assetDescription"
-    ).textContent =
-      description;
+    let viewerAnimationId =
+      null;
 
 
-    document.getElementById(
-      "assetLongDescription"
-    ).textContent =
-      description;
+    let viewerModel =
+      null;
 
 
-    /* =======================================================
-       CATEGORY
-    ======================================================== */
-
-    const category =
-      asset.category ||
-      "Other";
+    let viewerResizeHandler =
+      null;
 
 
-    document.getElementById(
-      "assetCategory"
-    ).textContent =
-      category;
+    /* =====================================================
+       HELPERS
+    ====================================================== */
+
+    function formatFileSize(bytes) {
+
+      if (
+        bytes === null ||
+        bytes === undefined ||
+        bytes === "" ||
+        Number.isNaN(
+          Number(bytes)
+        )
+      ) {
+
+        return "Unknown";
+
+      }
 
 
-    document.getElementById(
-      "assetCategoryBadge"
-    ).textContent =
-      category;
+      const size =
+        Number(bytes);
 
 
-    document.getElementById(
-      "assetMetaCategory"
-    ).textContent =
-      category;
+      if (size < 1024) {
+
+        return `${size} B`;
+
+      }
 
 
-/* =======================================================
-   PREVIEW / 3D VIEWER
-======================================================== */
+      if (
+        size <
+        1024 * 1024
+      ) {
 
-const imagePreviewWrap =
-  document.getElementById(
-    "imagePreviewWrap"
-  );
+        return `${(
+          size / 1024
+        ).toFixed(1)} KB`;
 
-const viewer =
-  document.getElementById(
-    "assetViewer"
-  );
-
-const preview =
-  document.getElementById(
-    "assetPreview"
-  );
-
-const fallbackPreview =
-  "https://placehold.co/1200x800/0b1220/8ed8ff?text=LoyalForge";
+      }
 
 
-const fileUrl =
-  asset.file_url || "";
+      if (
+        size <
+        1024 *
+        1024 *
+        1024
+      ) {
+
+        return `${(
+          size /
+          (1024 * 1024)
+        ).toFixed(1)} MB`;
+
+      }
 
 
-const fileExtension =
-  getFileExtension(
-    fileUrl ||
-    asset.file_name ||
-    ""
-  );
+      return `${(
+        size /
+        (1024 *
+          1024 *
+          1024)
+      ).toFixed(1)} GB`;
+
+    }
 
 
-const is3D =
-  fileExtension === "gltf" ||
-  fileExtension === "glb";
+    function formatDate(date) {
+
+      if (!date) {
+
+        return "Unknown";
+
+      }
 
 
-/*
- * 3D MODEL
- */
-
-if (
-  is3D &&
-  viewer &&
-  fileUrl
-) {
-
-  if (imagePreviewWrap) {
-
-    imagePreviewWrap.style.display =
-      "none";
-
-  }
+      const parsed =
+        new Date(date);
 
 
-  viewer.style.display =
-    "block";
+      if (
+        Number.isNaN(
+          parsed.getTime()
+        )
+      ) {
+
+        return "Unknown";
+
+      }
 
 
-  loadGLTFViewer(
-    fileUrl
-  );
+      return parsed.toLocaleDateString(
+        "en-US",
+        {
+          year:
+            "numeric",
 
+          month:
+            "short",
 
-}
-
-
-/*
- * NORMAL IMAGE PREVIEW
- */
-
-else {
-
-  if (viewer) {
-
-    viewer.style.display =
-      "none";
-
-  }
-
-
-  if (imagePreviewWrap) {
-
-    imagePreviewWrap.style.display =
-      "grid";
-
-  }
-
-
-  if (preview) {
-
-    preview.onerror =
-      () => {
-
-        if (
-          preview.src !==
-          fallbackPreview
-        ) {
-
-          preview.src =
-            fallbackPreview;
-
+          day:
+            "numeric"
         }
-
-      };
-
-
-    preview.src =
-      asset.preview_url ||
-      fallbackPreview;
-
-
-    preview.alt =
-      asset.title ||
-      "Asset Preview";
-
-  }
-
-}
-
-
-    /* =======================================================
-       FORMAT
-    ======================================================== */
-
-    const format =
-      asset.file_format ||
-      "Unknown";
-
-
-    document.getElementById(
-      "assetFormat"
-    ).textContent =
-      format;
-
-
-    document.getElementById(
-      "previewFormat"
-    ).textContent =
-      format;
-
-
-    /* =======================================================
-       CREATOR
-    ======================================================== */
-
-const creatorElement =
-  document.getElementById("assetCreator");
-
-if (creatorElement) {
-
-  creatorElement.textContent =
-    creatorName;
-
-  creatorElement.style.display =
-    "inline-block";
-
-  creatorElement.style.visibility =
-    "visible";
-
-  creatorElement.style.opacity =
-    "1";
-
-  console.log(
-    "CREATOR DISPLAYED:",
-    creatorName
-  );
-
-} else {
-
-  console.error(
-    "assetCreator element was not found."
-  );
-
-}
-
-
-    /*
-     * Creator profile link.
-     *
-     * We use username when available.
-     * The profile page can later read ?username=...
-     */
-
-    if (profile?.username) {
-
-      creatorElement.href =
-        `profile.html?username=${encodeURIComponent(
-          profile.username
-        )}`;
-
-      creatorElement.style.pointerEvents =
-        "auto";
-
-    } else {
-
-      creatorElement.removeAttribute(
-        "href"
       );
 
-      creatorElement.style.pointerEvents =
+    }
+
+
+    function creatorInitials(name) {
+
+      if (!name) {
+
+        return "LF";
+
+      }
+
+
+      return name
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(
+          word =>
+            word[0]
+        )
+        .join("")
+        .toUpperCase();
+
+    }
+
+
+    function getFileExtension(
+      url = ""
+    ) {
+
+      const cleanUrl =
+        String(url)
+          .split("?")[0]
+          .split("#")[0];
+
+
+      const parts =
+        cleanUrl.split(".");
+
+
+      if (
+        parts.length < 2
+      ) {
+
+        return "";
+
+      }
+
+
+      return parts
+        .pop()
+        .toLowerCase();
+
+    }
+
+
+    function showError(
+      message,
+      debug = ""
+    ) {
+
+      loading.style.display =
+        "none";
+
+
+      content.style.display =
+        "none";
+
+
+      errorBox.style.display =
+        "grid";
+
+
+      errorMessage.textContent =
+        message ||
+        "Something went wrong while loading this asset.";
+
+
+      if (debug) {
+
+        errorDebug.style.display =
+          "block";
+
+
+        errorDebug.textContent =
+          debug;
+
+      } else {
+
+        errorDebug.style.display =
+          "none";
+
+
+        errorDebug.textContent =
+          "";
+
+      }
+
+    }
+
+
+    function showLoading() {
+
+      loading.style.display =
+        "grid";
+
+
+      content.style.display =
+        "none";
+
+
+      errorBox.style.display =
         "none";
 
     }
 
 
-    /* =======================================================
-       AVATAR
-    ======================================================== */
+    /* =====================================================
+       VIEWER CLEANUP
+    ====================================================== */
 
-    const avatar =
-      document.getElementById(
-        "creatorAvatar"
-      );
+    function destroyViewer() {
+
+      if (
+        viewerAnimationId
+      ) {
+
+        cancelAnimationFrame(
+          viewerAnimationId
+        );
+
+        viewerAnimationId =
+          null;
+
+      }
 
 
-    avatar.innerHTML =
-      "";
+      if (
+        viewerResizeHandler
+      ) {
+
+        window.removeEventListener(
+          "resize",
+          viewerResizeHandler
+        );
+
+        viewerResizeHandler =
+          null;
+
+      }
 
 
-    if (profile?.avatar_url) {
+      if (
+        viewerControls
+      ) {
 
-      const img =
-        document.createElement(
-          "img"
+        viewerControls.dispose();
+
+        viewerControls =
+          null;
+
+      }
+
+
+      if (
+        viewerModel &&
+        viewerScene
+      ) {
+
+        viewerScene.remove(
+          viewerModel
         );
 
 
-      img.src =
-        profile.avatar_url;
+        viewerModel.traverse(
+          object => {
+
+            if (
+              object.geometry
+            ) {
+
+              object.geometry.dispose();
+
+            }
 
 
-      img.alt =
-        creatorName;
+            if (
+              object.material
+            ) {
+
+              const materials =
+                Array.isArray(
+                  object.material
+                )
+                  ? object.material
+                  : [
+                      object.material
+                    ];
 
 
-      img.onerror =
+              materials.forEach(
+                material => {
+
+                  if (
+                    material.map
+                  ) {
+
+                    material.map.dispose();
+
+                  }
+
+
+                  if (
+                    material.normalMap
+                  ) {
+
+                    material.normalMap.dispose();
+
+                  }
+
+
+                  if (
+                    material.roughnessMap
+                  ) {
+
+                    material.roughnessMap.dispose();
+
+                  }
+
+
+                  if (
+                    material.metalnessMap
+                  ) {
+
+                    material.metalnessMap.dispose();
+
+                  }
+
+
+                  material.dispose();
+
+                }
+              );
+
+            }
+
+          }
+        );
+
+
+        viewerModel =
+          null;
+
+      }
+
+
+      if (
+        viewerRenderer
+      ) {
+
+        viewerRenderer.dispose();
+
+        viewerRenderer =
+          null;
+
+      }
+
+
+      viewerScene =
+        null;
+
+      viewerCamera =
+        null;
+
+    }
+
+
+    /* =====================================================
+       VIEWER LOADING UI
+    ====================================================== */
+
+    function showViewerLoading(
+      show = true
+    ) {
+
+      const element =
+        document.getElementById(
+          "viewerLoading"
+        );
+
+
+      if (!element) {
+
+        return;
+
+      }
+
+
+      element.style.display =
+        show
+          ? "flex"
+          : "none";
+
+    }
+
+
+    function showViewerError(
+      message
+    ) {
+
+      const loadingElement =
+        document.getElementById(
+          "viewerLoading"
+        );
+
+
+      const errorElement =
+        document.getElementById(
+          "viewerError"
+        );
+
+
+      const errorText =
+        document.getElementById(
+          "viewerErrorText"
+        );
+
+
+      if (
+        loadingElement
+      ) {
+
+        loadingElement.style.display =
+          "none";
+
+      }
+
+
+      if (
+        errorElement
+      ) {
+
+        errorElement.style.display =
+          "flex";
+
+      }
+
+
+      if (
+        errorText &&
+        message
+      ) {
+
+        errorText.textContent =
+          message;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       SETUP 3D VIEWER
+    ====================================================== */
+
+    function setupAssetViewer() {
+
+      const canvas =
+        document.getElementById(
+          "assetCanvas"
+        );
+
+
+      const container =
+        document.getElementById(
+          "assetViewer"
+        );
+
+
+      if (
+        !canvas ||
+        !container
+      ) {
+
+        return null;
+
+      }
+
+
+      destroyViewer();
+
+
+      viewerScene =
+        new THREE.Scene();
+
+
+      viewerScene.background =
+        new THREE.Color(
+          0x09111e
+        );
+
+
+      const width =
+        Math.max(
+          container.clientWidth,
+          1
+        );
+
+
+      const height =
+        Math.max(
+          container.clientHeight,
+          1
+        );
+
+
+      viewerCamera =
+        new THREE.PerspectiveCamera(
+          42,
+          width / height,
+          0.01,
+          1000
+        );
+
+
+      viewerCamera.position.set(
+        0,
+        1.5,
+        4
+      );
+
+
+      viewerRenderer =
+        new THREE.WebGLRenderer(
+          {
+            canvas,
+            antialias:
+              true,
+            alpha:
+              false,
+            powerPreference:
+              "high-performance"
+          }
+        );
+
+
+      viewerRenderer.setPixelRatio(
+        Math.min(
+          window.devicePixelRatio || 1,
+          2
+        )
+      );
+
+
+      viewerRenderer.setSize(
+        width,
+        height,
+        false
+      );
+
+
+      viewerRenderer.outputColorSpace =
+        THREE.SRGBColorSpace;
+
+
+      viewerRenderer.toneMapping =
+        THREE.ACESFilmicToneMapping;
+
+
+      viewerRenderer.toneMappingExposure =
+        1.15;
+
+
+      /* ===================================================
+         LIGHTING
+      ==================================================== */
+
+      const ambient =
+        new THREE.HemisphereLight(
+          0xffffff,
+          0x182033,
+          2.2
+        );
+
+
+      viewerScene.add(
+        ambient
+      );
+
+
+      const keyLight =
+        new THREE.DirectionalLight(
+          0xffffff,
+          3
+        );
+
+
+      keyLight.position.set(
+        4,
+        6,
+        5
+      );
+
+
+      viewerScene.add(
+        keyLight
+      );
+
+
+      const fillLight =
+        new THREE.DirectionalLight(
+          0x8ed8ff,
+          1.5
+        );
+
+
+      fillLight.position.set(
+        -4,
+        2,
+        2
+      );
+
+
+      viewerScene.add(
+        fillLight
+      );
+
+
+      const rimLight =
+        new THREE.DirectionalLight(
+          0xb9a7ff,
+          1.1
+        );
+
+
+      rimLight.position.set(
+        2,
+        3,
+        -5
+      );
+
+
+      viewerScene.add(
+        rimLight
+      );
+
+
+      /* ===================================================
+         CONTROLS
+      ==================================================== */
+
+      viewerControls =
+        new OrbitControls(
+          viewerCamera,
+          canvas
+        );
+
+
+      viewerControls.enableDamping =
+        true;
+
+
+      viewerControls.dampingFactor =
+        0.06;
+
+
+      viewerControls.enablePan =
+        false;
+
+
+      viewerControls.enableZoom =
+        true;
+
+
+      viewerControls.zoomSpeed =
+        0.8;
+
+
+      viewerControls.rotateSpeed =
+        0.8;
+
+
+      viewerControls.minDistance =
+        0.35;
+
+
+      viewerControls.maxDistance =
+        30;
+
+
+      viewerControls.target.set(
+        0,
+        0.8,
+        0
+      );
+
+
+      /* ===================================================
+         RESIZE
+      ==================================================== */
+
+      viewerResizeHandler =
         () => {
+
+          if (
+            !viewerRenderer ||
+            !viewerCamera ||
+            !container
+          ) {
+
+            return;
+
+          }
+
+
+          const newWidth =
+            Math.max(
+              container.clientWidth,
+              1
+            );
+
+
+          const newHeight =
+            Math.max(
+              container.clientHeight,
+              1
+            );
+
+
+          viewerCamera.aspect =
+            newWidth /
+            newHeight;
+
+
+          viewerCamera.updateProjectionMatrix();
+
+
+          viewerRenderer.setSize(
+            newWidth,
+            newHeight,
+            false
+          );
+
+        };
+
+
+      window.addEventListener(
+        "resize",
+        viewerResizeHandler
+      );
+
+
+      /* ===================================================
+         ANIMATION
+      ==================================================== */
+
+      const animate =
+        () => {
+
+          viewerAnimationId =
+            requestAnimationFrame(
+              animate
+            );
+
+
+          if (
+            viewerControls
+          ) {
+
+            viewerControls.update();
+
+          }
+
+
+          if (
+            viewerRenderer &&
+            viewerScene &&
+            viewerCamera
+          ) {
+
+            viewerRenderer.render(
+              viewerScene,
+              viewerCamera
+            );
+
+          }
+
+        };
+
+
+      animate();
+
+
+      return {
+        container
+      };
+
+    }
+
+
+    /* =====================================================
+       LOAD GLTF / GLB
+    ====================================================== */
+
+    async function loadGLTFViewer(
+      fileUrl
+    ) {
+
+      if (!fileUrl) {
+
+        showViewerError(
+          "آدرس فایل مدل وجود ندارد."
+        );
+
+        return;
+
+      }
+
+
+      const viewer =
+        setupAssetViewer();
+
+
+      if (!viewer) {
+
+        showViewerError(
+          "Viewer قابل راه‌اندازی نیست."
+        );
+
+        return;
+
+      }
+
+
+      showViewerLoading(
+        true
+      );
+
+
+      try {
+
+        const loader =
+          new GLTFLoader();
+
+
+        /*
+         * Load GLTF / GLB.
+         *
+         * GLTFLoader automatically resolves
+         * relative resources from the model URL.
+         */
+
+        const gltf =
+          await loader.loadAsync(
+            fileUrl
+          );
+
+
+        if (
+          !gltf ||
+          !gltf.scene
+        ) {
+
+          throw new Error(
+            "The model does not contain a valid scene."
+          );
+
+        }
+
+
+        viewerModel =
+          gltf.scene;
+
+
+        viewerScene.add(
+          viewerModel
+        );
+
+
+        /* =================================================
+           CENTER MODEL
+        ================================================== */
+
+        const initialBox =
+          new THREE.Box3()
+            .setFromObject(
+              viewerModel
+            );
+
+
+        if (
+          initialBox.isEmpty()
+        ) {
+
+          throw new Error(
+            "The model contains no visible geometry."
+          );
+
+        }
+
+
+        const initialSize =
+          initialBox.getSize(
+            new THREE.Vector3()
+          );
+
+
+        const initialCenter =
+          initialBox.getCenter(
+            new THREE.Vector3()
+          );
+
+
+        viewerModel.position.x -=
+          initialCenter.x;
+
+
+        viewerModel.position.y -=
+          initialCenter.y;
+
+
+        viewerModel.position.z -=
+          initialCenter.z;
+
+
+        /* =================================================
+           SCALE MODEL
+        ================================================== */
+
+        const maxSize =
+          Math.max(
+            initialSize.x,
+            initialSize.y,
+            initialSize.z
+          );
+
+
+        if (
+          maxSize > 0
+        ) {
+
+          const scale =
+            2.2 /
+            maxSize;
+
+
+          viewerModel.scale.setScalar(
+            scale
+          );
+
+        }
+
+
+        /* =================================================
+           FINAL BOUNDS
+        ================================================== */
+
+        const finalBox =
+          new THREE.Box3()
+            .setFromObject(
+              viewerModel
+            );
+
+
+        const finalSize =
+          finalBox.getSize(
+            new THREE.Vector3()
+          );
+
+
+        const finalCenter =
+          finalBox.getCenter(
+            new THREE.Vector3()
+          );
+
+
+        /* =================================================
+           CAMERA
+        ================================================== */
+
+        const radius =
+          Math.max(
+            finalSize.x,
+            finalSize.y,
+            finalSize.z
+          ) * .65;
+
+
+        const safeRadius =
+          Math.max(
+            radius,
+            .8
+          );
+
+
+        viewerCamera.position.set(
+          safeRadius * 1.55,
+          safeRadius * .95,
+          safeRadius * 1.55
+        );
+
+
+        viewerControls.target.copy(
+          finalCenter
+        );
+
+
+        viewerControls.update();
+
+
+        /* =================================================
+           ANIMATION SUPPORT
+        ================================================== */
+
+        if (
+          gltf.animations &&
+          gltf.animations.length
+        ) {
+
+          const mixer =
+            new THREE.AnimationMixer(
+              viewerModel
+            );
+
+
+          gltf.animations.forEach(
+            clip => {
+
+              mixer
+                .clipAction(clip)
+                .play();
+
+            }
+          );
+
+
+          let previousTime =
+            performance.now();
+
+
+          const oldAnimate =
+            () => {
+
+              const now =
+                performance.now();
+
+
+              const delta =
+                (now -
+                  previousTime) /
+                1000;
+
+
+              previousTime =
+                now;
+
+
+              mixer.update(
+                Math.min(
+                  delta,
+                  .05
+                )
+              );
+
+
+              if (
+                viewerControls
+              ) {
+
+                viewerControls.update();
+
+              }
+
+
+              if (
+                viewerRenderer &&
+                viewerScene &&
+                viewerCamera
+              ) {
+
+                viewerRenderer.render(
+                  viewerScene,
+                  viewerCamera
+                );
+
+              }
+
+
+              viewerAnimationId =
+                requestAnimationFrame(
+                  oldAnimate
+                );
+
+            };
+
+
+          if (
+            viewerAnimationId
+          ) {
+
+            cancelAnimationFrame(
+              viewerAnimationId
+            );
+
+          }
+
+
+          oldAnimate();
+
+        }
+
+
+        showViewerLoading(
+          false
+        );
+
+
+        console.log(
+          "GLTF model loaded successfully:",
+          fileUrl
+        );
+
+      } catch (error) {
+
+        console.error(
+          "GLTF loading error:",
+          error
+        );
+
+
+        showViewerError(
+          "مدل لود نشد. اگر فایل GLTF به فایل‌های .bin یا Texture جداگانه وابسته باشد، آن فایل‌ها هم باید در Storage موجود باشند."
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       CREATOR PROFILE
+    ====================================================== */
+
+    async function loadCreatorProfile(
+      userId
+    ) {
+
+      if (!userId) {
+
+        return null;
+
+      }
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabase
+            .from("profiles")
+            .select(
+              "id, username, display_name, avatar_url"
+            )
+            .eq(
+              "id",
+              userId
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+          console.warn(
+            "Creator profile error:",
+            error
+          );
+
+
+          return null;
+
+        }
+
+
+        return data ||
+          null;
+
+      } catch (error) {
+
+        console.error(
+          "Creator profile error:",
+          error
+        );
+
+
+        return null;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       LOAD ASSET
+    ====================================================== */
+
+    async function loadAsset() {
+
+      showLoading();
+
+
+      try {
+
+        if (
+          !slug &&
+          !id
+        ) {
+
+          throw new Error(
+            "No asset was specified."
+          );
+
+        }
+
+
+        /*
+         * Asset query.
+         *
+         * IMPORTANT:
+         * file_url is included because
+         * the 3D viewer needs it.
+         */
+
+        let query =
+          supabase
+            .from("assets")
+            .select(`
+              id,
+              title,
+              slug,
+              description,
+              category,
+              file_url,
+              preview_url,
+              file_name,
+              file_size,
+              file_format,
+              downloads,
+              likes,
+              created_at,
+              user_id,
+              status
+            `);
+
+
+        if (slug) {
+
+          query =
+            query.eq(
+              "slug",
+              slug
+            );
+
+        } else {
+
+          query =
+            query.eq(
+              "id",
+              id
+            );
+
+        }
+
+
+        query =
+          query.eq(
+            "status",
+            "published"
+          );
+
+
+        const {
+          data: asset,
+          error
+        } =
+          await query
+            .maybeSingle();
+
+
+        if (error) {
+
+          console.error(
+            "Asset query error:",
+            error
+          );
+
+
+          throw new Error(
+            error.message ||
+            "Could not load the asset."
+          );
+
+        }
+
+
+        if (!asset) {
+
+          throw new Error(
+            "This asset does not exist, is not published, or is not accessible."
+          );
+
+        }
+
+
+        window.currentAsset =
+          asset;
+
+
+        /*
+         * Creator is loaded separately.
+         */
+
+        asset.profiles =
+          await loadCreatorProfile(
+            asset.user_id
+          );
+
+
+        renderAsset(
+          asset
+        );
+
+
+        await loadLikeState();
+
+
+      } catch (error) {
+
+        console.error(
+          "Asset loading error:",
+          error
+        );
+
+
+        showError(
+          error.message ||
+          "Something went wrong while loading this asset.",
+          slug
+            ? `Slug: ${slug}`
+            : `ID: ${id}`
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       RENDER ASSET
+    ====================================================== */
+
+    function renderAsset(
+      asset
+    ) {
+
+      loading.style.display =
+        "none";
+
+
+      errorBox.style.display =
+        "none";
+
+
+      content.style.display =
+        "block";
+
+
+      const profile =
+        asset.profiles ||
+        null;
+
+
+      const creatorName =
+        profile?.display_name ||
+        profile?.username ||
+        "Unknown Creator";
+
+
+      /* ===================================================
+         TITLE
+      ==================================================== */
+
+      document.title =
+        `${asset.title || "Asset"} — LoyalForge`;
+
+
+      document.getElementById(
+        "assetTitle"
+      ).textContent =
+        asset.title ||
+        "Untitled Asset";
+
+
+      /* ===================================================
+         DESCRIPTION
+      ==================================================== */
+
+      const description =
+        asset.description ||
+        "No description provided.";
+
+
+      document.getElementById(
+        "assetDescription"
+      ).textContent =
+        description;
+
+
+      document.getElementById(
+        "assetLongDescription"
+      ).textContent =
+        description;
+
+
+      /* ===================================================
+         CATEGORY
+      ==================================================== */
+
+      const category =
+        asset.category ||
+        "Other";
+
+
+      document.getElementById(
+        "assetCategory"
+      ).textContent =
+        category;
+
+
+      document.getElementById(
+        "assetCategoryBadge"
+      ).textContent =
+        category;
+
+
+      document.getElementById(
+        "assetMetaCategory"
+      ).textContent =
+        category;
+
+
+      /* ===================================================
+         PREVIEW / 3D
+      ==================================================== */
+
+      const imagePreviewWrap =
+        document.getElementById(
+          "imagePreviewWrap"
+        );
+
+
+      const viewer =
+        document.getElementById(
+          "assetViewer"
+        );
+
+
+      const preview =
+        document.getElementById(
+          "assetPreview"
+        );
+
+
+      const fallbackPreview =
+        "https://placehold.co/1200x800/0b1220/8ed8ff?text=LoyalForge";
+
+
+      const fileUrl =
+        asset.file_url ||
+        "";
+
+
+      const fileExtension =
+        getFileExtension(
+          fileUrl ||
+          asset.file_name ||
+          ""
+        );
+
+
+      const is3D =
+        fileExtension === "gltf" ||
+        fileExtension === "glb";
+
+
+      /*
+       * 3D MODEL
+       */
+
+      if (
+        is3D &&
+        fileUrl &&
+        viewer
+      ) {
+
+        if (
+          imagePreviewWrap
+        ) {
+
+          imagePreviewWrap.style.display =
+            "none";
+
+        }
+
+
+        viewer.style.display =
+          "block";
+
+
+        loadGLTFViewer(
+          fileUrl
+        );
+
+      }
+
+
+      /*
+       * NORMAL IMAGE
+       */
+
+      else {
+
+        destroyViewer();
+
+
+        if (
+          viewer
+        ) {
+
+          viewer.style.display =
+            "none";
+
+        }
+
+
+        if (
+          imagePreviewWrap
+        ) {
+
+          imagePreviewWrap.style.display =
+            "grid";
+
+        }
+
+
+        if (
+          preview
+        ) {
+
+          preview.onerror =
+            () => {
+
+              if (
+                !preview.src.includes(
+                  "placehold.co"
+                )
+              ) {
+
+                preview.src =
+                  fallbackPreview;
+
+              }
+
+            };
+
+
+          preview.src =
+            asset.preview_url ||
+            fallbackPreview;
+
+
+          preview.alt =
+            asset.title ||
+            "Asset Preview";
+
+        }
+
+      }
+
+
+      /* ===================================================
+         FORMAT
+      ==================================================== */
+
+      const format =
+        asset.file_format ||
+        fileExtension ||
+        "Unknown";
+
+
+      document.getElementById(
+        "assetFormat"
+      ).textContent =
+        format;
+
+
+      document.getElementById(
+        "previewFormat"
+      ).textContent =
+        format;
+
+
+      /* ===================================================
+         CREATOR
+      ==================================================== */
+
+      const creatorElement =
+        document.getElementById(
+          "assetCreator"
+        );
+
+
+      if (
+        creatorElement
+      ) {
+
+        creatorElement.textContent =
+          creatorName;
+
+
+        creatorElement.style.display =
+          "inline-block";
+
+
+        creatorElement.style.visibility =
+          "visible";
+
+
+        creatorElement.style.opacity =
+          "1";
+
+
+        if (
+          profile?.username
+        ) {
+
+          creatorElement.href =
+            `profile.html?username=${encodeURIComponent(
+              profile.username
+            )}`;
+
+
+          creatorElement.style.pointerEvents =
+            "auto";
+
+        } else {
+
+          creatorElement.removeAttribute(
+            "href"
+          );
+
+
+          creatorElement.style.pointerEvents =
+            "none";
+
+        }
+
+      }
+
+
+      /* ===================================================
+         AVATAR
+      ==================================================== */
+
+      const avatar =
+        document.getElementById(
+          "creatorAvatar"
+        );
+
+
+      if (
+        avatar
+      ) {
+
+        avatar.innerHTML =
+          "";
+
+
+        if (
+          profile?.avatar_url
+        ) {
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+
+          img.src =
+            profile.avatar_url;
+
+
+          img.alt =
+            creatorName;
+
+
+          img.loading =
+            "lazy";
+
+
+          img.onerror =
+            () => {
+
+              avatar.textContent =
+                creatorInitials(
+                  creatorName
+                );
+
+            };
+
+
+          avatar.appendChild(
+            img
+          );
+
+        } else {
 
           avatar.textContent =
             creatorInitials(
               creatorName
             );
 
-        };
-
-
-      avatar.appendChild(
-        img
-      );
-
-    } else {
-
-      avatar.textContent =
-        creatorInitials(
-          creatorName
-        );
-
-    }
-
-
-    /* =======================================================
-       STATS
-    ======================================================== */
-
-    document.getElementById(
-      "assetLikes"
-    ).textContent =
-      Number(
-        asset.likes || 0
-      );
-
-
-    document.getElementById(
-      "assetDownloads"
-    ).textContent =
-      Number(
-        asset.downloads || 0
-      );
-
-
-    /* =======================================================
-       FILE SIZE
-    ======================================================== */
-
-    document.getElementById(
-      "assetSize"
-    ).textContent =
-      formatFileSize(
-        asset.file_size
-      );
-
-
-    /* =======================================================
-       FILE NAME
-    ======================================================== */
-
-    document.getElementById(
-      "assetFileName"
-    ).textContent =
-      asset.file_name ||
-      "Unknown";
-
-
-    /* =======================================================
-       DATE
-    ======================================================== */
-
-    document.getElementById(
-      "assetDate"
-    ).textContent =
-      formatDate(
-        asset.created_at
-      );
-
-
-    /* =======================================================
-       ACTIONS
-    ======================================================== */
-
-    setupActions(
-      asset
-    );
-
-  }
-
-
-  /* =========================================================
-     LOAD LIKE STATE
-  ========================================================= */
-
-  async function loadLikeState() {
-
-    const likeButton =
-      document.getElementById(
-        "likeButton"
-      );
-
-
-    if (
-      !likeButton ||
-      !window.currentAsset
-    ) {
-      return;
-    }
-
-
-    try {
-
-      const {
-        data: {
-          user
         }
-      } =
-        await supabase.auth.getUser();
+
+      }
 
 
-      /*
-       * User is not logged in.
-       */
-      if (!user) {
+      /* ===================================================
+         STATS
+      ==================================================== */
 
-        likeButton.classList.remove(
-          "liked"
+      document.getElementById(
+        "assetLikes"
+      ).textContent =
+        Number(
+          asset.likes || 0
         );
 
-        likeButton.textContent =
-          "♡";
+
+      document.getElementById(
+        "assetDownloads"
+      ).textContent =
+        Number(
+          asset.downloads || 0
+        );
+
+
+      /* ===================================================
+         FILE SIZE
+      ==================================================== */
+
+      document.getElementById(
+        "assetSize"
+      ).textContent =
+        formatFileSize(
+          asset.file_size
+        );
+
+
+      /* ===================================================
+         FILE NAME
+      ==================================================== */
+
+      document.getElementById(
+        "assetFileName"
+      ).textContent =
+        asset.file_name ||
+        "Unknown";
+
+
+      /* ===================================================
+         DATE
+      ==================================================== */
+
+      document.getElementById(
+        "assetDate"
+      ).textContent =
+        formatDate(
+          asset.created_at
+        );
+
+
+      /* ===================================================
+         ACTIONS
+      ==================================================== */
+
+      setupActions(
+        asset
+      );
+
+    }
+
+
+    /* =====================================================
+       LIKE STATE
+    ====================================================== */
+
+    async function loadLikeState() {
+
+      const likeButton =
+        document.getElementById(
+          "likeButton"
+        );
+
+
+      if (
+        !likeButton ||
+        !window.currentAsset
+      ) {
 
         return;
 
       }
 
 
-      /*
-       * Check existing like.
-       */
-      const {
-        data,
-        error
-      } =
-        await supabase
-          .from("asset_likes")
-          .select("id")
-          .eq(
-            "asset_id",
-            window.currentAsset.id
-          )
-          .eq(
-            "user_id",
-            user.id
-          )
-          .maybeSingle();
+      try {
+
+        const {
+          data: {
+            user
+          }
+        } =
+          await supabase.auth.getUser();
 
 
-      if (error) {
+        if (!user) {
+
+          likeButton.classList.remove(
+            "liked"
+          );
+
+
+          likeButton.textContent =
+            "♡";
+
+
+          return;
+
+        }
+
+
+        const {
+          data,
+          error
+        } =
+          await supabase
+            .from("asset_likes")
+            .select("id")
+            .eq(
+              "asset_id",
+              window.currentAsset.id
+            )
+            .eq(
+              "user_id",
+              user.id
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+          console.error(
+            "Like state error:",
+            error
+          );
+
+
+          return;
+
+        }
+
+
+        if (data) {
+
+          likeButton.classList.add(
+            "liked"
+          );
+
+
+          likeButton.textContent =
+            "♥";
+
+        } else {
+
+          likeButton.classList.remove(
+            "liked"
+          );
+
+
+          likeButton.textContent =
+            "♡";
+
+        }
+
+      } catch (error) {
 
         console.error(
           "Like state error:",
           error
         );
 
+      }
+
+    }
+
+
+    /* =====================================================
+       DOWNLOAD
+    ====================================================== */
+
+    async function handleDownload(
+      asset,
+      downloadButton
+    ) {
+
+      if (
+        !asset?.file_name
+      ) {
+
+        alert(
+          "This asset doesn't have a downloadable file yet."
+        );
+
+
         return;
 
       }
 
 
-      if (data) {
-
-        likeButton.classList.add(
-          "liked"
-        );
-
-        likeButton.textContent =
-          "♥";
-
-      } else {
-
-        likeButton.classList.remove(
-          "liked"
-        );
-
-        likeButton.textContent =
-          "♡";
-
-      }
-
-    } catch (error) {
-
-      console.error(
-        "Like state error:",
-        error
-      );
-
-    }
-
-  }
-
-
-  /* =========================================================
-     DOWNLOAD
-  ========================================================= */
-
-  async function handleDownload(
-    asset,
-    downloadButton
-  ) {
-
-    if (!asset?.file_name) {
-
-      alert(
-        "This asset doesn't have a downloadable file yet."
-      );
-
-      return;
-
-    }
-
-
-    if (downloadButton.disabled) {
-      return;
-    }
-
-
-    downloadButton.disabled =
-      true;
-
-
-    const originalText =
-      downloadButton.textContent;
-
-
-    downloadButton.textContent =
-      "Preparing download...";
-
-
-    try {
-
-      /*
-       * Create public download URL.
-       *
-       * IMPORTANT:
-       * file_name must contain the complete Storage path,
-       * for example:
-       *
-       * files/example.zip
-       */
-
-      const {
-        data,
-        error
-      } =
-        supabase
-          .storage
-          .from("assets")
-          .getPublicUrl(
-            asset.file_name,
-            {
-              download: true
-            }
-          );
-
-
       if (
-        error ||
-        !data?.publicUrl
+        downloadButton.disabled
       ) {
 
-        throw new Error(
-          "Download URL could not be created."
-        );
+        return;
 
       }
-
-
-      /*
-       * Open the file first.
-       *
-       * The counter is updated only after
-       * the download URL has been successfully created.
-       */
-
-      const downloadUrl =
-        data.publicUrl;
-
-
-      /*
-       * Increase database counter.
-       */
-
-      const {
-        data: newDownloads,
-        error: countError
-      } =
-        await supabase.rpc(
-          "increment_asset_download",
-          {
-            asset_id:
-              asset.id
-          }
-        );
-
-
-      if (countError) {
-
-        console.error(
-          "Download counter error:",
-          countError
-        );
-
-      }
-
-
-      /*
-       * Update visible counter.
-       */
-
-      if (
-        !countError &&
-        typeof newDownloads ===
-          "number"
-      ) {
-
-        asset.downloads =
-          newDownloads;
-
-
-        const downloadsElement =
-          document.getElementById(
-            "assetDownloads"
-          );
-
-
-        if (downloadsElement) {
-
-          downloadsElement.textContent =
-            newDownloads;
-
-        }
-
-      }
-
-
-      /*
-       * Actual download.
-       */
-
-      window.location.href =
-        downloadUrl;
-
-
-    } catch (error) {
-
-      console.error(
-        "Download error:",
-        error
-      );
-
-
-      alert(
-        "The download could not be started. Please try again."
-      );
 
 
       downloadButton.disabled =
-        false;
+        true;
+
+
+      const originalText =
+        downloadButton.textContent;
 
 
       downloadButton.textContent =
-        originalText;
-
-    }
-
-  }
+        "Preparing download...";
 
 
-  /* =========================================================
-     LIKE
-  ========================================================= */
+      try {
 
-  async function handleLike(
-    asset,
-    likeButton
-  ) {
-
-    if (
-      !asset ||
-      !likeButton
-    ) {
-      return;
-    }
+        const {
+          data,
+          error
+        } =
+          supabase
+            .storage
+            .from("assets")
+            .getPublicUrl(
+              asset.file_name
+            );
 
 
-    if (likeButton.disabled) {
-      return;
-    }
+        if (
+          error ||
+          !data?.publicUrl
+        ) {
 
+          throw new Error(
+            "Download URL could not be created."
+          );
 
-    try {
-
-      /*
-       * Check logged-in user.
-       */
-
-      const {
-        data: {
-          user
         }
-      } =
-        await supabase.auth.getUser();
 
 
-      /*
-       * User must be logged in.
-       */
+        const downloadUrl =
+          data.publicUrl;
 
-      if (!user) {
 
-        alert(
-          "Please log in to like this asset."
+        /*
+         * Increase download count.
+         */
+
+        const {
+          data: newDownloads,
+          error: countError
+        } =
+          await supabase.rpc(
+            "increment_asset_download",
+            {
+              asset_id:
+                asset.id
+            }
+          );
+
+
+        if (
+          countError
+        ) {
+
+          console.warn(
+            "Download counter error:",
+            countError
+          );
+
+        }
+
+
+        if (
+          !countError &&
+          typeof newDownloads ===
+            "number"
+        ) {
+
+          asset.downloads =
+            newDownloads;
+
+
+          const downloadsElement =
+            document.getElementById(
+              "assetDownloads"
+            );
+
+
+          if (
+            downloadsElement
+          ) {
+
+            downloadsElement.textContent =
+              newDownloads;
+
+          }
+
+        }
+
+
+        /*
+         * Download.
+         */
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+
+        link.href =
+          downloadUrl;
+
+
+        link.download =
+          asset.file_name
+            .split("/")
+            .pop() ||
+          "asset";
+
+
+        link.target =
+          "_blank";
+
+
+        link.rel =
+          "noopener";
+
+
+        document.body.appendChild(
+          link
         );
 
-        window.location.href =
-          "auth.html";
+
+        link.click();
+
+
+        link.remove();
+
+
+        downloadButton.textContent =
+          "Download Started";
+
+
+        setTimeout(
+          () => {
+
+            downloadButton.disabled =
+              false;
+
+
+            downloadButton.textContent =
+              originalText;
+
+          },
+          1600
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Download error:",
+          error
+        );
+
+
+        alert(
+          "The download could not be started. Please try again."
+        );
+
+
+        downloadButton.disabled =
+          false;
+
+
+        downloadButton.textContent =
+          originalText;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       LIKE
+    ====================================================== */
+
+    async function handleLike(
+      asset,
+      likeButton
+    ) {
+
+      if (
+        !asset ||
+        !likeButton ||
+        likeButton.disabled
+      ) {
 
         return;
 
       }
 
 
-      likeButton.disabled =
-        true;
-
-
-      /*
-       * Check current like.
-       */
-
-      const {
-        data: existingLike,
-        error: checkError
-      } =
-        await supabase
-          .from("asset_likes")
-          .select("id")
-          .eq(
-            "asset_id",
-            asset.id
-          )
-          .eq(
-            "user_id",
-            user.id
-          )
-          .maybeSingle();
-
-
-      if (checkError) {
-        throw checkError;
-      }
-
-
-      /* =====================================================
-         REMOVE LIKE
-      ====================================================== */
-
-      if (existingLike) {
+      try {
 
         const {
-          error: deleteError
+          data: {
+            user
+          }
+        } =
+          await supabase.auth.getUser();
+
+
+        if (!user) {
+
+          alert(
+            "Please log in to like this asset."
+          );
+
+
+          window.location.href =
+            "auth.html";
+
+
+          return;
+
+        }
+
+
+        likeButton.disabled =
+          true;
+
+
+        const {
+          data: existingLike,
+          error: checkError
         } =
           await supabase
             .from("asset_likes")
-            .delete()
+            .select("id")
             .eq(
-              "id",
-              existingLike.id
+              "asset_id",
+              asset.id
+            )
+            .eq(
+              "user_id",
+              user.id
+            )
+            .maybeSingle();
+
+
+        if (
+          checkError
+        ) {
+
+          throw checkError;
+
+        }
+
+
+        /* =================================================
+           REMOVE LIKE
+        ================================================== */
+
+        if (
+          existingLike
+        ) {
+
+          const {
+            error: deleteError
+          } =
+            await supabase
+              .from("asset_likes")
+              .delete()
+              .eq(
+                "id",
+                existingLike.id
+              );
+
+
+          if (
+            deleteError
+          ) {
+
+            throw deleteError;
+
+          }
+
+
+          const {
+            data: newLikes,
+            error: countError
+          } =
+            await supabase.rpc(
+              "decrement_asset_likes",
+              {
+                asset_id:
+                  asset.id
+              }
             );
 
 
-        if (deleteError) {
-          throw deleteError;
-        }
+          if (
+            countError
+          ) {
+
+            throw countError;
+
+          }
 
 
-        const {
-          data: newLikes,
-          error: countError
-        } =
-          await supabase.rpc(
-            "decrement_asset_likes",
-            {
-              asset_id:
-                asset.id
-            }
+          asset.likes =
+            Number(
+              newLikes || 0
+            );
+
+
+          likeButton.classList.remove(
+            "liked"
           );
 
 
-        if (countError) {
-          throw countError;
+          likeButton.textContent =
+            "♡";
+
         }
 
 
-        asset.likes =
-          Number(
-            newLikes || 0
+        /* =================================================
+           ADD LIKE
+        ================================================== */
+
+        else {
+
+          const {
+            error: insertError
+          } =
+            await supabase
+              .from("asset_likes")
+              .insert({
+                asset_id:
+                  asset.id,
+
+                user_id:
+                  user.id
+              });
+
+
+          if (
+            insertError
+          ) {
+
+            throw insertError;
+
+          }
+
+
+          const {
+            data: newLikes,
+            error: countError
+          } =
+            await supabase.rpc(
+              "increment_asset_likes",
+              {
+                asset_id:
+                  asset.id
+              }
+            );
+
+
+          if (
+            countError
+          ) {
+
+            throw countError;
+
+          }
+
+
+          asset.likes =
+            Number(
+              newLikes || 0
+            );
+
+
+          likeButton.classList.add(
+            "liked"
           );
 
 
-        likeButton.classList.remove(
-          "liked"
-        );
+          likeButton.textContent =
+            "♥";
 
-
-        likeButton.textContent =
-          "♡";
+        }
 
 
         const likesElement =
@@ -2818,187 +5016,129 @@ if (creatorElement) {
           );
 
 
-        if (likesElement) {
+        if (
+          likesElement
+        ) {
 
           likesElement.textContent =
             asset.likes;
 
         }
 
-      }
 
+      } catch (error) {
 
-      /* =====================================================
-         ADD LIKE
-      ====================================================== */
-
-      else {
-
-        const {
-          error: insertError
-        } =
-          await supabase
-            .from("asset_likes")
-            .insert({
-              asset_id:
-                asset.id,
-
-              user_id:
-                user.id
-            });
-
-
-        if (insertError) {
-          throw insertError;
-        }
-
-
-        const {
-          data: newLikes,
-          error: countError
-        } =
-          await supabase.rpc(
-            "increment_asset_likes",
-            {
-              asset_id:
-                asset.id
-            }
-          );
-
-
-        if (countError) {
-          throw countError;
-        }
-
-
-        asset.likes =
-          Number(
-            newLikes || 0
-          );
-
-
-        likeButton.classList.add(
-          "liked"
+        console.error(
+          "Like error:",
+          error
         );
 
 
-        likeButton.textContent =
-          "♥";
+        alert(
+          "Something went wrong while updating the like."
+        );
 
+      } finally {
 
-        const likesElement =
-          document.getElementById(
-            "assetLikes"
-          );
-
-
-        if (likesElement) {
-
-          likesElement.textContent =
-            asset.likes;
-
-        }
+        likeButton.disabled =
+          false;
 
       }
-
-    } catch (error) {
-
-      console.error(
-        "Like error:",
-        error
-      );
-
-
-      alert(
-        "Something went wrong while updating the like."
-      );
-
-    } finally {
-
-      likeButton.disabled =
-        false;
 
     }
 
-  }
+
+    /* =====================================================
+       ACTIONS
+    ====================================================== */
+
+    function setupActions(
+      asset
+    ) {
+
+      const downloadButton =
+        document.getElementById(
+          "downloadButton"
+        );
 
 
-  /* =========================================================
-     ACTIONS
-  ========================================================= */
-
-  function setupActions(
-    asset
-  ) {
-
-    const downloadButton =
-      document.getElementById(
-        "downloadButton"
-      );
+      const likeButton =
+        document.getElementById(
+          "likeButton"
+        );
 
 
-    const likeButton =
-      document.getElementById(
-        "likeButton"
-      );
+      if (
+        !downloadButton ||
+        !likeButton
+      ) {
 
+        return;
+
+      }
+
+
+      downloadButton.onclick =
+        () =>
+          handleDownload(
+            asset,
+            downloadButton
+          );
+
+
+      likeButton.onclick =
+        () =>
+          handleLike(
+            asset,
+            likeButton
+          );
+
+    }
+
+
+    /* =====================================================
+       RETRY
+    ====================================================== */
 
     if (
-      !downloadButton ||
-      !likeButton
+      retryButton
     ) {
-      return;
+
+      retryButton.addEventListener(
+        "click",
+        () => {
+
+          loadAsset();
+
+        }
+      );
+
     }
 
 
-    /*
-     * Prevent duplicate listeners
-     * if renderAsset() is called again.
-     */
+    /* =====================================================
+       PAGE CLEANUP
+    ====================================================== */
 
-    downloadButton.onclick =
-      () =>
-        handleDownload(
-          asset,
-          downloadButton
-        );
-
-
-    likeButton.onclick =
-      () =>
-        handleLike(
-          asset,
-          likeButton
-        );
-
-  }
-
-
-  /* =========================================================
-     RETRY
-  ========================================================= */
-
-  if (retryButton) {
-
-    retryButton.addEventListener(
-      "click",
+    window.addEventListener(
+      "beforeunload",
       () => {
 
-        loadAsset();
+        destroyViewer();
 
       }
     );
 
-  }
 
+    /* =====================================================
+       START
+    ====================================================== */
 
-  /* =========================================================
-     START
-  ========================================================= */
+    loadAsset();
 
-  loadAsset();
+  </script>
 
-</script>
 
 </body>
+
 </html>
