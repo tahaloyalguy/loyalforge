@@ -953,50 +953,76 @@ form.addEventListener(
       );
 
 
-      const {
-        error: databaseError
-      } =
-        await supabase
-          .from("assets")
-          .insert({
+const {
+  data: {
+    user
+  },
+  error: authError
+} = await supabase.auth.getUser();
 
-            title:
-              title,
+if (authError) {
+  throw authError;
+}
 
-            slug:
-              slug,
+if (!user) {
+  throw new Error(
+    "You must be logged in to publish an Asset."
+  );
+}
 
-            description:
-              description,
 
-            category:
-              category,
+const {
+  error: databaseError
+} =
+  await supabase
+    .from("assets")
+    .insert({
 
-            preview_url:
-              previewUrl,
+      title:
+        title,
 
-            file_url:
-              assetPublicUrl,
+      slug:
+        slug,
 
-            file_name:
-              assetPath,
+      description:
+        description,
 
-            file_size:
-              assetFile.size,
+      category:
+        category,
 
-            file_format:
-              format,
+      preview_url:
+        previewUrl,
 
-            downloads:
-              0,
+      file_url:
+        assetPublicUrl,
 
-            likes:
-              0,
+      file_name:
+        assetPath,
 
-            status:
-              "published"
+      file_size:
+        assetFile.size,
 
-          });
+      file_format:
+        format,
+
+      downloads:
+        0,
+
+      likes:
+        0,
+
+      user_id:
+        user.id,
+
+      status:
+        "published"
+
+    });
+
+
+if (databaseError) {
+  throw databaseError;
+}
 
 
       if (databaseError) {
