@@ -3813,3 +3813,47 @@ label {
     justify-content: center;
   }
 }
+
+/* FIX — TRENDING SECTION HEADING */
+
+.trending-section .section-heading {
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.trending-section .section-heading h2 {
+  font-family: "Vazirmatn", sans-serif;
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 800;
+  line-height: 1.8;
+  letter-spacing: 0;
+  margin: 8px 0 0;
+}
+
+.trending-section .section-heading > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.trending-section .section-heading > p {
+  flex: 0 1 300px;
+  margin: 0;
+  line-height: 1.9;
+}
+
+.trending-section .trending-panel {
+  gap: 24px;
+}
+
+@media (max-width: 700px) {
+  .trending-section .section-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .trending-section .section-heading > p {
+    flex-basis: auto;
+  }
+}
