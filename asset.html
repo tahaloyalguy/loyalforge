@@ -1493,7 +1493,7 @@
         grid;
 
       grid-template-columns:
-        1fr 48px;
+        minmax(0, 1fr) 48px 48px;
 
       gap:
         9px;
@@ -1564,7 +1564,8 @@
 
 
     .download-btn:disabled,
-    .like-btn:disabled {
+    .like-btn:disabled,
+    .favorite-btn:disabled {
 
       cursor:
         wait;
@@ -1626,6 +1627,50 @@
       background:
         rgba(255,127,157,.07);
 
+    }
+
+
+    /* =====================================================
+       FAVORITES
+    ====================================================== */
+
+    .favorite-btn {
+      display: grid;
+      place-items: center;
+      min-height: 48px;
+      width: 48px;
+      padding: 0;
+      border: 1px solid rgba(142, 216, 255, .28);
+      border-radius: 12px;
+      background: rgba(142, 216, 255, .07);
+      color: var(--asset-blue);
+      font-size: 25px;
+      line-height: 1;
+      cursor: pointer;
+      transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        opacity .2s ease;
+    }
+
+    .favorite-btn:hover:not(:disabled) {
+      background: rgba(142, 216, 255, .16);
+      border-color: var(--asset-blue);
+      transform: translateY(-2px);
+    }
+
+    .favorite-btn.is-saved {
+      background: rgba(142, 216, 255, .18);
+      border-color: var(--asset-blue);
+      color: var(--asset-blue-strong);
+    }
+
+    .favorite-btn:disabled {
+      opacity: .6;
+      cursor: wait;
+      transform: none;
     }
 
 /* =====================================================
@@ -2414,7 +2459,8 @@
             >
               ♡
             </button>
-            
+
+
             <button
               id="favoriteButton"
               class="favorite-btn"
@@ -2423,7 +2469,8 @@
               title="Save to favorites"
             >
               ☆
-</button>
+            </button>
+
 
           </div>
 
@@ -4057,6 +4104,7 @@
 
 
         await loadLikeState();
+        await loadFavoriteState();
 
 
       } catch (error) {
@@ -4644,6 +4692,108 @@
 
 
     /* =====================================================
+       FAVORITES
+    ====================================================== */
+
+    async function loadFavoriteState() {
+      const favoriteButton = document.getElementById("favoriteButton");
+      const asset = window.currentAsset;
+
+      if (!favoriteButton || !asset?.id) return;
+
+      favoriteButton.classList.remove("is-saved");
+      favoriteButton.textContent = "☆";
+      favoriteButton.title = "Save to favorites";
+      favoriteButton.setAttribute("aria-label", "Save to favorites");
+
+      try {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError) throw authError;
+        if (!user) return;
+
+        const { data, error } = await supabase
+          .from("asset_favorites")
+          .select("id")
+          .eq("asset_id", asset.id)
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (data) {
+          favoriteButton.classList.add("is-saved");
+          favoriteButton.textContent = "★";
+          favoriteButton.title = "Remove from favorites";
+          favoriteButton.setAttribute("aria-label", "Remove from favorites");
+        }
+      } catch (error) {
+        console.error("Favorite state error:", error);
+      }
+    }
+
+
+    async function handleFavorite(asset, favoriteButton) {
+      if (!asset?.id || !favoriteButton || favoriteButton.disabled) return;
+
+      const originalText = favoriteButton.textContent;
+      favoriteButton.disabled = true;
+
+      try {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError) throw authError;
+
+        if (!user) {
+          alert("Please log in to save favorites.");
+          window.location.href = "auth.html";
+          return;
+        }
+
+        const { data: existing, error: checkError } = await supabase
+          .from("asset_favorites")
+          .select("id")
+          .eq("asset_id", asset.id)
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (checkError) throw checkError;
+
+        if (existing) {
+          const { error } = await supabase
+            .from("asset_favorites")
+            .delete()
+            .eq("id", existing.id)
+            .eq("user_id", user.id);
+
+          if (error) throw error;
+
+          favoriteButton.classList.remove("is-saved");
+          favoriteButton.textContent = "☆";
+          favoriteButton.title = "Save to favorites";
+          favoriteButton.setAttribute("aria-label", "Save to favorites");
+        } else {
+          const { error } = await supabase
+            .from("asset_favorites")
+            .insert({ user_id: user.id, asset_id: asset.id });
+
+          if (error) throw error;
+
+          favoriteButton.classList.add("is-saved");
+          favoriteButton.textContent = "★";
+          favoriteButton.title = "Remove from favorites";
+          favoriteButton.setAttribute("aria-label", "Remove from favorites");
+        }
+      } catch (error) {
+        console.error("Favorite update error:", error);
+        alert("Could not update favorites. Please try again.");
+        favoriteButton.textContent = originalText;
+        await loadFavoriteState();
+      } finally {
+        favoriteButton.disabled = false;
+      }
+    }
+
+
+    /* =====================================================
        DOWNLOAD
     ====================================================== */
 
@@ -5051,10 +5201,15 @@
           "likeButton"
         );
 
+      const favoriteButton =
+        document.getElementById(
+          "favoriteButton"
+        );
 
       if (
         !downloadButton ||
-        !likeButton
+        !likeButton ||
+        !favoriteButton
       ) {
 
         return;
@@ -5075,6 +5230,14 @@
           handleLike(
             asset,
             likeButton
+          );
+
+
+      favoriteButton.onclick =
+        () =>
+          handleFavorite(
+            asset,
+            favoriteButton
           );
 
     }
