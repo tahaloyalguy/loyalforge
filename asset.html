@@ -4738,14 +4738,14 @@ async function loadFavoriteState() {
 }
 
 
+```js
 /* =====================================================
-   TOGGLE FAVORITE
+   TOGGLE FAVORITE — FIXED
 ====================================================== */
 
 async function handleFavorite(asset, favoriteButton) {
   if (!asset || !favoriteButton) return;
 
-  const wasSaved = favoriteButton.classList.contains("is-saved");
   favoriteButton.disabled = true;
 
   try {
@@ -4761,7 +4761,18 @@ async function handleFavorite(asset, favoriteButton) {
       return;
     }
 
-    if (wasSaved) {
+    // بررسی وضعیت واقعی علاقه‌مندی در دیتابیس
+    const { data: existing, error: checkError } = await supabase
+      .from("asset_favorites")
+      .select("id")
+      .eq("asset_id", asset.id)
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (checkError) throw checkError;
+
+    if (existing) {
+      // اگر قبلاً ذخیره شده، حذفش کن
       const { error } = await supabase
         .from("asset_favorites")
         .delete()
@@ -4776,6 +4787,7 @@ async function handleFavorite(asset, favoriteButton) {
       favoriteButton.setAttribute("aria-label", "Save to favorites");
 
     } else {
+      // اگر ذخیره نشده، اضافه‌اش کن
       const { error } = await supabase
         .from("asset_favorites")
         .insert({
@@ -4798,7 +4810,7 @@ async function handleFavorite(asset, favoriteButton) {
     favoriteButton.disabled = false;
   }
 }
-
+```
 
 /* =====================================================
    DOWNLOAD ASSET
