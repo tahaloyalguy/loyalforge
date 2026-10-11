@@ -2404,6 +2404,14 @@ a {
     const assetsGrid =
       document.getElementById("assetsGrid");
 
+    
+    const favoritesGrid =
+      document.getElementById("favoritesGrid");
+
+    
+    const favoritesEmpty =
+      document.getElementById("favoritesEmpty");
+
 
     const emptyState =
       document.getElementById("emptyState");
@@ -2738,6 +2746,8 @@ a {
 
         await loadUserAssets();
 
+        await loadUserFavorites();
+
       }
 
       catch (error) {
@@ -2943,6 +2953,86 @@ a {
             }
           );
 
+
+async function loadUserFavorites() {
+  if (!favoritesGrid || !favoritesEmpty || !currentUser) return;
+
+  favoritesGrid.innerHTML = "";
+  favoritesEmpty.style.display = "none";
+
+  const { data: favorites, error: favoritesError } = await supabase
+    .from("asset_favorites")
+    .select("asset_id")
+    .eq("user_id", currentUser.id);
+
+  if (favoritesError) {
+    console.error("Failed to load favorites:", favoritesError);
+    favoritesEmpty.style.display = "block";
+    favoritesEmpty.querySelector("strong").textContent =
+      "بارگذاری علاقه‌مندی‌ها ناموفق بود.";
+    favoritesEmpty.querySelector("span").textContent =
+      "دسترسی جدول علاقه‌مندی‌ها رو در تنظیمات Supabase بررسی کن.";
+    return;
+  }
+
+  const ids = [...new Set((favorites || []).map(item => item.asset_id))];
+
+  if (ids.length === 0) {
+    favoritesEmpty.style.display = "block";
+    return;
+  }
+
+  const { data: assets, error: assetsError } = await supabase
+    .from("assets")
+    .select("*")
+    .in("id", ids)
+    .eq("status", "published");
+
+  if (assetsError) {
+    console.error("Failed to load favorite assets:", assetsError);
+    favoritesEmpty.style.display = "block";
+    favoritesEmpty.querySelector("strong").textContent =
+      "بارگذاری Assetها ناموفق بود.";
+    return;
+  }
+
+  if (!assets || assets.length === 0) {
+    favoritesEmpty.style.display = "block";
+    favoritesEmpty.querySelector("strong").textContent =
+      "هنوز Asset ذخیره‌شده‌ای نداری.";
+    return;
+  }
+
+  favoritesGrid.innerHTML = assets.map(asset => {
+    const title = escapeHtml(asset.title || "بدون عنوان");
+    const category = escapeHtml(asset.category || "Asset");
+    const preview = asset.preview_url
+      ? escapeHtml(asset.preview_url)
+      : "";
+
+    const target = asset.slug
+      ? `asset.html?slug=${encodeURIComponent(asset.slug)}`
+      : `asset.html?id=${encodeURIComponent(asset.id)}`;
+
+    return `
+      <a class="asset-card" href="${target}">
+        <div class="asset-preview">
+          ${
+            preview
+              ? `<img src="${preview}" alt="${title}" loading="lazy">`
+              : `<div class="asset-no-preview">🧩</div>`
+          }
+        </div>
+        <div class="asset-content">
+          <h3>${title}</h3>
+          <span>${category}</span>
+        </div>
+      </a>
+    `;
+  }).join("");
+
+  favoritesEmpty.style.display = "none";
+}
 
       if (error) {
 
