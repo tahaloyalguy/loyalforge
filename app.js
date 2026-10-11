@@ -2186,7 +2186,7 @@ if (loadMoreBtn) {
 
 const scrollSections =
   document.querySelectorAll(
-    ".section, .creator-cta, .footer"
+    ".section:not(.trending-section), .creator-cta, .footer"
   );
 
 
