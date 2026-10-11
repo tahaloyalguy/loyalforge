@@ -34,6 +34,7 @@ const loadMoreBtn = document.getElementById("loadMoreBtn");
 // =========================
 
 let currentCategory = "all";
+let currentUserId = null;
 let currentSort = "latest";
 let currentSearch = "";
 
@@ -650,6 +651,80 @@ function renderAssets(
       </div>
 
     `;
+
+  
+    // EDIT BUTTON
+    if (
+      currentUserId &&
+      String(asset.user_id) === String(currentUserId)
+    ) {
+      const editButton = document.createElement("button");
+
+      editButton.type = "button";
+      editButton.className = "asset-edit-btn";
+      editButton.textContent = "✎ ویرایش";
+
+      editButton.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const newTitle = prompt("اسم جدید فایل:", asset.title || "");
+        if (newTitle === null) return;
+
+        if (!newTitle.trim()) {
+          showToast("اسم فایل نمی‌تونه خالی باشه.");
+          return;
+        }
+
+        const newDescription = prompt(
+          "توضیحات جدید فایل:",
+          asset.description || ""
+        );
+        if (newDescription === null) return;
+
+        const { data: { user }, error: authError } =
+          await supabase.auth.getUser();
+
+        if (authError || !user || user.id !== asset.user_id) {
+          showToast("برای ویرایش این فایل باید وارد حساب صاحبش باشی.");
+          return;
+        }
+
+        editButton.disabled = true;
+        editButton.textContent = "در حال ذخیره...";
+
+        try {
+          const { data, error } = await supabase
+            .from("assets")
+            .update({
+              title: newTitle.trim(),
+              description: newDescription.trim()
+            })
+            .eq("id", asset.id)
+            .eq("user_id", user.id)
+            .select("id");
+
+          if (error) throw error;
+
+          if (!data || data.length === 0) {
+            showToast("ذخیره نشد؛ دسترسی ویرایش رو بررسی کن.");
+            return;
+          }
+
+          showToast("تغییرات با موفقیت ذخیره شد ✓");
+          await loadAssets(true);
+
+        } catch (error) {
+          console.error("Asset edit error:", error);
+          showToast("خطا در ذخیره تغییرات.");
+        } finally {
+          editButton.disabled = false;
+          editButton.textContent = "✎ ویرایش";
+        }
+      });
+
+      card.querySelector(".asset-info").appendChild(editButton);
+    }
 
 
     // =========================
@@ -1948,6 +2023,7 @@ if (forgotPassword) {
 // AUTH UI
 // =========================
 
+
 async function updateAuthUI() {
 
   try {
@@ -1956,8 +2032,15 @@ async function updateAuthUI() {
       data: {
         user
       }
-    } =
-      await supabase.auth.getUser();
+    } = await supabase.auth.getUser();
+
+    const previousUserId = currentUserId;
+    currentUserId = user?.id || null;
+
+    if (previousUserId !== currentUserId) {
+      loadAssets(true);
+    }
+
 
 
     const loginButton =
