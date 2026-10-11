@@ -3853,7 +3853,148 @@ label {
     gap: 10px;
   }
 
+   
   .trending-section .section-heading > p {
     flex-basis: auto;
+  }
+}
+
+
+
+/* =================================
+   LOYALFORGE — EXPLORE CONTROLS
+================================= */
+
+.explore-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.explore-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.explore-sort-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.explore-control-label {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.explore-sort-row .sort-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.explore-sort-row .sort-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 13px;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.explore-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  width: 100%;
+  margin: 0;
+}
+
+.explore-tools .filter-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1 1 400px;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.explore-tools .filter-btn {
+  white-space: nowrap;
+  min-height: 36px;
+}
+
+.explore-tools .library-search {
+  flex: 0 1 280px;
+  width: 280px;
+  min-width: 200px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.explore-tools .library-search input {
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .explore-sort-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .explore-sort-row .sort-tabs {
+    width: 100%;
+  }
+
+  .explore-tools {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .explore-tools .filter-list {
+    flex: none;
+    width: 100%;
+  }
+
+  .explore-tools .library-search {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .explore-sort-row .sort-tabs,
+  .explore-tools .filter-list {
+    gap: 6px;
+  }
+
+  .explore-sort-row .sort-btn,
+  .explore-tools .filter-btn {
+    min-height: 34px;
+    padding: 7px 10px;
+    font-size: 11px;
   }
 }
