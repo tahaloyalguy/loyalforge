@@ -4692,113 +4692,245 @@
 
 
 /* =====================================================
-   FAVORITES — GOLDEN STAR
+   FAVORITE STATE
 ====================================================== */
 
-.favorite-btn {
-  display: grid;
-  place-items: center;
-  position: relative;
-  min-height: 48px;
-  width: 48px;
-  padding: 0;
+async function loadFavoriteState() {
+  const favoriteButton = document.getElementById("favoriteButton");
+  const asset = window.currentAsset;
 
-  border: 1px solid rgba(255, 210, 80, .20);
-  border-radius: 14px;
+  if (!favoriteButton || !asset) return;
 
-  background: linear-gradient(
-    145deg,
-    rgba(255, 215, 90, .055),
-    rgba(255, 170, 30, .025)
-  );
+  try {
+    const {
+      data: { user },
+      error: authError
+    } = await supabase.auth.getUser();
 
-  color: #c3cad5;
-  font-size: 27px;
-  line-height: 1;
+    if (authError) throw authError;
 
-  cursor: pointer;
+    if (!user) {
+      favoriteButton.classList.remove("is-saved");
+      favoriteButton.textContent = "☆";
+      return;
+    }
 
-  transition:
-    transform .25s cubic-bezier(.2, .8, .2, 1),
-    background .25s ease,
-    border-color .25s ease,
-    color .25s ease,
-    box-shadow .25s ease,
-    opacity .2s ease;
+    const { data, error } = await supabase
+      .from("asset_favorites")
+      .select("id")
+      .eq("asset_id", asset.id)
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    favoriteButton.classList.toggle("is-saved", Boolean(data));
+    favoriteButton.textContent = data ? "★" : "☆";
+    favoriteButton.title = data ? "Remove from favorites" : "Save to favorites";
+    favoriteButton.setAttribute(
+      "aria-label",
+      favoriteButton.title
+    );
+
+  } catch (error) {
+    console.error("Favorite state error:", error);
+  }
 }
 
-/* Hover */
-.favorite-btn:hover:not(:disabled) {
-  color: #ffd65a;
-  border-color: rgba(255, 214, 90, .65);
 
-  background: rgba(255, 210, 70, .10);
+/* =====================================================
+   TOGGLE FAVORITE
+====================================================== */
 
-  box-shadow:
-    0 0 12px rgba(255, 200, 55, .10),
-    inset 0 0 12px rgba(255, 210, 70, .035);
+async function handleFavorite(asset, favoriteButton) {
+  if (!asset || !favoriteButton) return;
 
-  transform: translateY(-2px) scale(1.04);
+  const wasSaved = favoriteButton.classList.contains("is-saved");
+  favoriteButton.disabled = true;
+
+  try {
+    const {
+      data: { user },
+      error: authError
+    } = await supabase.auth.getUser();
+
+    if (authError) throw authError;
+
+    if (!user) {
+      alert("Please log in to save favorites.");
+      return;
+    }
+
+    if (wasSaved) {
+      const { error } = await supabase
+        .from("asset_favorites")
+        .delete()
+        .eq("asset_id", asset.id)
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+
+      favoriteButton.classList.remove("is-saved");
+      favoriteButton.textContent = "☆";
+      favoriteButton.title = "Save to favorites";
+      favoriteButton.setAttribute("aria-label", "Save to favorites");
+
+    } else {
+      const { error } = await supabase
+        .from("asset_favorites")
+        .insert({
+          asset_id: asset.id,
+          user_id: user.id
+        });
+
+      if (error) throw error;
+
+      favoriteButton.classList.add("is-saved");
+      favoriteButton.textContent = "★";
+      favoriteButton.title = "Remove from favorites";
+      favoriteButton.setAttribute("aria-label", "Remove from favorites");
+    }
+
+  } catch (error) {
+    console.error("Favorite action error:", error);
+    alert(`Could not update favorites.\n\n${error.message || "Unknown error"}`);
+  } finally {
+    favoriteButton.disabled = false;
+  }
 }
 
-/* Saved / Active */
-.favorite-btn.is-saved {
-  color: #ffd54a;
-  border-color: rgba(255, 213, 74, .75);
 
-  background: linear-gradient(
-    145deg,
-    rgba(255, 213, 74, .18),
-    rgba(255, 165, 30, .09)
-  );
+/* =====================================================
+   DOWNLOAD ASSET
+====================================================== */
 
-  text-shadow:
-    0 0 8px rgba(255, 210, 50, .65),
-    0 0 18px rgba(255, 180, 30, .28);
+async function handleDownload(asset, downloadButton) {
+  if (!asset || !downloadButton) return;
 
-  box-shadow:
-    0 0 14px rgba(255, 200, 50, .16),
-    inset 0 0 12px rgba(255, 210, 70, .055);
+  if (!asset.file_url) {
+    alert("The download link is not available for this asset.");
+    return;
+  }
+
+  const originalText = downloadButton.textContent;
+  downloadButton.disabled = true;
+  downloadButton.textContent = "Preparing Download...";
+
+  try {
+    const link = document.createElement("a");
+    link.href = asset.file_url;
+    link.download = asset.file_name || "";
+    link.target = "_blank";
+    link.rel = "noopener";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    const nextDownloads = Number(asset.downloads || 0) + 1;
+
+    const { error } = await supabase
+      .from("assets")
+      .update({ downloads: nextDownloads })
+      .eq("id", asset.id);
+
+    if (error) {
+      console.warn("Could not update download count:", error);
+    } else {
+      asset.downloads = nextDownloads;
+
+      const downloadsElement = document.getElementById("assetDownloads");
+      if (downloadsElement) {
+        downloadsElement.textContent = nextDownloads;
+      }
+    }
+
+  } catch (error) {
+    console.error("Download error:", error);
+    alert("Could not start the download. Please try again.");
+  } finally {
+    downloadButton.disabled = false;
+    downloadButton.textContent = originalText;
+  }
 }
 
-/* Hover while saved */
-.favorite-btn.is-saved:hover:not(:disabled) {
-  color: #ffe891;
-  border-color: #ffe27a;
 
-  background: linear-gradient(
-    145deg,
-    rgba(255, 220, 100, .24),
-    rgba(255, 170, 30, .13)
-  );
+/* =====================================================
+   TOGGLE LIKE
+====================================================== */
 
-  box-shadow:
-    0 0 20px rgba(255, 200, 50, .24),
-    inset 0 0 14px rgba(255, 220, 100, .07);
+async function handleLike(asset, likeButton) {
+  if (!asset || !likeButton) return;
+
+  const wasLiked = likeButton.classList.contains("liked");
+  likeButton.disabled = true;
+
+  try {
+    const {
+      data: { user },
+      error: authError
+    } = await supabase.auth.getUser();
+
+    if (authError) throw authError;
+
+    if (!user) {
+      alert("Please log in to like assets.");
+      return;
+    }
+
+    if (wasLiked) {
+      const { error } = await supabase
+        .from("asset_likes")
+        .delete()
+        .eq("asset_id", asset.id)
+        .eq("user_id", user.id);
+
+      if (error) throw error;
+
+    } else {
+      const { error } = await supabase
+        .from("asset_likes")
+        .insert({
+          asset_id: asset.id,
+          user_id: user.id
+        });
+
+      if (error) throw error;
+    }
+
+    const { count, error: countError } = await supabase
+      .from("asset_likes")
+      .select("id", { count: "exact", head: true })
+      .eq("asset_id", asset.id);
+
+    if (countError) throw countError;
+
+    const newLikes = count ?? Number(asset.likes || 0);
+    const { error: updateError } = await supabase
+      .from("assets")
+      .update({ likes: newLikes })
+      .eq("id", asset.id);
+
+    if (updateError) {
+      console.warn("Could not update asset like count:", updateError);
+    }
+
+    asset.likes = newLikes;
+
+    likeButton.classList.toggle("liked", !wasLiked);
+    likeButton.textContent = wasLiked ? "♡" : "♥";
+
+    const likesElement = document.getElementById("assetLikes");
+    if (likesElement) {
+      likesElement.textContent = newLikes;
+    }
+
+  } catch (error) {
+    console.error("Like action error:", error);
+    alert(`Could not update the like.\n\n${error.message || "Unknown error"}`);
+  } finally {
+    likeButton.disabled = false;
+  }
 }
-
-/* Click animation */
-.favorite-btn:active:not(:disabled) {
-  transform: scale(.88);
-}
-
-.favorite-btn.is-saved:active:not(:disabled) {
-  transform: scale(.88) rotate(-8deg);
-}
-
-/* Loading / disabled */
-.favorite-btn:disabled {
-  opacity: .6;
-  cursor: wait;
-  transform: none;
-}
-
-/* Keyboard accessibility */
-.favorite-btn:focus-visible {
-  outline: 2px solid #ffd54a;
-  outline-offset: 3px;
-}
-
     /* =====================================================
        DELETE ASSET
     ====================================================== */
