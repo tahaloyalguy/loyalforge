@@ -1848,6 +1848,136 @@ a {
 
 }
 
+
+/* =========================
+   FOLLOW BUTTON — PREMIUM
+========================= */
+
+#followBtn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 20px;
+
+  border: 1px solid transparent;
+  border-radius: 14px;
+
+  font-family: "Inter", "Vazirmatn", sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .7px;
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    background .22s ease,
+    border-color .22s ease;
+}
+
+/* افکت عبور نور */
+#followBtn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -50%;
+  left: -100%;
+
+  width: 45%;
+  height: 200%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.45),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+  transition: left .55s ease;
+  pointer-events: none;
+}
+
+#followBtn:hover::before {
+  left: 150%;
+}
+
+/* حالت Follow */
+#followBtn.btn-primary {
+  color: #101014;
+
+  background: linear-gradient(
+    115deg,
+    #ff8a3d,
+    #ffc078,
+    #ff9a50
+  );
+
+  border-color: rgba(255, 205, 155, .5);
+
+  box-shadow:
+    0 5px 18px rgba(255, 138, 61, .18),
+    inset 0 1px 0 rgba(255,255,255,.45);
+}
+
+#followBtn.btn-primary:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 9px 28px rgba(255, 138, 61, .32),
+    0 0 0 4px rgba(255, 138, 61, .07);
+}
+
+/* حالت Following */
+#followBtn.btn-secondary {
+  color: #ffc18e;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,138,61,.12),
+    rgba(255,255,255,.025)
+  );
+
+  border-color: rgba(255,138,61,.3);
+}
+
+#followBtn.btn-secondary:hover {
+  color: #fff;
+  border-color: rgba(255,138,61,.65);
+
+  background: rgba(255,138,61,.15);
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 7px 22px rgba(255,138,61,.12);
+}
+
+/* افکت کلیک */
+#followBtn:active {
+  transform: scale(.96);
+}
+
+/* حالت در حال انجام عملیات */
+#followBtn:disabled {
+  cursor: wait;
+  opacity: .7;
+  transform: none;
+}
+
+#followBtn:focus-visible {
+  outline: 2px solid #ffc18e;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #followBtn,
+  #followBtn::before {
+    transition: none;
+  }
+}
+
   </style>
 
 </head>
