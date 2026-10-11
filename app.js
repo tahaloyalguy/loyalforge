@@ -2283,3 +2283,23 @@ console.log(
   "%cLoyalForge",
   "color:#ff6a00;font-size:20px;font-weight:bold"
 );
+
+
+const viewTrendingBtn = document.getElementById("viewTrendingBtn");
+
+if (viewTrendingBtn) {
+  viewTrendingBtn.addEventListener("click", () => {
+    const popularButton = document.querySelector(
+      '.sort-btn[data-sort="popular"]'
+    );
+
+    if (popularButton) {
+      popularButton.click();
+    }
+
+    document.getElementById("explore")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+}
