@@ -2916,384 +2916,287 @@ a {
     }
 
 
+
     // =========================
     // LOAD USER ASSETS
     // =========================
 
     async function loadUserAssets() {
-
-      const {
-        data,
-        error
-      } =
-        await supabase
-          .from("assets")
-          .select(`
-            id,
-            title,
-            slug,
-            category,
-            preview_url,
-            downloads,
-            likes,
-            created_at
-          `)
-          .eq(
-            "user_id",
-            currentUser.id
-          )
-          .eq(
-            "status",
-            "published"
-          )
-          .order(
-            "created_at",
-            {
-              ascending: false
-            }
-          );
-
-
-async function loadUserFavorites() {
-  if (!favoritesGrid || !favoritesEmpty || !currentUser) return;
-
-  favoritesGrid.innerHTML = "";
-  favoritesEmpty.style.display = "none";
-
-  const { data: favorites, error: favoritesError } = await supabase
-    .from("asset_favorites")
-    .select("asset_id")
-    .eq("user_id", currentUser.id);
-
-  if (favoritesError) {
-    console.error("Failed to load favorites:", favoritesError);
-    favoritesEmpty.style.display = "block";
-    favoritesEmpty.querySelector("strong").textContent =
-      "بارگذاری علاقه‌مندی‌ها ناموفق بود.";
-    favoritesEmpty.querySelector("span").textContent =
-      "دسترسی جدول علاقه‌مندی‌ها رو در تنظیمات Supabase بررسی کن.";
-    return;
-  }
-
-  const ids = [...new Set((favorites || []).map(item => item.asset_id))];
-
-  if (ids.length === 0) {
-    favoritesEmpty.style.display = "block";
-    return;
-  }
-
-  const { data: assets, error: assetsError } = await supabase
-    .from("assets")
-    .select("*")
-    .in("id", ids)
-    .eq("status", "published");
-
-  if (assetsError) {
-    console.error("Failed to load favorite assets:", assetsError);
-    favoritesEmpty.style.display = "block";
-    favoritesEmpty.querySelector("strong").textContent =
-      "بارگذاری Assetها ناموفق بود.";
-    return;
-  }
-
-  if (!assets || assets.length === 0) {
-    favoritesEmpty.style.display = "block";
-    favoritesEmpty.querySelector("strong").textContent =
-      "هنوز Asset ذخیره‌شده‌ای نداری.";
-    return;
-  }
-
-  favoritesGrid.innerHTML = assets.map(asset => {
-    const title = escapeHtml(asset.title || "بدون عنوان");
-    const category = escapeHtml(asset.category || "Asset");
-    const preview = asset.preview_url
-      ? escapeHtml(asset.preview_url)
-      : "";
-
-    const target = asset.slug
-      ? `asset.html?slug=${encodeURIComponent(asset.slug)}`
-      : `asset.html?id=${encodeURIComponent(asset.id)}`;
-
-    return `
-      <a class="asset-card" href="${target}">
-        <div class="asset-preview">
-          ${
-            preview
-              ? `<img src="${preview}" alt="${title}" loading="lazy">`
-              : `<div class="asset-no-preview">🧩</div>`
-          }
-        </div>
-        <div class="asset-content">
-          <h3>${title}</h3>
-          <span>${category}</span>
-        </div>
-      </a>
-    `;
-  }).join("");
-
-  favoritesEmpty.style.display = "none";
-}
+      const { data, error } = await supabase
+        .from("assets")
+        .select(`
+          id,
+          title,
+          slug,
+          category,
+          preview_url,
+          downloads,
+          likes,
+          created_at
+        `)
+        .eq("user_id", currentUser.id)
+        .eq("status", "published")
+        .order("created_at", { ascending: false });
 
       if (error) {
-
-        console.error(
-          "Assets load error:",
-          error
-        );
+        console.error("Assets load error:", error);
 
         assetsGrid.innerHTML = "";
 
-
         emptyState.innerHTML = `
-          <strong>
-            محتوای شما بارگذاری نشد.
-          </strong>
-
-          <span>
-            اتصال به سرور یا اطلاعات محتوا را بررسی کن.
-          </span>
+          <strong>محتوای شما بارگذاری نشد.</strong>
+          <span>اتصال به سرور یا اطلاعات محتوا را بررسی کن.</span>
         `;
 
-
-        emptyState.style.display =
-          "flex";
-
-
+        emptyState.style.display = "flex";
         return;
-
       }
 
+      const assets = data || [];
 
-      const assets =
-        data || [];
+      const totalDownloads = assets.reduce(
+        (total, asset) => total + Number(asset.downloads || 0),
+        0
+      );
 
+      const totalLikes = assets.reduce(
+        (total, asset) => total + Number(asset.likes || 0),
+        0
+      );
 
-      // =========================
-      // STATS
-      // =========================
+      assetCount.textContent = formatNumber(assets.length);
+      downloadCount.textContent = formatNumber(totalDownloads);
+      likeCount.textContent = formatNumber(totalLikes);
 
-      const totalDownloads =
-        assets.reduce(
-          (
-            total,
-            asset
-          ) =>
-            total +
-            Number(
-              asset.downloads || 0
-            ),
-          0
-        );
-
-
-      const totalLikes =
-        assets.reduce(
-          (
-            total,
-            asset
-          ) =>
-            total +
-            Number(
-              asset.likes || 0
-            ),
-          0
-        );
-
-
-      assetCount.textContent =
-        formatNumber(
-          assets.length
-        );
-
-
-      downloadCount.textContent =
-        formatNumber(
-          totalDownloads
-        );
-
-
-      likeCount.textContent =
-        formatNumber(
-          totalLikes
-        );
-
-
-      // =========================
-      // EMPTY
-      // =========================
-
-      if (!assets.length) {
-
+      if (assets.length === 0) {
         assetsGrid.innerHTML = "";
 
         emptyState.innerHTML = `
-          <strong>
-            هنوز محتوایی منتشر نکردی.
-          </strong>
-
-          <span>
-            اولین Asset خودت رو منتشر کن و پروفایلت رو کامل‌تر کن.
-          </span>
-
-          <a
-            href="upload.html"
-            class="btn btn-primary"
-          >
+          <strong>هنوز محتوایی منتشر نکردی.</strong>
+          <span>اولین Asset خودت رو منتشر کن و پروفایلت رو کامل‌تر کن.</span>
+          <a href="upload.html" class="btn btn-primary">
             ⬆️ انتشار Asset
           </a>
         `;
 
-
-        emptyState.style.display =
-          "flex";
-
-
+        emptyState.style.display = "flex";
         return;
-
       }
 
+      emptyState.style.display = "none";
 
-      emptyState.style.display =
-        "none";
+      assetsGrid.innerHTML = assets.map(asset => {
+        const preview = asset.preview_url
+          ? `
+            <img
+              src="${escapeHTML(asset.preview_url)}"
+              alt="${escapeHTML(asset.title || "Asset")}"
+              loading="lazy"
+            >
+          `
+          : `<div class="asset-placeholder">NO PREVIEW</div>`;
 
+        const formattedDate = formatAssetDate(asset.created_at);
 
-      // =========================
-      // RENDER
-      // =========================
+        return `
+          <article
+            class="asset-card"
+            data-id="${escapeHTML(asset.id)}"
+            data-slug="${escapeHTML(asset.slug || "")}"
+          >
+            <div class="asset-preview">
+              ${preview}
+            </div>
 
-      assetsGrid.innerHTML =
-        assets
-          .map(asset => {
+            <div class="asset-content">
+              <div class="asset-category">
+                ${escapeHTML(asset.category || "Other")}
+              </div>
 
-            const preview =
-              asset.preview_url
-                ? `
-                  <img
-                    src="${escapeHTML(asset.preview_url)}"
-                    alt="${escapeHTML(asset.title)}"
-                    loading="lazy"
-                  >
-                `
-                : `
-                  <div class="asset-placeholder">
-                    NO PREVIEW
-                  </div>
-                `;
+              <div class="asset-title">
+                ${escapeHTML(asset.title || "بدون عنوان")}
+              </div>
 
+              <div class="asset-meta">
+                <span>♥ ${formatNumber(asset.likes)}</span>
+                <span>↓ ${formatNumber(asset.downloads)}</span>
+              </div>
 
-            const formattedDate =
-              formatAssetDate(
-                asset.created_at
-              );
-
-
-            return `
-
-              <article
-                class="asset-card"
-                data-id="${escapeHTML(asset.id)}"
-                data-slug="${escapeHTML(asset.slug || "")}"
-              >
-
-                <div class="asset-preview">
-                  ${preview}
-                </div>
-
-                <div class="asset-content">
-
-                  <div class="asset-category">
-                    ${escapeHTML(
-                      asset.category || "Other"
-                    )}
-                  </div>
-
-                  <div class="asset-title">
-                    ${escapeHTML(
-                      asset.title
-                    )}
-                  </div>
-
-                  <div class="asset-meta">
-
-                    <span>
-                      ♥ ${formatNumber(
-                        asset.likes
-                      )}
-                    </span>
-
-                    <span>
-                      ↓ ${formatNumber(
-                        asset.downloads
-                      )}
-                    </span>
-
-                  </div>
-
-                  ${
-                    formattedDate
-                      ? `
-                        <div class="asset-date">
-                          📅 ${escapeHTML(
-                            formattedDate
-                          )}
-                        </div>
-                      `
-                      : ""
-                  }
-
-                </div>
-
-              </article>
-
-            `;
-
-          })
-          .join("");
-
-
-      // =========================
-      // ASSET CLICK
-      // =========================
-
-      assetsGrid
-        .querySelectorAll(
-          ".asset-card"
-        )
-        .forEach(card => {
-
-          card.addEventListener(
-            "click",
-            () => {
-
-              const slug =
-                card.dataset.slug;
-
-
-              const id =
-                card.dataset.id;
-
-
-              if (slug) {
-
-                window.location.href =
-                  `asset.html?slug=${encodeURIComponent(slug)}`;
-
+              ${
+                formattedDate
+                  ? `
+                    <div class="asset-date">
+                      📅 ${escapeHTML(formattedDate)}
+                    </div>
+                  `
+                  : ""
               }
+            </div>
+          </article>
+        `;
+      }).join("");
 
-              else {
+      assetsGrid.querySelectorAll(".asset-card").forEach(card => {
+        card.addEventListener("click", () => {
+          const slug = card.dataset.slug;
+          const id = card.dataset.id;
 
-                window.location.href =
-                  `asset.html?id=${encodeURIComponent(id)}`;
-
-              }
-
-            }
-          );
-
+          window.location.href = slug
+            ? `asset.html?slug=${encodeURIComponent(slug)}`
+            : `asset.html?id=${encodeURIComponent(id)}`;
         });
-
+      });
     }
 
+
+    // =========================
+    // LOAD USER FAVORITES
+    // =========================
+
+    async function loadUserFavorites() {
+      favoritesGrid.innerHTML = "";
+      favoritesEmpty.style.display = "none";
+
+      const { data: favorites, error: favoritesError } = await supabase
+        .from("asset_favorites")
+        .select("asset_id")
+        .eq("user_id", currentUser.id);
+
+      if (favoritesError) {
+        console.error("Favorites load error:", favoritesError);
+
+        favoritesEmpty.innerHTML = `
+          <strong>علاقه‌مندی‌ها بارگذاری نشد.</strong>
+          <span>دسترسی جدول asset_favorites در Supabase رو بررسی کن.</span>
+        `;
+
+        favoritesEmpty.style.display = "flex";
+        return;
+      }
+
+      const ids = [
+        ...new Set((favorites || []).map(item => item.asset_id))
+      ];
+
+      if (ids.length === 0) {
+        favoritesEmpty.innerHTML = `
+          <strong>هنوز چیزی ذخیره نکردی.</strong>
+          <span>
+            Assetهای موردعلاقه‌ات رو با زدن ستاره ذخیره کن تا اینجا نمایش داده بشن.
+          </span>
+          <a href="index.html" class="btn btn-primary">
+            🔎 کشف Assetها
+          </a>
+        `;
+
+        favoritesEmpty.style.display = "flex";
+        return;
+      }
+
+      const { data: assets, error: assetsError } = await supabase
+        .from("assets")
+        .select(`
+          id,
+          title,
+          slug,
+          category,
+          preview_url,
+          downloads,
+          likes,
+          created_at
+        `)
+        .in("id", ids)
+        .eq("status", "published");
+
+      if (assetsError) {
+        console.error("Favorite assets load error:", assetsError);
+
+        favoritesEmpty.innerHTML = `
+          <strong>Assetهای ذخیره‌شده بارگذاری نشدند.</strong>
+          <span>دسترسی خواندن اطلاعات Assetها در Supabase رو بررسی کن.</span>
+        `;
+
+        favoritesEmpty.style.display = "flex";
+        return;
+      }
+
+      if (!assets || assets.length === 0) {
+        favoritesEmpty.innerHTML = `
+          <strong>Asset ذخیره‌شده‌ای برای نمایش وجود نداره.</strong>
+          <span>ممکنه Assetهای ذخیره‌شده حذف شده باشن یا منتشر نباشن.</span>
+          <a href="index.html" class="btn btn-primary">
+            🔎 کشف Assetها
+          </a>
+        `;
+
+        favoritesEmpty.style.display = "flex";
+        return;
+      }
+
+      favoritesGrid.innerHTML = assets.map(asset => {
+        const preview = asset.preview_url
+          ? `
+            <img
+              src="${escapeHTML(asset.preview_url)}"
+              alt="${escapeHTML(asset.title || "Asset")}"
+              loading="lazy"
+            >
+          `
+          : `<div class="asset-placeholder">NO PREVIEW</div>`;
+
+        const formattedDate = formatAssetDate(asset.created_at);
+
+        return `
+          <article
+            class="asset-card"
+            data-id="${escapeHTML(asset.id)}"
+            data-slug="${escapeHTML(asset.slug || "")}"
+          >
+            <div class="asset-preview">
+              ${preview}
+            </div>
+
+            <div class="asset-content">
+              <div class="asset-category">
+                ${escapeHTML(asset.category || "Other")}
+              </div>
+
+              <div class="asset-title">
+                ${escapeHTML(asset.title || "بدون عنوان")}
+              </div>
+
+              <div class="asset-meta">
+                <span>♥ ${formatNumber(asset.likes)}</span>
+                <span>↓ ${formatNumber(asset.downloads)}</span>
+              </div>
+
+              ${
+                formattedDate
+                  ? `
+                    <div class="asset-date">
+                      📅 ${escapeHTML(formattedDate)}
+                    </div>
+                  `
+                  : ""
+              }
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      favoritesGrid.querySelectorAll(".asset-card").forEach(card => {
+        card.addEventListener("click", () => {
+          const slug = card.dataset.slug;
+          const id = card.dataset.id;
+
+          window.location.href = slug
+            ? `asset.html?slug=${encodeURIComponent(slug)}`
+            : `asset.html?id=${encodeURIComponent(id)}`;
+        });
+      });
+
+      favoritesEmpty.style.display = "none";
+    }
 
     // =========================
     // OPEN EDIT
