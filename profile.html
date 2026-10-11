@@ -709,19 +709,14 @@ a {
 
 .stats {
   position: relative;
-
   z-index: 2;
 
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 
   gap: 13px;
-
   margin-top: 28px;
 }
-
 
 .stat {
   position: relative;
@@ -1672,13 +1667,12 @@ a {
 
 @media (max-width: 900px) {
 
-  .profile-main {
-    align-items:
-      flex-start;
-
-    flex-wrap:
-      wrap;
-  }
+.profile-main {
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
+}
 
 
   .profile-actions {
@@ -2788,12 +2782,15 @@ await loadUserAssets();
 
 if (isOwnProfile) {
   await loadUserFavorites();
-} else {
-  await loadFollowStats();
+}
+
+await loadFollowStats();
+
+if (!isOwnProfile) {
   await refreshFollowState();
 }
 
-      catch (error) {
+} catch (error) {
 
         console.error(
           "Profile initialization error:",
@@ -2833,132 +2830,66 @@ if (isOwnProfile) {
     // LOAD PROFILE DATA
     // =========================
 
-    async function loadProfileData() {
+   
+async function loadProfileData() {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id, username, display_name, avatar_url, bio")
+    .eq("id", profileUserId)
+    .maybeSingle();
 
-      const {
-        data,
-        error
-      } =
-        await supabase
-          .from("profiles")
-          .select(`
-            id,
-            username,
-            display_name,
-            avatar_url,
-            bio
-          `)
-          .eq(
-            "id",
-            profileUserId
-          )
-          .maybeSingle();
+  if (error) {
+    console.error("Profile load error:", error);
+    throw error;
+  }
 
+  currentProfile = data || {};
 
-      if (error) {
+  // فقط برای پروفایل خودت از اطلاعات حساب فعلی استفاده کن.
+  const username = currentProfile.username ||
+    (isOwnProfile
+      ? currentUser.user_metadata?.username ||
+        currentUser.email?.split("@")[0]
+      : null) ||
+    "user";
 
-        console.error(
-          "Profile load error:",
-          error
-        );
+  const displayName = currentProfile.display_name ||
+    (isOwnProfile
+      ? currentUser.user_metadata?.display_name
+      : null) ||
+    username;
 
-      }
+  const bio = currentProfile.bio || "";
+  const avatarUrl = getCacheBustedUrl(currentProfile.avatar_url);
 
+  profileName.textContent = displayName;
+  profileUsername.textContent = "@" + username;
+  profileEmail.textContent = isOwnProfile
+    ? currentUser.email || ""
+    : "";
 
-      currentProfile =
-        data || {};
+  profileBio.textContent = bio || "هنوز بیویی نوشته نشده.";
 
+  // تاریخ عضویت حساب فعلی را برای پروفایل دیگران نمایش نده.
+  if (profileJoined) {
+    const joined = isOwnProfile
+      ? formatJoinDate(currentUser.created_at)
+      : "";
 
-      const username =
-        currentProfile.username ||
-        currentUser.user_metadata?.username ||
-        currentUser.email
-          ?.split("@")[0] ||
-        "user";
+    profileJoined.textContent = joined
+      ? `عضو LoyalForge از ${joined}`
+      : "";
+  }
 
+  setAvatar(profileAvatar, avatarUrl, displayName);
 
-      const displayName =
-        currentProfile.display_name ||
-        currentUser.user_metadata?.display_name ||
-        username;
+  // پر کردن فرم ویرایش
+  displayNameInput.value = displayName;
+  usernameInput.value = username;
+  bioInput.value = bio;
 
-
-      const bio =
-        currentProfile.bio ||
-        "";
-
-
-      profileName.textContent =
-        displayName;
-
-
-      profileUsername.textContent =
-        "@" + username;
-
-
-      profileEmail.textContent =
-        isOwnProfile ? (currentUser.email || "") : ""
-
-
-      profileBio.textContent =
-        bio ||
-        "هنوز بیویی نوشته نشده.";
-
-
-      if (profileJoined) {
-
-        const joined =
-          formatJoinDate(
-            currentUser.created_at
-          );
-
-
-        profileJoined.textContent =
-          joined
-            ? `عضو LoyalForge از ${joined}`
-            : "";
-
-      }
-
-
-      const avatarUrl =
-        getCacheBustedUrl(
-          currentProfile.avatar_url
-        );
-
-
-      setAvatar(
-        profileAvatar,
-        avatarUrl,
-        displayName
-      );
-
-
-      // =========================
-      // FILL EDIT FORM
-      // =========================
-
-      displayNameInput.value =
-        displayName;
-
-
-      usernameInput.value =
-        username;
-
-
-      bioInput.value =
-        bio;
-
-
-      setAvatar(
-        editAvatar,
-        avatarUrl,
-        displayName
-      );
-
-    }
-
-
+  setAvatar(editAvatar, avatarUrl, displayName);
+}
 
     // =========================
     // LOAD USER ASSETS
