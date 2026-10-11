@@ -1991,10 +1991,11 @@ a {
 
 
           <div class="profile-actions">
-
+            
             <a
               class="btn btn-primary"
               href="upload.html"
+              id="uploadContentBtn"
             >
               ⬆️ آپلود محتوا
             </a>
@@ -2015,6 +2016,15 @@ a {
               type="button"
             >
               خروج از حساب
+            </button>
+
+            <button
+              class="btn btn-primary"
+              id="followBtn"
+              type="button"
+              style="display:none"
+            >
+              + Follow
             </button>
 
           </div>
@@ -2074,7 +2084,15 @@ a {
             </span>
 
           </div>
+          <div class="stat">
+            <span class="stat-value" id="followersCount">0</span>
+            <span class="stat-label">دنبال‌کننده‌ها</span>
+          </div>
 
+          <div class="stat">
+            <span class="stat-value" id="followingCount">0</span>
+            <span class="stat-label">دنبال‌شوندگان</span>
+          </div>
         </div>
 
       </section>
@@ -2415,6 +2433,16 @@ a {
 
     const emptyState =
       document.getElementById("emptyState");
+    const followBtn = document.getElementById("followBtn");
+    const followersCount = document.getElementById("followersCount");
+    const followingCount = document.getElementById("followingCount");
+    const uploadContentBtn = document.getElementById("uploadContentBtn");
+    const favoritesSection = favoritesGrid.closest(".section");
+
+    let profileUserId = null;
+    let isOwnProfile = true;
+    let isFollowingProfile = false;
+    let followActionBusy = false;
 
 
     // =========================
@@ -2738,17 +2766,32 @@ a {
         }
 
 
-        currentUser =
-          data.user;
+currentUser = data.user;
 
+const params = new URLSearchParams(window.location.search);
+const requestedId = params.get("id");
 
-        await loadProfileData();
+profileUserId = requestedId || currentUser.id;
+isOwnProfile = profileUserId === currentUser.id;
 
-        await loadUserAssets();
+if (!isOwnProfile) {
+  editProfileBtn.style.display = "none";
+  logoutBtn.style.display = "none";
+  uploadContentBtn.style.display = "none";
+  profileEmail.style.display = "none";
+  followBtn.style.display = "block";
+  favoritesSection.style.display = "none";
+}
 
-        await loadUserFavorites();
+await loadProfileData();
+await loadUserAssets();
 
-      }
+if (isOwnProfile) {
+  await loadUserFavorites();
+} else {
+  await loadFollowStats();
+  await refreshFollowState();
+}
 
       catch (error) {
 
@@ -2807,7 +2850,7 @@ a {
           `)
           .eq(
             "id",
-            currentUser.id
+            profileUserId
           )
           .maybeSingle();
 
@@ -2854,7 +2897,7 @@ a {
 
 
       profileEmail.textContent =
-        currentUser.email || "";
+        isOwnProfile ? (currentUser.email || "") : ""
 
 
       profileBio.textContent =
@@ -2934,7 +2977,7 @@ a {
           likes,
           created_at
         `)
-        .eq("user_id", currentUser.id)
+        .eq("user_id", profileUserId)
         .eq("status", "published")
         .order("created_at", { ascending: false });
 
@@ -3197,6 +3240,96 @@ a {
 
       favoritesEmpty.style.display = "none";
     }
+
+    
+async function loadFollowStats() {
+  const [followersResult, followingResult] = await Promise.all([
+    supabase
+      .from("user_follows")
+      .select("id", { count: "exact", head: true })
+      .eq("followed_id", profileUserId),
+
+    supabase
+      .from("user_follows")
+      .select("id", { count: "exact", head: true })
+      .eq("follower_id", profileUserId)
+  ]);
+
+  if (followersResult.error) {
+    console.error("Followers count error:", followersResult.error);
+  }
+
+  if (followingResult.error) {
+    console.error("Following count error:", followingResult.error);
+  }
+
+  followersCount.textContent = formatNumber(followersResult.count || 0);
+  followingCount.textContent = formatNumber(followingResult.count || 0);
+}
+
+async function refreshFollowState() {
+  if (isOwnProfile || !currentUser || !profileUserId) return;
+
+  const { data, error } = await supabase
+    .from("user_follows")
+    .select("id")
+    .eq("follower_id", currentUser.id)
+    .eq("followed_id", profileUserId)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Follow status error:", error);
+    followBtn.textContent = "تلاش دوباره";
+    return;
+  }
+
+  isFollowingProfile = Boolean(data);
+
+  followBtn.textContent = isFollowingProfile
+    ? "✓ Following"
+    : "+ Follow";
+
+  followBtn.classList.toggle("btn-primary", !isFollowingProfile);
+  followBtn.classList.toggle("btn-secondary", isFollowingProfile);
+}
+
+followBtn.addEventListener("click", async () => {
+  if (followActionBusy || isOwnProfile || !profileUserId) return;
+
+  followActionBusy = true;
+  followBtn.disabled = true;
+
+  try {
+    if (isFollowingProfile) {
+      const { error } = await supabase
+        .from("user_follows")
+        .delete()
+        .eq("follower_id", currentUser.id)
+        .eq("followed_id", profileUserId);
+
+      if (error) throw error;
+    } else {
+      const { error } = await supabase
+        .from("user_follows")
+        .insert({
+          follower_id: currentUser.id,
+          followed_id: profileUserId
+        });
+
+      if (error) throw error;
+    }
+
+    await refreshFollowState();
+    await loadFollowStats();
+
+  } catch (error) {
+    console.error("Follow action error:", error);
+    alert("عملیات Follow انجام نشد. اتصال و دسترسی‌های Supabase رو بررسی کن.");
+  } finally {
+    followActionBusy = false;
+    followBtn.disabled = false;
+  }
+});
 
     // =========================
     // OPEN EDIT
