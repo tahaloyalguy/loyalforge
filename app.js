@@ -257,36 +257,80 @@ async function loadAssets(reset = true) {
 
   if (currentSort === "popular") {
 
-    query = query.order(
-      "likes",
-      {
+    // محبوب‌ترین: لایک بیشتر؛ سپس دانلود بیشتر
+    query = query
+      .order("likes", {
         ascending: false,
         nullsFirst: false
-      }
-    );
+      })
+      .order("downloads", {
+        ascending: false,
+        nullsFirst: false
+      })
+      .order("created_at", {
+        ascending: false
+      });
 
   }
 
-  else if (currentSort === "downloads") {
+  else if (currentSort === "mostLikes") {
 
-    query = query.order(
-      "downloads",
-      {
+    query = query
+      .order("likes", {
         ascending: false,
         nullsFirst: false
-      }
-    );
+      })
+      .order("created_at", {
+        ascending: false
+      });
+
+  }
+
+  else if (currentSort === "leastLikes") {
+
+    query = query
+      .order("likes", {
+        ascending: true,
+        nullsFirst: false
+      })
+      .order("created_at", {
+        ascending: false
+      });
+
+  }
+
+  else if (currentSort === "mostDownloads") {
+
+    query = query
+      .order("downloads", {
+        ascending: false,
+        nullsFirst: false
+      })
+      .order("created_at", {
+        ascending: false
+      });
+
+  }
+
+  else if (currentSort === "leastDownloads") {
+
+    query = query
+      .order("downloads", {
+        ascending: true,
+        nullsFirst: false
+      })
+      .order("created_at", {
+        ascending: false
+      });
 
   }
 
   else {
 
-    query = query.order(
-      "created_at",
-      {
-        ascending: false
-      }
-    );
+    // جدیدترین
+    query = query.order("created_at", {
+      ascending: false
+    });
 
   }
 
