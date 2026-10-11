@@ -4417,10 +4417,15 @@
           profile?.username
         ) {
 
-          creatorElement.href =
-            `profile.html?username=${encodeURIComponent(
-              profile.username
-            )}`;
+          if (profile?.username && asset.user_id) {
+            creatorElement.href =
+              `profile.html?id=${encodeURIComponent(asset.user_id)}`;
+
+            creatorElement.style.pointerEvents = "auto";
+          } else {
+            creatorElement.removeAttribute("href");
+            creatorElement.style.pointerEvents = "none";
+          }
 
 
           creatorElement.style.pointerEvents =
