@@ -2303,3 +2303,186 @@ if (viewTrendingBtn) {
     });
   });
 }
+
+
+/* ===============================
+   LOYALFORGE NOTIFICATIONS
+================================ */
+
+const notificationBell = document.getElementById("notificationBell");
+const notificationPanel = document.getElementById("notificationPanel");
+const notificationCount = document.getElementById("notificationCount");
+const notificationList = document.getElementById("notificationList");
+const markAllNotificationsRead = document.getElementById("markAllNotificationsRead");
+const notificationWrap = document.getElementById("notificationWrap");
+
+let notificationUserId = null;
+let notificationBusy = false;
+
+function escapeNotificationHTML(value = "") {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function notificationTime(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  return new Intl.DateTimeFormat("fa-IR", {
+    dateStyle: "short",
+    timeStyle: "short"
+  }).format(date);
+}
+
+function renderNotifications(items) {
+  const unread = items.filter(item => !item.is_read).length;
+
+  notificationCount.textContent = unread > 99 ? "99+" : String(unread);
+  notificationCount.hidden = unread === 0;
+
+  if (!items.length) {
+    notificationList.innerHTML =
+      '<div class="notification-empty">هنوز اعلانی نداری 👀</div>';
+    return;
+  }
+
+  notificationList.innerHTML = items.map(item => {
+    const title = escapeNotificationHTML(item.title);
+    const message = escapeNotificationHTML(item.message);
+    const time = escapeNotificationHTML(notificationTime(item.created_at));
+    const link = typeof item.link === "string" &&
+      /^\/|^https?:\/\//i.test(item.link)
+        ? item.link
+        : "";
+
+    return `
+      <button
+        class="notification-item ${item.is_read ? "" : "unread"}"
+        type="button"
+        data-notification-id="${escapeNotificationHTML(item.id)}"
+        data-notification-link="${escapeNotificationHTML(link)}"
+      >
+        <span class="notification-item-dot"></span>
+        <span class="notification-item-content">
+          <strong>${title}</strong>
+          <span>${message}</span>
+          <small>${time}</small>
+        </span>
+      </button>
+    `;
+  }).join("");
+}
+
+async function loadNotifications() {
+  if (notificationBusy) return;
+  notificationBusy = true;
+
+  try {
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError) throw userError;
+
+    if (!user) {
+      notificationUserId = null;
+      notificationCount.hidden = true;
+      notificationCount.textContent = "0";
+      notificationList.innerHTML =
+        '<div class="notification-empty">برای دیدن اعلان‌ها وارد حسابت شو.</div>';
+      return;
+    }
+
+    notificationUserId = user.id;
+
+    const { data, error } = await supabase
+      .from("notifications")
+      .select("id, title, message, link, is_read, created_at")
+      .eq("recipient_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(30);
+
+    if (error) throw error;
+
+    renderNotifications(data || []);
+  } catch (error) {
+    console.error("Loading notifications failed:", error);
+    notificationList.innerHTML =
+      '<div class="notification-empty">دریافت اعلان‌ها ناموفق بود.</div>';
+  } finally {
+    notificationBusy = false;
+  }
+}
+
+notificationBell?.addEventListener("click", async event => {
+  event.stopPropagation();
+
+  const willOpen = notificationPanel.hidden;
+  notificationPanel.hidden = !willOpen;
+  notificationBell.setAttribute("aria-expanded", String(willOpen));
+
+  if (willOpen) {
+    await loadNotifications();
+  }
+});
+
+document.addEventListener("click", event => {
+  if (notificationWrap && !notificationWrap.contains(event.target)) {
+    notificationPanel.hidden = true;
+    notificationBell?.setAttribute("aria-expanded", "false");
+  }
+});
+
+notificationList?.addEventListener("click", async event => {
+  const button = event.target.closest("[data-notification-id]");
+  if (!button || !notificationUserId) return;
+
+  const id = button.dataset.notificationId;
+  const link = button.dataset.notificationLink;
+
+  const { error } = await supabase
+    .from("notifications")
+    .update({ is_read: true })
+    .eq("id", id)
+    .eq("recipient_id", notificationUserId);
+
+  if (error) {
+    console.error("Marking notification read failed:", error);
+    return;
+  }
+
+  await loadNotifications();
+
+  if (link) {
+    window.location.href = link;
+  }
+});
+
+markAllNotificationsRead?.addEventListener("click", async () => {
+  if (!notificationUserId) {
+    await loadNotifications();
+    return;
+  }
+
+  const { error } = await supabase
+    .from("notifications")
+    .update({ is_read: true })
+    .eq("recipient_id", notificationUserId)
+    .eq("is_read", false);
+
+  if (error) {
+    console.error("Marking all notifications read failed:", error);
+    return;
+  }
+
+  await loadNotifications();
+});
+
+supabase.auth.onAuthStateChange(() => {
+  setTimeout(loadNotifications, 0);
+});
+
+loadNotifications();
