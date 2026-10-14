@@ -1911,6 +1911,76 @@
 
     }
 
+
+    /* =====================================================
+       COMMENTS
+    ====================================================== */
+    .comments-section {
+      margin-top: 20px;
+      padding: clamp(20px, 3vw, 30px);
+      border: 1px solid var(--asset-border);
+      border-radius: var(--asset-radius);
+      background: linear-gradient(145deg, rgba(17,28,47,.78), rgba(9,15,27,.94));
+      box-shadow: 0 25px 70px rgba(0,0,0,.16);
+    }
+    .comments-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .comments-title { margin: 0; color: var(--asset-text); font-size: 21px; }
+    .comments-count {
+      display: inline-grid; place-items: center; min-width: 30px; height: 28px;
+      padding: 0 8px; border: 1px solid rgba(142,216,255,.18); border-radius: 9px;
+      color: var(--asset-blue); background: rgba(142,216,255,.06); font-size: 12px; font-weight: 800;
+    }
+    .comment-form { display: grid; gap: 10px; margin-bottom: 25px; }
+    .comment-textarea {
+      width: 100%; min-height: 105px; resize: vertical; padding: 14px 15px;
+      border: 1px solid rgba(180,215,255,.12); border-radius: 13px; outline: none;
+      color: var(--asset-text); background: rgba(4,10,19,.55); font: inherit; font-size: 13px; line-height: 1.8;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .comment-textarea:focus { border-color: rgba(142,216,255,.45); box-shadow: 0 0 0 3px rgba(142,216,255,.06); }
+    .comment-form-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .comment-hint, .comments-status { color: var(--asset-muted); font-size: 11px; line-height: 1.8; }
+    .comment-submit {
+      min-height: 40px; padding: 0 17px; border: 0; border-radius: 10px; color: #06101a;
+      background: var(--asset-blue); font-size: 12px; font-weight: 800; cursor: pointer; transition: .2s ease;
+    }
+    .comment-submit:hover:not(:disabled) { background: var(--asset-blue-strong); transform: translateY(-1px); }
+    .comment-submit:disabled { opacity: .55; cursor: wait; }
+    .comments-list { display: grid; gap: 14px; }
+    .comment-item { min-width: 0; padding: 16px; border: 1px solid rgba(180,215,255,.075); border-radius: 15px; background: rgba(255,255,255,.018); }
+    .comment-item.is-reply { margin-top: 10px; margin-left: 24px; border-color: rgba(142,216,255,.08); background: rgba(142,216,255,.025); }
+    .comment-top { display: flex; align-items: center; gap: 10px; }
+    .comment-avatar { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; overflow: hidden; border: 1px solid rgba(142,216,255,.15); border-radius: 50%; color: var(--asset-blue); background: rgba(142,216,255,.08); font-size: 11px; font-weight: 800; }
+    .comment-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .comment-author-wrap { min-width: 0; flex: 1; }
+    .comment-author { color: var(--asset-text); font-size: 12px; font-weight: 800; overflow-wrap: anywhere; }
+    .comment-date { margin-top: 3px; color: var(--asset-dim); font-size: 10px; }
+    .comment-content { margin: 13px 0 12px; color: #c3d1e0; font-size: 12px; line-height: 1.95; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .comment-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .comment-action { padding: 6px 9px; border: 1px solid rgba(180,215,255,.08); border-radius: 8px; color: var(--asset-muted); background: rgba(255,255,255,.02); font: inherit; font-size: 10px; cursor: pointer; transition: .2s ease; }
+    .comment-action:hover { color: var(--asset-blue); border-color: rgba(142,216,255,.22); }
+    .comment-action.is-liked { color: #ff8ca8; border-color: rgba(255,140,168,.2); background: rgba(255,140,168,.05); }
+    .comment-action:disabled { opacity: .5; cursor: wait; }
+    .comment-replies { margin-top: 12px; padding-right: 14px; border-right: 1px solid rgba(142,216,255,.15); }
+    .comment-reply-form { display: grid; gap: 8px; margin-top: 12px; }
+    .comment-reply-form .comment-textarea { min-height: 75px; }
+    .comments-empty { padding: 26px 12px; text-align: center; color: var(--asset-muted); font-size: 12px; line-height: 1.9; border: 1px dashed rgba(180,215,255,.10); border-radius: 13px; }
+    .comments-auth-link { color: var(--asset-blue); text-decoration: none; }
+    .comments-auth-link:hover { text-decoration: underline; }
+    @media (max-width: 560px) {
+      .comments-section { padding: 18px; border-radius: 18px; }
+      .comments-title { font-size: 18px; }
+      .comment-item { padding: 13px; }
+      .comment-item.is-reply { margin-left: 8px; }
+      .comment-replies { padding-right: 9px; }
+    }
+
     /* =====================================================
        MOBILE
     ====================================================== */
@@ -2613,6 +2683,25 @@
 
       </div>
 
+
+      <!-- COMMENTS -->
+      <section class="comments-section" id="commentsSection" aria-labelledby="commentsTitle">
+        <div class="comments-heading">
+          <h2 class="comments-title" id="commentsTitle">Comments &amp; Discussion</h2>
+          <span class="comments-count" id="commentsCount">0</span>
+        </div>
+        <form class="comment-form" id="commentForm">
+          <textarea class="comment-textarea" id="commentInput" maxlength="2000" placeholder="Share your thoughts about this asset..." aria-label="Write a comment" required></textarea>
+          <div class="comment-form-footer">
+            <span class="comment-hint">Up to 2,000 characters. Be respectful to other creators.</span>
+            <button class="comment-submit" id="commentSubmit" type="submit">Post comment</button>
+          </div>
+        </form>
+        <div class="comments-status" id="commentsStatus" role="status" aria-live="polite"></div>
+        <div class="comments-list" id="commentsList">
+          <div class="comments-empty">Loading comments...</div>
+        </div>
+      </section>
 
     </section>
 
@@ -4102,7 +4191,7 @@
           asset
         );
 
-
+        await loadComments();
         await loadLikeState();
         await loadFavoriteState();
 
@@ -4126,6 +4215,324 @@
       }
 
     }
+
+
+
+
+    /* =====================================================
+       COMMENTS: LOAD, POST, REPLY, LIKE, DELETE
+    ====================================================== */
+
+    let commentsCurrentUser = null;
+    let commentsCache = [];
+    let commentProfiles = new Map();
+    let commentLikesById = new Map();
+    let myCommentLikes = new Set();
+
+    function commentInitials(name) {
+      const words = String(name || "LF").trim().split(/\s+/).filter(Boolean).slice(0, 2);
+      return words.map(word => word[0] || "").join("").toUpperCase() || "LF";
+    }
+
+    function commentDate(date) {
+      const value = new Date(date);
+      if (Number.isNaN(value.getTime())) return "Just now";
+      return value.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+    }
+
+    function setCommentsStatus(message, isError = false) {
+      const status = document.getElementById("commentsStatus");
+      if (!status) return;
+      status.textContent = message || "";
+      status.style.color = isError ? "#ff9aa7" : "var(--asset-muted)";
+    }
+
+    async function loadComments() {
+      const list = document.getElementById("commentsList");
+      const count = document.getElementById("commentsCount");
+      if (!list || !window.currentAsset?.id) return;
+      list.replaceChildren();
+      const loadingMessage = document.createElement("div");
+      loadingMessage.className = "comments-empty";
+      loadingMessage.textContent = "Loading comments...";
+      list.appendChild(loadingMessage);
+      setCommentsStatus("");
+
+      try {
+        const { data: authData, error: authError } = await supabase.auth.getUser();
+        if (authError) throw authError;
+        commentsCurrentUser = authData?.user || null;
+
+        const { data: comments, error } = await supabase
+          .from("asset_comments")
+          .select("id, asset_id, user_id, parent_id, content, created_at")
+          .eq("asset_id", window.currentAsset.id)
+          .order("created_at", { ascending: true });
+        if (error) throw error;
+        commentsCache = comments || [];
+        if (count) count.textContent = String(commentsCache.length);
+
+        const userIds = [...new Set(commentsCache.map(item => item.user_id).filter(Boolean))];
+        commentProfiles = new Map();
+        if (userIds.length) {
+          const { data: profiles, error: profilesError } = await supabase
+            .from("profiles")
+            .select("id, username, display_name, avatar_url")
+            .in("id", userIds);
+          if (profilesError) console.warn("Comment profile lookup:", profilesError);
+          (profiles || []).forEach(profile => commentProfiles.set(profile.id, profile));
+        }
+
+        const commentIds = commentsCache.map(item => item.id);
+        commentLikesById = new Map();
+        myCommentLikes = new Set();
+        if (commentIds.length) {
+          const { data: likes, error: likesError } = await supabase
+            .from("comment_likes")
+            .select("comment_id, user_id")
+            .in("comment_id", commentIds);
+          if (likesError) throw likesError;
+          (likes || []).forEach(like => {
+            commentLikesById.set(like.comment_id, (commentLikesById.get(like.comment_id) || 0) + 1);
+            if (commentsCurrentUser && like.user_id === commentsCurrentUser.id) myCommentLikes.add(like.comment_id);
+          });
+        }
+        renderComments();
+      } catch (error) {
+        console.error("Load comments error:", error);
+        list.replaceChildren();
+        const message = document.createElement("div");
+        message.className = "comments-empty";
+        message.textContent = "Could not load comments. Check the Supabase policies and try again.";
+        list.appendChild(message);
+        setCommentsStatus(error.message || "Comments could not be loaded.", true);
+      }
+    }
+
+    function createCommentElement(comment, isReply = false) {
+      const profile = commentProfiles.get(comment.user_id);
+      const author = profile?.display_name || profile?.username || "LoyalForge Creator";
+      const item = document.createElement("article");
+      item.className = `comment-item${isReply ? " is-reply" : ""}`;
+      item.dataset.commentId = comment.id;
+
+      const top = document.createElement("div");
+      top.className = "comment-top";
+      const avatar = document.createElement("div");
+      avatar.className = "comment-avatar";
+      if (profile?.avatar_url) {
+        const image = document.createElement("img");
+        image.src = profile.avatar_url;
+        image.alt = "";
+        image.loading = "lazy";
+        image.onerror = () => { avatar.textContent = commentInitials(author); };
+        avatar.appendChild(image);
+      } else {
+        avatar.textContent = commentInitials(author);
+      }
+      const authorWrap = document.createElement("div");
+      authorWrap.className = "comment-author-wrap";
+      const authorName = document.createElement("div");
+      authorName.className = "comment-author";
+      authorName.textContent = author;
+      const date = document.createElement("div");
+      date.className = "comment-date";
+      date.textContent = commentDate(comment.created_at);
+      authorWrap.append(authorName, date);
+      top.append(avatar, authorWrap);
+
+      const body = document.createElement("p");
+      body.className = "comment-content";
+      body.textContent = comment.content;
+
+      const actions = document.createElement("div");
+      actions.className = "comment-actions";
+      const likeButton = document.createElement("button");
+      likeButton.type = "button";
+      likeButton.className = `comment-action${myCommentLikes.has(comment.id) ? " is-liked" : ""}`;
+      likeButton.textContent = `${myCommentLikes.has(comment.id) ? "♥" : "♡"} ${commentLikesById.get(comment.id) || 0}`;
+      likeButton.setAttribute("aria-label", "Like comment");
+      likeButton.addEventListener("click", () => toggleCommentLike(comment, likeButton));
+      actions.appendChild(likeButton);
+
+      if (!isReply) {
+        const replyButton = document.createElement("button");
+        replyButton.type = "button";
+        replyButton.className = "comment-action";
+        replyButton.textContent = "↩ Reply";
+        replyButton.addEventListener("click", () => showReplyForm(comment, item));
+        actions.appendChild(replyButton);
+      }
+
+      if (commentsCurrentUser?.id === comment.user_id) {
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "comment-action";
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => deleteComment(comment, deleteButton));
+        actions.appendChild(deleteButton);
+      }
+
+      item.append(top, body, actions);
+      if (!isReply) {
+        const replies = commentsCache.filter(child => child.parent_id === comment.id);
+        if (replies.length) {
+          const replyWrap = document.createElement("div");
+          replyWrap.className = "comment-replies";
+          replies.forEach(reply => replyWrap.appendChild(createCommentElement(reply, true)));
+          item.appendChild(replyWrap);
+        }
+      }
+      return item;
+    }
+
+    function renderComments() {
+      const list = document.getElementById("commentsList");
+      const count = document.getElementById("commentsCount");
+      if (!list) return;
+      list.replaceChildren();
+      const roots = commentsCache.filter(comment => !comment.parent_id);
+      if (count) count.textContent = String(commentsCache.length);
+      if (!roots.length) {
+        const empty = document.createElement("div");
+        empty.className = "comments-empty";
+        empty.textContent = "No comments yet. Be the first to start the discussion!";
+        list.appendChild(empty);
+        return;
+      }
+      roots.slice().reverse().forEach(comment => list.appendChild(createCommentElement(comment)));
+    }
+
+    async function submitComment(content, parentId = null, form = null) {
+      const cleanContent = String(content || "").trim();
+      if (!cleanContent) return;
+      if (cleanContent.length > 2000) {
+        setCommentsStatus("Comments can contain up to 2,000 characters.", true);
+        return;
+      }
+      const { data: authData, error: authError } = await supabase.auth.getUser();
+      if (authError) throw authError;
+      const user = authData?.user;
+      if (!user) {
+        setCommentsStatus("Please sign in to comment. ");
+        const status = document.getElementById("commentsStatus");
+        const link = document.createElement("a");
+        link.className = "comments-auth-link";
+        link.href = "auth.html";
+        link.textContent = "Sign in / Create account";
+        status?.appendChild(link);
+        return;
+      }
+      const submit = form?.querySelector("button[type='submit']");
+      if (submit) { submit.disabled = true; submit.textContent = "Posting..."; }
+      try {
+        const { error } = await supabase.from("asset_comments").insert({
+          asset_id: window.currentAsset.id,
+          user_id: user.id,
+          parent_id: parentId,
+          content: cleanContent
+        });
+        if (error) throw error;
+        if (form) form.reset();
+        setCommentsStatus("Comment posted.");
+        await loadComments();
+      } finally {
+        if (submit) { submit.disabled = false; submit.textContent = parentId ? "Post reply" : "Post comment"; }
+      }
+    }
+
+    function showReplyForm(comment, item) {
+      const existing = item.querySelector(":scope > .comment-reply-form");
+      if (existing) { existing.remove(); return; }
+      const form = document.createElement("form");
+      form.className = "comment-reply-form";
+      const textarea = document.createElement("textarea");
+      textarea.className = "comment-textarea";
+      textarea.maxLength = 2000;
+      textarea.required = true;
+      textarea.placeholder = "Write a reply...";
+      textarea.setAttribute("aria-label", "Write a reply");
+      const footer = document.createElement("div");
+      footer.className = "comment-form-footer";
+      const cancel = document.createElement("button");
+      cancel.type = "button";
+      cancel.className = "comment-action";
+      cancel.textContent = "Cancel";
+      cancel.addEventListener("click", () => form.remove());
+      const submit = document.createElement("button");
+      submit.type = "submit";
+      submit.className = "comment-submit";
+      submit.textContent = "Post reply";
+      footer.append(cancel, submit);
+      form.append(textarea, footer);
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        try { await submitComment(textarea.value, comment.id, form); }
+        catch (error) { console.error("Reply error:", error); setCommentsStatus(error.message || "Could not post reply.", true); }
+      });
+      item.appendChild(form);
+      textarea.focus();
+    }
+
+    async function toggleCommentLike(comment, button) {
+      button.disabled = true;
+      try {
+        const { data: authData, error: authError } = await supabase.auth.getUser();
+        if (authError) throw authError;
+        const user = authData?.user;
+        if (!user) {
+          setCommentsStatus("Please sign in to like comments.");
+          const status = document.getElementById("commentsStatus");
+          const link = document.createElement("a");
+          link.className = "comments-auth-link"; link.href = "auth.html"; link.textContent = " Sign in / Create account";
+          status?.appendChild(link);
+          return;
+        }
+        const liked = myCommentLikes.has(comment.id);
+        if (liked) {
+          const { error } = await supabase.from("comment_likes").delete().eq("comment_id", comment.id).eq("user_id", user.id);
+          if (error) throw error;
+        } else {
+          const { error } = await supabase.from("comment_likes").insert({ comment_id: comment.id, user_id: user.id });
+          if (error) throw error;
+        }
+        await loadComments();
+      } catch (error) {
+        console.error("Comment like error:", error);
+        setCommentsStatus(error.message || "Could not update comment like.", true);
+      } finally { button.disabled = false; }
+    }
+
+    async function deleteComment(comment, button) {
+      const hasReplies = commentsCache.some(item => item.parent_id === comment.id);
+      const message = hasReplies
+        ? "Delete this comment? Its replies will also be permanently deleted."
+        : "Delete this comment permanently?";
+      if (!window.confirm(message)) return;
+      button.disabled = true;
+      try {
+        const { data: authData, error: authError } = await supabase.auth.getUser();
+        if (authError) throw authError;
+        const user = authData?.user;
+        if (!user || user.id !== comment.user_id) throw new Error("You can only delete your own comments.");
+        const { error } = await supabase.from("asset_comments").delete().eq("id", comment.id).eq("user_id", user.id);
+        if (error) throw error;
+        setCommentsStatus("Comment deleted.");
+        await loadComments();
+      } catch (error) {
+        console.error("Delete comment error:", error);
+        setCommentsStatus(error.message || "Could not delete comment.", true);
+        button.disabled = false;
+      }
+    }
+
+    document.getElementById("commentForm")?.addEventListener("submit", async event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const input = document.getElementById("commentInput");
+      try { await submitComment(input.value, null, form); }
+      catch (error) { console.error("Post comment error:", error); setCommentsStatus(error.message || "Could not post comment.", true); }
+    });
 
 
     /* =====================================================
