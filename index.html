@@ -60,6 +60,34 @@
         <kbd>⌘ K</kbd>
       </button>
 
+```html
+<div class="notification-wrap" id="notificationWrap">
+  <button
+    class="notification-bell"
+    id="notificationBell"
+    type="button"
+    aria-label="اعلان‌ها"
+    aria-expanded="false"
+    title="اعلان‌ها"
+  >
+    <span class="notification-bell-icon">♧</span>
+    <span class="notification-count" id="notificationCount" hidden>0</span>
+  </button>
+
+  <div class="notification-panel" id="notificationPanel" hidden>
+    <div class="notification-header">
+      <strong>اعلان‌ها</strong>
+      <button id="markAllNotificationsRead" type="button">
+        خواندن همه
+      </button>
+    </div>
+
+    <div class="notification-list" id="notificationList">
+      <div class="notification-empty">برای دیدن اعلان‌ها وارد حسابت شو.</div>
+    </div>
+  </div>
+</div>
+
 <button
   class="btn btn-ghost nav-login"
   id="accountButton"
@@ -67,6 +95,7 @@
 >
   ورود
 </button>
+```
 
       <a class="btn btn-ghost nav-dashboard" href="dashboard.html">داشبورد</a>
 
