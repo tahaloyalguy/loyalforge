@@ -5332,24 +5332,27 @@ async function handleDownload(asset, downloadButton) {
    TOGGLE LIKE
 ====================================================== */
 
-async function handleLike(asset, likeButton) {
-  if (!asset || !likeButton) return;
 
-  const wasLiked = likeButton.classList.contains("liked");
+async function handleLike(asset, likeButton) {
+  if (!asset || !likeButton || likeButton.disabled) return;
+
   likeButton.disabled = true;
 
   try {
-    const {
-      data: { user },
-      error: authError
-    } = await supabase.auth.getUser();
+    // استفاده از نشست ذخیره‌شده، بدون درخواست اضافی به Auth API
+    const { data: { session }, error: sessionError } =
+      await supabase.auth.getSession();
 
-    if (authError) throw authError;
+    if (sessionError) throw sessionError;
+
+    const user = session?.user;
 
     if (!user) {
       alert("Please log in to like assets.");
       return;
     }
+
+    const wasLiked = likeButton.classList.contains("liked");
 
     if (wasLiked) {
       const { error } = await supabase
@@ -5359,7 +5362,6 @@ async function handleLike(asset, likeButton) {
         .eq("user_id", user.id);
 
       if (error) throw error;
-
     } else {
       const { error } = await supabase
         .from("asset_likes")
@@ -5371,32 +5373,24 @@ async function handleLike(asset, likeButton) {
       if (error) throw error;
     }
 
+    likeButton.classList.toggle("liked", !wasLiked);
+    likeButton.textContent = wasLiked ? "♡" : "♥";
+
+    // تعداد واقعی لایک‌ها را فقط یک بار می‌خوانیم
     const { count, error: countError } = await supabase
       .from("asset_likes")
       .select("id", { count: "exact", head: true })
       .eq("asset_id", asset.id);
 
-    if (countError) throw countError;
-
-    const newLikes = count ?? Number(asset.likes || 0);
-    const { error: updateError } = await supabase
-      .from("assets")
-      .update({ likes: newLikes })
-      .eq("id", asset.id);
-
-    if (updateError) {
-      console.warn("Could not update asset like count:", updateError);
+    if (countError) {
+      console.warn("Could not refresh like count:", countError);
+      return;
     }
 
-    asset.likes = newLikes;
-
-    likeButton.classList.toggle("liked", !wasLiked);
-    likeButton.textContent = wasLiked ? "♡" : "♥";
+    asset.likes = count ?? asset.likes ?? 0;
 
     const likesElement = document.getElementById("assetLikes");
-    if (likesElement) {
-      likesElement.textContent = newLikes;
-    }
+    if (likesElement) likesElement.textContent = asset.likes;
 
   } catch (error) {
     console.error("Like action error:", error);
@@ -5405,6 +5399,7 @@ async function handleLike(asset, likeButton) {
     likeButton.disabled = false;
   }
 }
+
     /* =====================================================
        DELETE ASSET
     ====================================================== */
