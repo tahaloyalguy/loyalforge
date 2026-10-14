@@ -2305,6 +2305,7 @@ if (viewTrendingBtn) {
 }
 
 
+
 /* ===============================
    LOYALFORGE NOTIFICATIONS
 ================================ */
@@ -2318,64 +2319,52 @@ const notificationWrap = document.getElementById("notificationWrap");
 
 let notificationUserId = null;
 let notificationBusy = false;
-
-function escapeNotificationHTML(value = "") {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
-
-function notificationTime(value) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "";
-
-  return new Intl.DateTimeFormat("fa-IR", {
-    dateStyle: "short",
-    timeStyle: "short"
-  }).format(date);
-}
+let notificationItems = [];
 
 function renderNotifications(items) {
+  notificationItems = items;
+
   const unread = items.filter(item => !item.is_read).length;
 
   notificationCount.textContent = unread > 99 ? "99+" : String(unread);
   notificationCount.hidden = unread === 0;
 
+  notificationList.replaceChildren();
+
   if (!items.length) {
-    notificationList.innerHTML =
-      '<div class="notification-empty">هنوز اعلانی نداری 👀</div>';
+    const empty = document.createElement("div");
+    empty.className = "notification-empty";
+    empty.textContent = "هنوز اعلانی نداری 👀";
+    notificationList.appendChild(empty);
     return;
   }
 
-  notificationList.innerHTML = items.map(item => {
-    const title = escapeNotificationHTML(item.title);
-    const message = escapeNotificationHTML(item.message);
-    const time = escapeNotificationHTML(notificationTime(item.created_at));
-    const link = typeof item.link === "string" &&
-      /^\/|^https?:\/\//i.test(item.link)
-        ? item.link
-        : "";
+  items.forEach(item => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `notification-item ${item.is_read ? "" : "unread"}`;
+    button.dataset.notificationId = item.id;
 
-    return `
-      <button
-        class="notification-item ${item.is_read ? "" : "unread"}"
-        type="button"
-        data-notification-id="${escapeNotificationHTML(item.id)}"
-        data-notification-link="${escapeNotificationHTML(link)}"
-      >
-        <span class="notification-item-dot"></span>
-        <span class="notification-item-content">
-          <strong>${title}</strong>
-          <span>${message}</span>
-          <small>${time}</small>
-        </span>
-      </button>
-    `;
-  }).join("");
+    const content = document.createElement("span");
+    content.className = "notification-item-content";
+
+    const title = document.createElement("strong");
+    title.textContent = item.title || "اعلان جدید";
+
+    const message = document.createElement("span");
+    message.textContent = item.message || "";
+
+    const time = document.createElement("small");
+    const date = new Date(item.created_at);
+    time.textContent = Number.isNaN(date.getTime())
+      ? ""
+      : date.toLocaleString("fa-IR");
+
+    content.append(title, message, time);
+    button.appendChild(content);
+
+    notificationList.appendChild(button);
+  });
 }
 
 async function loadNotifications() {
@@ -2383,35 +2372,57 @@ async function loadNotifications() {
   notificationBusy = true;
 
   try {
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const { data, error: authError } = await supabase.auth.getUser();
 
-    if (userError) throw userError;
+    if (authError) throw authError;
+
+    const user = data?.user;
 
     if (!user) {
       notificationUserId = null;
+      notificationItems = [];
       notificationCount.hidden = true;
       notificationCount.textContent = "0";
-      notificationList.innerHTML =
-        '<div class="notification-empty">برای دیدن اعلان‌ها وارد حسابت شو.</div>';
+
+      notificationList.replaceChildren();
+      const empty = document.createElement("div");
+      empty.className = "notification-empty";
+      empty.textContent = "برای دیدن اعلان‌ها وارد حسابت شو.";
+      notificationList.appendChild(empty);
       return;
     }
 
     notificationUserId = user.id;
 
-    const { data, error } = await supabase
+    const result = await supabase
       .from("notifications")
       .select("id, title, message, link, is_read, created_at")
       .eq("recipient_id", user.id)
       .order("created_at", { ascending: false })
       .limit(30);
 
-    if (error) throw error;
+    if (result.error) {
+      console.error("Notifications Supabase error:", {
+        message: result.error.message,
+        details: result.error.details,
+        hint: result.error.hint,
+        code: result.error.code
+      });
 
-    renderNotifications(data || []);
+      throw result.error;
+    }
+
+    renderNotifications(result.data || []);
+
   } catch (error) {
     console.error("Loading notifications failed:", error);
-    notificationList.innerHTML =
-      '<div class="notification-empty">دریافت اعلان‌ها ناموفق بود.</div>';
+
+    notificationList.replaceChildren();
+    const errorMessage = document.createElement("div");
+    errorMessage.className = "notification-empty";
+    errorMessage.textContent = "دریافت اعلان‌ها ناموفق بود.";
+    notificationList.appendChild(errorMessage);
+
   } finally {
     notificationBusy = false;
   }
@@ -2420,13 +2431,11 @@ async function loadNotifications() {
 notificationBell?.addEventListener("click", async event => {
   event.stopPropagation();
 
-  const willOpen = notificationPanel.hidden;
-  notificationPanel.hidden = !willOpen;
-  notificationBell.setAttribute("aria-expanded", String(willOpen));
+  const opening = notificationPanel.hidden;
+  notificationPanel.hidden = !opening;
+  notificationBell.setAttribute("aria-expanded", String(opening));
 
-  if (willOpen) {
-    await loadNotifications();
-  }
+  if (opening) await loadNotifications();
 });
 
 document.addEventListener("click", event => {
@@ -2440,32 +2449,36 @@ notificationList?.addEventListener("click", async event => {
   const button = event.target.closest("[data-notification-id]");
   if (!button || !notificationUserId) return;
 
-  const id = button.dataset.notificationId;
-  const link = button.dataset.notificationLink;
+  const item = notificationItems.find(
+    notification => notification.id === button.dataset.notificationId
+  );
 
-  const { error } = await supabase
-    .from("notifications")
-    .update({ is_read: true })
-    .eq("id", id)
-    .eq("recipient_id", notificationUserId);
+  if (!item) return;
 
-  if (error) {
-    console.error("Marking notification read failed:", error);
-    return;
+  if (!item.is_read) {
+    const { error } = await supabase
+      .from("notifications")
+      .update({ is_read: true })
+      .eq("id", item.id)
+      .eq("recipient_id", notificationUserId);
+
+    if (error) {
+      console.error("Mark notification read failed:", error);
+      showToast("خواندن اعلان ناموفق بود.");
+      return;
+    }
   }
 
+  const link = item.link;
   await loadNotifications();
 
-  if (link) {
+  if (link && /^\/|^https?:\/\//i.test(link)) {
     window.location.href = link;
   }
 });
 
 markAllNotificationsRead?.addEventListener("click", async () => {
-  if (!notificationUserId) {
-    await loadNotifications();
-    return;
-  }
+  if (!notificationUserId) return;
 
   const { error } = await supabase
     .from("notifications")
@@ -2474,7 +2487,8 @@ markAllNotificationsRead?.addEventListener("click", async () => {
     .eq("is_read", false);
 
   if (error) {
-    console.error("Marking all notifications read failed:", error);
+    console.error("Mark all notifications read failed:", error);
+    showToast("علامت‌گذاری اعلان‌ها ناموفق بود.");
     return;
   }
 
@@ -2486,197 +2500,3 @@ supabase.auth.onAuthStateChange(() => {
 });
 
 loadNotifications();
-
-
-(() => {
-  const bell = document.getElementById("notificationBell");
-  const count = document.getElementById("notificationCount");
-  const panel = document.getElementById("notificationPanel");
-  const list = document.getElementById("notificationList");
-  const markAllBtn = document.getElementById("markAllNotificationsRead");
-
-  if (!bell || !count || !panel || !list || !markAllBtn) return;
-
-  let currentUserId = null;
-  let notifications = [];
-  let loading = false;
-
-  function updateCount() {
-    const unread = notifications.filter(item => !item.is_read).length;
-    count.textContent = unread > 99 ? "99+" : String(unread);
-    count.hidden = unread === 0;
-  }
-
-  function showMessage(message) {
-    list.replaceChildren();
-    const element = document.createElement("div");
-    element.className = "notification-empty";
-    element.textContent = message;
-    list.appendChild(element);
-  }
-
-  function renderNotifications() {
-    list.replaceChildren();
-
-    if (!notifications.length) {
-      showMessage("فعلاً اعلانی نداری.");
-      updateCount();
-      return;
-    }
-
-    notifications.forEach(notification => {
-      const item = document.createElement("div");
-      item.className = "notification-item";
-      if (!notification.is_read) item.classList.add("unread");
-
-      const content = document.createElement("div");
-      content.className = "notification-item-content";
-
-      const title = document.createElement("strong");
-      title.textContent = notification.title || "اعلان جدید";
-
-      const message = document.createElement("p");
-      message.textContent = notification.message || "";
-
-      const time = document.createElement("time");
-      const date = new Date(notification.created_at);
-      time.textContent = Number.isNaN(date.getTime())
-        ? ""
-        : date.toLocaleString("fa-IR");
-
-      content.append(title, message, time);
-      item.appendChild(content);
-
-      if (notification.link) {
-        const link = document.createElement("a");
-        link.textContent = "مشاهده";
-        link.href = notification.link;
-        link.addEventListener("click", async event => {
-          if (!notification.is_read) {
-            event.preventDefault();
-            const success = await markAsRead(notification.id);
-            if (success) window.location.href = link.href;
-          }
-        });
-        item.appendChild(link);
-      } else {
-        item.addEventListener("click", () => {
-          markAsRead(notification.id);
-        });
-      }
-
-      list.appendChild(item);
-    });
-
-    updateCount();
-  }
-
-  async function loadNotifications() {
-    if (loading) return;
-    loading = true;
-
-    try {
-      const { data: userResult, error: userError } =
-        await supabase.auth.getUser();
-
-      if (userError) throw userError;
-
-      const user = userResult?.user;
-      currentUserId = user?.id || null;
-
-      if (!currentUserId) {
-        notifications = [];
-        updateCount();
-        showMessage("برای دیدن اعلان‌ها وارد حساب شو.");
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from("notifications")
-        .select("id, recipient_id, title, message, link, is_read, created_at")
-        .eq("recipient_id", currentUserId)
-        .order("created_at", { ascending: false })
-        .limit(30);
-
-      if (error) throw error;
-
-      notifications = data || [];
-      renderNotifications();
-    } catch (error) {
-      console.error("Notifications error:", error);
-      showMessage("دریافت اعلان‌ها ناموفق بود.");
-    } finally {
-      loading = false;
-    }
-  }
-
-  async function markAsRead(id) {
-    const notification = notifications.find(item => item.id === id);
-    if (!notification || notification.is_read || !currentUserId) return true;
-
-    const { error } = await supabase
-      .from("notifications")
-      .update({ is_read: true })
-      .eq("id", id)
-      .eq("recipient_id", currentUserId);
-
-    if (error) {
-      console.error("Mark notification read error:", error);
-      return false;
-    }
-
-    notification.is_read = true;
-    renderNotifications();
-    return true;
-  }
-
-  bell.addEventListener("click", async () => {
-    const opening = panel.hidden;
-    panel.hidden = !opening;
-    bell.setAttribute("aria-expanded", String(opening));
-
-    if (opening) await loadNotifications();
-  });
-
-  markAllBtn.addEventListener("click", async () => {
-    if (!currentUserId) return;
-
-    const unreadIds = notifications
-      .filter(item => !item.is_read)
-      .map(item => item.id);
-
-    if (!unreadIds.length) return;
-
-    const { error } = await supabase
-      .from("notifications")
-      .update({ is_read: true })
-      .eq("recipient_id", currentUserId)
-      .eq("is_read", false);
-
-    if (error) {
-      console.error("Mark all notifications read error:", error);
-      return;
-    }
-
-    notifications.forEach(item => {
-      if (unreadIds.includes(item.id)) item.is_read = true;
-    });
-
-    renderNotifications();
-  });
-
-  document.addEventListener("click", event => {
-    if (!event.target.closest(".notification-wrap")) {
-      panel.hidden = true;
-      bell.setAttribute("aria-expanded", "false");
-    }
-  });
-
-  // دریافت اعلان‌ها بعد از بارگذاری صفحه
-  loadNotifications();
-
-  // به‌روزرسانی اعلان‌ها هنگام تغییر وضعیت ورود یا خروج
-  supabase.auth.onAuthStateChange(() => {
-    setTimeout(loadNotifications, 0);
-  });
-})();
