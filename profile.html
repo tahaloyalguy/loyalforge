@@ -2872,18 +2872,19 @@ a {
         } =
           await supabase.auth.getUser();
 
-
-        if (
-          error ||
-          !data?.user
-        ) {
-
-          window.location.href =
-            "auth.html";
-
+        if (error) {
+          console.error("PROFILE AUTH ERROR:", error);
+          alert("خطای بررسی ورود: " + error.message);
           return;
-
         }
+
+        if (!data?.user) {
+          console.log("PROFILE SESSION:", await supabase.auth.getSession());
+          alert("نشست کاربر پیدا نشد. دوباره وارد شو.");
+          window.location.href = "auth.html";
+          return;
+        }
+
 
 
 currentUser = data.user;
