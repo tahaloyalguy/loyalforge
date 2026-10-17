@@ -4825,3 +4825,97 @@ footer {
     flex-wrap: wrap;
   }
 }
+
+
+/* LoyalForge — balanced light theme */
+
+:root {
+  --bg: #e8eef1;
+  --bg-soft: #dce6eb;
+
+  --surface: #f2f5f6;
+  --surface-2: #e3ebef;
+  --surface-3: #d5e1e7;
+
+  --sky: #367f9e;
+  --sky-soft: #d1e7f0;
+  --sky-deep: #245d76;
+
+  --lavender: #d9d9e9;
+  --lavender-soft: #e7e7f0;
+  --mint: #d2e8dd;
+
+  --white: #ffffff;
+  --text: #26343c;
+  --muted: #63747d;
+  --muted-2: #82919a;
+
+  --border: #d1dce1;
+  --border-hover: #b7cbd4;
+}
+
+/* Backgrounds */
+body,
+.hero,
+.categories-section {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.trending-section,
+.explore-section {
+  background: #dfe8ec;
+}
+
+/* Cards: light gray instead of pure white */
+.showcase-card,
+.asset-card,
+.category-card,
+.trending-panel,
+.floating-card,
+.search-modal-box,
+.auth-box,
+.notification-panel {
+  background: #f2f5f6;
+  border-color: var(--border);
+  box-shadow: 0 5px 18px rgba(41, 65, 77, 0.055);
+}
+
+/* Preview area */
+.showcase-preview {
+  background: #d8e4e9;
+}
+
+.preview-tag {
+  background: #edf3f5;
+  color: var(--sky-deep);
+  border-color: var(--border);
+}
+
+/* Navigation */
+.navbar {
+  background: rgba(232, 238, 241, 0.96);
+  border-color: var(--border);
+}
+
+/* Creator banner */
+.creator-banner {
+  background: #d5e3e9;
+  border-color: #c5d7df;
+}
+
+/* Footer */
+footer {
+  background: #e1e9ed;
+  border-color: var(--border);
+}
+
+/* Inputs */
+.nav-search,
+.library-search,
+.search-modal-input,
+.auth-field input {
+  background: #f5f7f8;
+  border-color: var(--border);
+  color: var(--text);
+}
