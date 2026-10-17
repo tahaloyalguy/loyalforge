@@ -4498,3 +4498,44 @@ footer p {
   background: var(--sky);
   color: var(--text);
 }
+
+/* LoyalForge — Image & Card Consistency */
+
+.asset-card img,
+.category-card img {
+  display: block;
+  max-width: 100%;
+}
+
+.asset-card img {
+  object-position: center;
+}
+
+.asset-card,
+.category-card,
+.showcase-card {
+  min-width: 0;
+}
+
+.asset-card h3,
+.asset-card h4,
+.category-card h3,
+.category-card h4 {
+  overflow-wrap: anywhere;
+}
+
+.asset-card a,
+.category-card a {
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .asset-card img {
+    height: 140px;
+  }
+
+  .asset-card h3,
+  .asset-card h4 {
+    font-size: 14px;
+  }
+}
