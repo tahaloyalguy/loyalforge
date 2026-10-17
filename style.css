@@ -4354,3 +4354,147 @@ label {
     transform: none;
   }
 }
+
+/* LoyalForge — Buttons Polish */
+
+.btn {
+  border-radius: 11px;
+  font-weight: 600;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  box-shadow: none;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 5px 16px rgba(142, 216, 255, .14);
+}
+
+.btn-ghost:hover {
+  border-color: var(--border-hover);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--sky);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+
+  .btn:hover,
+  .btn:active {
+    transform: none;
+  }
+}
+
+/* LoyalForge — Section Spacing Polish */
+
+.section {
+  padding-top: 76px;
+  padding-bottom: 76px;
+}
+
+.section-heading {
+  margin-bottom: 28px;
+}
+
+.section-heading h2 {
+  line-height: 1.6;
+  letter-spacing: -0.3px;
+}
+
+.section-heading p {
+  max-width: 620px;
+  line-height: 1.9;
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .section-heading {
+    margin-bottom: 20px;
+  }
+}
+
+/* LoyalForge — Footer Polish */
+
+footer {
+  border-top: 1px solid var(--border);
+}
+
+footer a {
+  transition: color .2s ease, opacity .2s ease;
+}
+
+footer a:hover {
+  color: var(--sky);
+}
+
+footer h3,
+footer h4 {
+  line-height: 1.7;
+}
+
+footer p {
+  line-height: 1.9;
+}
+
+@media (max-width: 700px) {
+  footer {
+    text-align: center;
+  }
+}
+
+/* LoyalForge — Loading & Empty States */
+
+#assetGrid:empty,
+.asset-grid:empty {
+  min-height: 100px;
+}
+
+.asset-grid img {
+  max-width: 100%;
+}
+
+.asset-grid a {
+  text-decoration: none;
+}
+
+.asset-grid button:disabled {
+  cursor: wait;
+  opacity: .6;
+}
+
+#loadMoreBtn:disabled {
+  transform: none;
+  box-shadow: none;
+}
+
+.toast {
+  border-radius: 12px;
+  line-height: 1.8;
+}
+
+::selection {
+  background: var(--sky);
+  color: var(--text);
+}
