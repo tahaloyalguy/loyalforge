@@ -4294,3 +4294,63 @@ label {
     transform: none;
   }
 }
+
+/* LoyalForge — Search & Filter Polish */
+
+.explore-header {
+  gap: 18px;
+}
+
+.sort-btn,
+.filter-btn {
+  border-radius: 10px;
+  transition: background .2s ease, border-color .2s ease,
+              transform .2s ease, color .2s ease;
+}
+
+.sort-btn:hover,
+.filter-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-hover);
+}
+
+.sort-btn.active,
+.filter-btn.active {
+  font-weight: 700;
+}
+
+.library-search {
+  border-radius: 12px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.library-search:focus-within,
+.library-search:focus {
+  border-color: var(--sky);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(142, 216, 255, .12);
+}
+
+@media (max-width: 700px) {
+  .explore-header {
+    gap: 12px;
+  }
+
+  .sort-btn,
+  .filter-btn {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sort-btn,
+  .filter-btn,
+  .library-search {
+    transition: none;
+  }
+
+  .sort-btn:hover,
+  .filter-btn:hover {
+    transform: none;
+  }
+}
