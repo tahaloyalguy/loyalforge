@@ -4243,3 +4243,54 @@ label {
     transform: none;
   }
 }
+
+/* LoyalForge — Category Cards Polish */
+
+.category-grid,
+.categories-grid {
+  gap: 18px;
+}
+
+.category-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  transition: transform .2s ease, border-color .2s ease,
+              box-shadow .2s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-hover);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .12);
+}
+
+.category-card h3,
+.category-card h4 {
+  line-height: 1.7;
+}
+
+.category-card p {
+  line-height: 1.8;
+}
+
+@media (max-width: 700px) {
+  .category-grid,
+  .categories-grid {
+    gap: 12px;
+  }
+
+  .category-card {
+    border-radius: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-card {
+    transition: none;
+  }
+
+  .category-card:hover {
+    transform: none;
+  }
+}
